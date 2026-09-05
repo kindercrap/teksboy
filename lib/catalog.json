@@ -1,0 +1,2797 @@
+[
+  {
+    "name": "Yuyu Hakusho Blackjack",
+    "status": "published",
+    "id": "yuyuhakusho-blackjack",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/backprint-1.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-blackjack-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-blackjack-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-blackjack-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-blackjack-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-blackjack-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-blackjack-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-blackjack-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-blackjack-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-blackjack-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-blackjack-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-blackjack-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-blackjack-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-blackjack-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-blackjack-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-blackjack-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-blackjack-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-blackjack-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-blackjack-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-blackjack-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-blackjack-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-blackjack-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-blackjack-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-blackjack-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-blackjack-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-blackjack-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-blackjack-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-blackjack-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-blackjack-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-blackjack-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-blackjack-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-blackjack-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-blackjack-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-blackjack-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-blackjack-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-blackjack-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-blackjack-36"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/37.webp",
+        "number": 37,
+        "id": "yuyuhakusho-blackjack-37"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/38.webp",
+        "number": 38,
+        "id": "yuyuhakusho-blackjack-38"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/39.webp",
+        "number": 39,
+        "id": "yuyuhakusho-blackjack-39"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/40.webp",
+        "number": 40,
+        "id": "yuyuhakusho-blackjack-40"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/41.webp",
+        "number": 41,
+        "id": "yuyuhakusho-blackjack-41"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/42.webp",
+        "number": 42,
+        "id": "yuyuhakusho-blackjack-42"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/43.webp",
+        "number": 43,
+        "id": "yuyuhakusho-blackjack-43"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/44.webp",
+        "number": 44,
+        "id": "yuyuhakusho-blackjack-44"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/45.webp",
+        "number": 45,
+        "id": "yuyuhakusho-blackjack-45"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/46.webp",
+        "number": 46,
+        "id": "yuyuhakusho-blackjack-46"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/47.webp",
+        "number": 47,
+        "id": "yuyuhakusho-blackjack-47"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/48.webp",
+        "number": 48,
+        "id": "yuyuhakusho-blackjack-48"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/49.webp",
+        "number": 49,
+        "id": "yuyuhakusho-blackjack-49"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/50.webp",
+        "number": 50,
+        "id": "yuyuhakusho-blackjack-50"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/51.webp",
+        "number": 51,
+        "id": "yuyuhakusho-blackjack-51"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-blackjack/52.webp",
+        "number": 52,
+        "id": "yuyuhakusho-blackjack-52"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho DBest Jack Poy",
+    "status": "published",
+    "id": "yuyuhakusho-dbest-jack-poy",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/backprint-1.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-dbest-jack-poy-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-dbest-jack-poy-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-dbest-jack-poy-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-dbest-jack-poy-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-dbest-jack-poy-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-dbest-jack-poy-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-dbest-jack-poy-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-dbest-jack-poy-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-dbest-jack-poy-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-dbest-jack-poy-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-dbest-jack-poy-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-dbest-jack-poy-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-dbest-jack-poy-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-dbest-jack-poy-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-dbest-jack-poy-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-dbest-jack-poy-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-dbest-jack-poy-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-dbest-jack-poy-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-dbest-jack-poy-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-dbest-jack-poy-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-dbest-jack-poy-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-dbest-jack-poy-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-dbest-jack-poy-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-dbest-jack-poy-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-dbest-jack-poy-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-dbest-jack-poy-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-dbest-jack-poy-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-dbest-jack-poy-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-dbest-jack-poy-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-dbest-jack-poy-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-dbest-jack-poy-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-dbest-jack-poy-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-dbest-jack-poy-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-dbest-jack-poy-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-dbest-jack-poy-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-dbest-jack-poy-36"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/37.webp",
+        "number": 37,
+        "id": "yuyuhakusho-dbest-jack-poy-37"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/38.webp",
+        "number": 38,
+        "id": "yuyuhakusho-dbest-jack-poy-38"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/39.webp",
+        "number": 39,
+        "id": "yuyuhakusho-dbest-jack-poy-39"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/40.webp",
+        "number": 40,
+        "id": "yuyuhakusho-dbest-jack-poy-40"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/41.webp",
+        "number": 41,
+        "id": "yuyuhakusho-dbest-jack-poy-41"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/42.webp",
+        "number": 42,
+        "id": "yuyuhakusho-dbest-jack-poy-42"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/43.webp",
+        "number": 43,
+        "id": "yuyuhakusho-dbest-jack-poy-43"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/44.webp",
+        "number": 44,
+        "id": "yuyuhakusho-dbest-jack-poy-44"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/45.webp",
+        "number": 45,
+        "id": "yuyuhakusho-dbest-jack-poy-45"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/46.webp",
+        "number": 46,
+        "id": "yuyuhakusho-dbest-jack-poy-46"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/47.webp",
+        "number": 47,
+        "id": "yuyuhakusho-dbest-jack-poy-47"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/48.webp",
+        "number": 48,
+        "id": "yuyuhakusho-dbest-jack-poy-48"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/49.webp",
+        "number": 49,
+        "id": "yuyuhakusho-dbest-jack-poy-49"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/50.webp",
+        "number": 50,
+        "id": "yuyuhakusho-dbest-jack-poy-50"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/51.webp",
+        "number": 51,
+        "id": "yuyuhakusho-dbest-jack-poy-51"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/52.webp",
+        "number": 52,
+        "id": "yuyuhakusho-dbest-jack-poy-52"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/53.webp",
+        "number": 53,
+        "id": "yuyuhakusho-dbest-jack-poy-53"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/54.webp",
+        "number": 54,
+        "id": "yuyuhakusho-dbest-jack-poy-54"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/55.webp",
+        "number": 55,
+        "id": "yuyuhakusho-dbest-jack-poy-55"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/56.webp",
+        "number": 56,
+        "id": "yuyuhakusho-dbest-jack-poy-56"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/57.webp",
+        "number": 57,
+        "id": "yuyuhakusho-dbest-jack-poy-57"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/58.webp",
+        "number": 58,
+        "id": "yuyuhakusho-dbest-jack-poy-58"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/59.webp",
+        "number": 59,
+        "id": "yuyuhakusho-dbest-jack-poy-59"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/60.webp",
+        "number": 60,
+        "id": "yuyuhakusho-dbest-jack-poy-60"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/61.webp",
+        "number": 61,
+        "id": "yuyuhakusho-dbest-jack-poy-61"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/62.webp",
+        "number": 62,
+        "id": "yuyuhakusho-dbest-jack-poy-62"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/63.webp",
+        "number": 63,
+        "id": "yuyuhakusho-dbest-jack-poy-63"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/64.webp",
+        "number": 64,
+        "id": "yuyuhakusho-dbest-jack-poy-64"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/65.webp",
+        "number": 65,
+        "id": "yuyuhakusho-dbest-jack-poy-65"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/66.webp",
+        "number": 66,
+        "id": "yuyuhakusho-dbest-jack-poy-66"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/67.webp",
+        "number": 67,
+        "id": "yuyuhakusho-dbest-jack-poy-67"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/68.webp",
+        "number": 68,
+        "id": "yuyuhakusho-dbest-jack-poy-68"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/69.webp",
+        "number": 69,
+        "id": "yuyuhakusho-dbest-jack-poy-69"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/70.webp",
+        "number": 70,
+        "id": "yuyuhakusho-dbest-jack-poy-70"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/71.webp",
+        "number": 71,
+        "id": "yuyuhakusho-dbest-jack-poy-71"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest-jack-poy/72.webp",
+        "number": 72,
+        "id": "yuyuhakusho-dbest-jack-poy-72"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho DBest8000",
+    "status": "published",
+    "id": "yuyuhakusho-dbest8000",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/backprint-1.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-dbest8000-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-dbest8000-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-dbest8000-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-dbest8000-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-dbest8000-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-dbest8000-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-dbest8000-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-dbest8000-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-dbest8000-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-dbest8000-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-dbest8000-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-dbest8000-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-dbest8000-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-dbest8000-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-dbest8000-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-dbest8000-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-dbest8000-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-dbest8000-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-dbest8000-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-dbest8000-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-dbest8000-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-dbest8000-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-dbest8000-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-dbest8000-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-dbest8000-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-dbest8000-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-dbest8000-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-dbest8000-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-dbest8000-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-dbest8000-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-dbest8000-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-dbest8000-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-dbest8000-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-dbest8000-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-dbest8000-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-dbest8000/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-dbest8000-36"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho Deluxe",
+    "status": "published",
+    "id": "yuyuhakusho-deluxe",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/backprint-1.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-deluxe-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-deluxe-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-deluxe-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-deluxe-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-deluxe-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-deluxe-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-deluxe-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-deluxe-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-deluxe-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-deluxe-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-deluxe-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-deluxe-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-deluxe-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-deluxe-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-deluxe-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-deluxe-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-deluxe-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-deluxe-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-deluxe-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-deluxe-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-deluxe-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-deluxe-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-deluxe-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-deluxe-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-deluxe-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-deluxe-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-deluxe-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-deluxe-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-deluxe-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-deluxe-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-deluxe-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-deluxe-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-deluxe-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-deluxe-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-deluxe-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-deluxe-36"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/37.webp",
+        "number": 37,
+        "id": "yuyuhakusho-deluxe-37"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/38.webp",
+        "number": 38,
+        "id": "yuyuhakusho-deluxe-38"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/39.webp",
+        "number": 39,
+        "id": "yuyuhakusho-deluxe-39"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/40.webp",
+        "number": 40,
+        "id": "yuyuhakusho-deluxe-40"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/41.webp",
+        "number": 41,
+        "id": "yuyuhakusho-deluxe-41"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/42.webp",
+        "number": 42,
+        "id": "yuyuhakusho-deluxe-42"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/43.webp",
+        "number": 43,
+        "id": "yuyuhakusho-deluxe-43"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/44.webp",
+        "number": 44,
+        "id": "yuyuhakusho-deluxe-44"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/45.webp",
+        "number": 45,
+        "id": "yuyuhakusho-deluxe-45"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/46.webp",
+        "number": 46,
+        "id": "yuyuhakusho-deluxe-46"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/47.webp",
+        "number": 47,
+        "id": "yuyuhakusho-deluxe-47"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/48.webp",
+        "number": 48,
+        "id": "yuyuhakusho-deluxe-48"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/49.webp",
+        "number": 49,
+        "id": "yuyuhakusho-deluxe-49"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/50.webp",
+        "number": 50,
+        "id": "yuyuhakusho-deluxe-50"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/51.webp",
+        "number": 51,
+        "id": "yuyuhakusho-deluxe-51"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/52.webp",
+        "number": 52,
+        "id": "yuyuhakusho-deluxe-52"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/53.webp",
+        "number": 53,
+        "id": "yuyuhakusho-deluxe-53"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-deluxe/54.webp",
+        "number": 54,
+        "id": "yuyuhakusho-deluxe-54"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho Ghost Fighter Group Black",
+    "status": "published",
+    "id": "yuyuhakusho-ghostfighter-group-black",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/backprint.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-ghostfighter-group-black-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-ghostfighter-group-black-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-ghostfighter-group-black-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-ghostfighter-group-black-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-ghostfighter-group-black-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-ghostfighter-group-black-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-ghostfighter-group-black-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-ghostfighter-group-black-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-ghostfighter-group-black-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-ghostfighter-group-black-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-ghostfighter-group-black-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-ghostfighter-group-black-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-ghostfighter-group-black-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-ghostfighter-group-black-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-ghostfighter-group-black-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-ghostfighter-group-black-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-ghostfighter-group-black-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-ghostfighter-group-black-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-ghostfighter-group-black-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-ghostfighter-group-black-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-ghostfighter-group-black-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-ghostfighter-group-black-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-ghostfighter-group-black-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-ghostfighter-group-black-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-ghostfighter-group-black-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-ghostfighter-group-black-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-ghostfighter-group-black-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-ghostfighter-group-black-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-ghostfighter-group-black-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-ghostfighter-group-black-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-ghostfighter-group-black-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-ghostfighter-group-black-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-ghostfighter-group-black-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-ghostfighter-group-black-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-ghostfighter-group-black-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-ghostfighter-group-black-36"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/37.webp",
+        "number": 37,
+        "id": "yuyuhakusho-ghostfighter-group-black-37"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/38.webp",
+        "number": 38,
+        "id": "yuyuhakusho-ghostfighter-group-black-38"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/39.webp",
+        "number": 39,
+        "id": "yuyuhakusho-ghostfighter-group-black-39"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/40.webp",
+        "number": 40,
+        "id": "yuyuhakusho-ghostfighter-group-black-40"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/41.webp",
+        "number": 41,
+        "id": "yuyuhakusho-ghostfighter-group-black-41"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/42.webp",
+        "number": 42,
+        "id": "yuyuhakusho-ghostfighter-group-black-42"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/43.webp",
+        "number": 43,
+        "id": "yuyuhakusho-ghostfighter-group-black-43"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/44.webp",
+        "number": 44,
+        "id": "yuyuhakusho-ghostfighter-group-black-44"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/45.webp",
+        "number": 45,
+        "id": "yuyuhakusho-ghostfighter-group-black-45"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/46.webp",
+        "number": 46,
+        "id": "yuyuhakusho-ghostfighter-group-black-46"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/47.webp",
+        "number": 47,
+        "id": "yuyuhakusho-ghostfighter-group-black-47"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/48.webp",
+        "number": 48,
+        "id": "yuyuhakusho-ghostfighter-group-black-48"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/49.webp",
+        "number": 49,
+        "id": "yuyuhakusho-ghostfighter-group-black-49"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/50.webp",
+        "number": 50,
+        "id": "yuyuhakusho-ghostfighter-group-black-50"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/51.webp",
+        "number": 51,
+        "id": "yuyuhakusho-ghostfighter-group-black-51"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/52.webp",
+        "number": 52,
+        "id": "yuyuhakusho-ghostfighter-group-black-52"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/53.webp",
+        "number": 53,
+        "id": "yuyuhakusho-ghostfighter-group-black-53"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/54.webp",
+        "number": 54,
+        "id": "yuyuhakusho-ghostfighter-group-black-54"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/55.webp",
+        "number": 55,
+        "id": "yuyuhakusho-ghostfighter-group-black-55"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/56.webp",
+        "number": 56,
+        "id": "yuyuhakusho-ghostfighter-group-black-56"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/57.webp",
+        "number": 57,
+        "id": "yuyuhakusho-ghostfighter-group-black-57"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/58.webp",
+        "number": 58,
+        "id": "yuyuhakusho-ghostfighter-group-black-58"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/59.webp",
+        "number": 59,
+        "id": "yuyuhakusho-ghostfighter-group-black-59"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/60.webp",
+        "number": 60,
+        "id": "yuyuhakusho-ghostfighter-group-black-60"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/61.webp",
+        "number": 61,
+        "id": "yuyuhakusho-ghostfighter-group-black-61"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/62.webp",
+        "number": 62,
+        "id": "yuyuhakusho-ghostfighter-group-black-62"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/63.webp",
+        "number": 63,
+        "id": "yuyuhakusho-ghostfighter-group-black-63"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/64.webp",
+        "number": 64,
+        "id": "yuyuhakusho-ghostfighter-group-black-64"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/65.webp",
+        "number": 65,
+        "id": "yuyuhakusho-ghostfighter-group-black-65"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/66.webp",
+        "number": 66,
+        "id": "yuyuhakusho-ghostfighter-group-black-66"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/67.webp",
+        "number": 67,
+        "id": "yuyuhakusho-ghostfighter-group-black-67"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/68.webp",
+        "number": 68,
+        "id": "yuyuhakusho-ghostfighter-group-black-68"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-ghostfighter-group-black/69.webp",
+        "number": 69,
+        "id": "yuyuhakusho-ghostfighter-group-black-69"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho Group Goldback",
+    "status": "published",
+    "id": "yuyuhakusho-group-goldback",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/backprint.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-group-goldback-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-group-goldback-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-group-goldback-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-group-goldback-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-group-goldback-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-group-goldback-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-group-goldback-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-group-goldback-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-group-goldback-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-group-goldback-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-group-goldback-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-group-goldback-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-group-goldback-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-group-goldback-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-group-goldback-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-group-goldback-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-group-goldback-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-group-goldback-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-group-goldback-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-group-goldback-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-group-goldback-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-group-goldback-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-group-goldback-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-group-goldback-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-group-goldback-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-group-goldback-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-group-goldback-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-group-goldback-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-group-goldback-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-group-goldback-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-group-goldback-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-group-goldback-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-group-goldback-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-group-goldback-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-group-goldback-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-group-goldback-36"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/37.webp",
+        "number": 37,
+        "id": "yuyuhakusho-group-goldback-37"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/38.webp",
+        "number": 38,
+        "id": "yuyuhakusho-group-goldback-38"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/39.webp",
+        "number": 39,
+        "id": "yuyuhakusho-group-goldback-39"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/40.webp",
+        "number": 40,
+        "id": "yuyuhakusho-group-goldback-40"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/41.webp",
+        "number": 41,
+        "id": "yuyuhakusho-group-goldback-41"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/42.webp",
+        "number": 42,
+        "id": "yuyuhakusho-group-goldback-42"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/43.webp",
+        "number": 43,
+        "id": "yuyuhakusho-group-goldback-43"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/44.webp",
+        "number": 44,
+        "id": "yuyuhakusho-group-goldback-44"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/45.webp",
+        "number": 45,
+        "id": "yuyuhakusho-group-goldback-45"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/46.webp",
+        "number": 46,
+        "id": "yuyuhakusho-group-goldback-46"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/47.webp",
+        "number": 47,
+        "id": "yuyuhakusho-group-goldback-47"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/48.webp",
+        "number": 48,
+        "id": "yuyuhakusho-group-goldback-48"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/49.webp",
+        "number": 49,
+        "id": "yuyuhakusho-group-goldback-49"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/50.webp",
+        "number": 50,
+        "id": "yuyuhakusho-group-goldback-50"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/51.webp",
+        "number": 51,
+        "id": "yuyuhakusho-group-goldback-51"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/52.webp",
+        "number": 52,
+        "id": "yuyuhakusho-group-goldback-52"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/53.webp",
+        "number": 53,
+        "id": "yuyuhakusho-group-goldback-53"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/54.webp",
+        "number": 54,
+        "id": "yuyuhakusho-group-goldback-54"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/55.webp",
+        "number": 55,
+        "id": "yuyuhakusho-group-goldback-55"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/56.webp",
+        "number": 56,
+        "id": "yuyuhakusho-group-goldback-56"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/57.webp",
+        "number": 57,
+        "id": "yuyuhakusho-group-goldback-57"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/58.webp",
+        "number": 58,
+        "id": "yuyuhakusho-group-goldback-58"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/59.webp",
+        "number": 59,
+        "id": "yuyuhakusho-group-goldback-59"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/60.webp",
+        "number": 60,
+        "id": "yuyuhakusho-group-goldback-60"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/61.webp",
+        "number": 61,
+        "id": "yuyuhakusho-group-goldback-61"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/62.webp",
+        "number": 62,
+        "id": "yuyuhakusho-group-goldback-62"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/63.webp",
+        "number": 63,
+        "id": "yuyuhakusho-group-goldback-63"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/64.webp",
+        "number": 64,
+        "id": "yuyuhakusho-group-goldback-64"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/65.webp",
+        "number": 65,
+        "id": "yuyuhakusho-group-goldback-65"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/66.webp",
+        "number": 66,
+        "id": "yuyuhakusho-group-goldback-66"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/67.webp",
+        "number": 67,
+        "id": "yuyuhakusho-group-goldback-67"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/68.webp",
+        "number": 68,
+        "id": "yuyuhakusho-group-goldback-68"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/69.webp",
+        "number": 69,
+        "id": "yuyuhakusho-group-goldback-69"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/70.webp",
+        "number": 70,
+        "id": "yuyuhakusho-group-goldback-70"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/71.webp",
+        "number": 71,
+        "id": "yuyuhakusho-group-goldback-71"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-group-goldback/72.webp",
+        "number": 72,
+        "id": "yuyuhakusho-group-goldback-72"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho Master",
+    "status": "published",
+    "id": "yuyuhakusho-master",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-master/backprint-1.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-master-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-master-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-master-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-master-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-master-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-master-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-master-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-master-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-master-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-master-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-master-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-master-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-master-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-master-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-master-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-master-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-master-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-master-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-master-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-master-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-master-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-master-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-master-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-master-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-master-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-master-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-master-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-master-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-master-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-master-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-master-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-master-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-master-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-master-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-master-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-master/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-master-36"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho Playing Card Group",
+    "status": "published",
+    "id": "yuyuhakusho-playingcard-group",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/backprint.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-playingcard-group-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-playingcard-group-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-playingcard-group-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-playingcard-group-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-playingcard-group-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-playingcard-group-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-playingcard-group-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-playingcard-group-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-playingcard-group-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-playingcard-group-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-playingcard-group-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-playingcard-group-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-playingcard-group-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-playingcard-group-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-playingcard-group-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-playingcard-group-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-playingcard-group-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-playingcard-group-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-playingcard-group-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-playingcard-group-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-playingcard-group-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-playingcard-group-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-playingcard-group-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-playingcard-group-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-playingcard-group-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-playingcard-group-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-playingcard-group-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-playingcard-group-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-playingcard-group-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-playingcard-group-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-playingcard-group-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-playingcard-group-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-playingcard-group-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-playingcard-group-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-playingcard-group-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-playingcard-group-36"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/37.webp",
+        "number": 37,
+        "id": "yuyuhakusho-playingcard-group-37"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/38.webp",
+        "number": 38,
+        "id": "yuyuhakusho-playingcard-group-38"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/39.webp",
+        "number": 39,
+        "id": "yuyuhakusho-playingcard-group-39"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/40.webp",
+        "number": 40,
+        "id": "yuyuhakusho-playingcard-group-40"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/41.webp",
+        "number": 41,
+        "id": "yuyuhakusho-playingcard-group-41"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/42.webp",
+        "number": 42,
+        "id": "yuyuhakusho-playingcard-group-42"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/43.webp",
+        "number": 43,
+        "id": "yuyuhakusho-playingcard-group-43"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/44.webp",
+        "number": 44,
+        "id": "yuyuhakusho-playingcard-group-44"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/45.webp",
+        "number": 45,
+        "id": "yuyuhakusho-playingcard-group-45"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/46.webp",
+        "number": 46,
+        "id": "yuyuhakusho-playingcard-group-46"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/47.webp",
+        "number": 47,
+        "id": "yuyuhakusho-playingcard-group-47"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/48.webp",
+        "number": 48,
+        "id": "yuyuhakusho-playingcard-group-48"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/49.webp",
+        "number": 49,
+        "id": "yuyuhakusho-playingcard-group-49"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/50.webp",
+        "number": 50,
+        "id": "yuyuhakusho-playingcard-group-50"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/51.webp",
+        "number": 51,
+        "id": "yuyuhakusho-playingcard-group-51"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/52.webp",
+        "number": 52,
+        "id": "yuyuhakusho-playingcard-group-52"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/53.webp",
+        "number": 53,
+        "id": "yuyuhakusho-playingcard-group-53"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/54.webp",
+        "number": 54,
+        "id": "yuyuhakusho-playingcard-group-54"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/55.webp",
+        "number": 55,
+        "id": "yuyuhakusho-playingcard-group-55"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/56.webp",
+        "number": 56,
+        "id": "yuyuhakusho-playingcard-group-56"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/57.webp",
+        "number": 57,
+        "id": "yuyuhakusho-playingcard-group-57"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/58.webp",
+        "number": 58,
+        "id": "yuyuhakusho-playingcard-group-58"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/59.webp",
+        "number": 59,
+        "id": "yuyuhakusho-playingcard-group-59"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/60.webp",
+        "number": 60,
+        "id": "yuyuhakusho-playingcard-group-60"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/61.webp",
+        "number": 61,
+        "id": "yuyuhakusho-playingcard-group-61"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/62.webp",
+        "number": 62,
+        "id": "yuyuhakusho-playingcard-group-62"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/63.webp",
+        "number": 63,
+        "id": "yuyuhakusho-playingcard-group-63"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/64.webp",
+        "number": 64,
+        "id": "yuyuhakusho-playingcard-group-64"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/65.webp",
+        "number": 65,
+        "id": "yuyuhakusho-playingcard-group-65"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/66.webp",
+        "number": 66,
+        "id": "yuyuhakusho-playingcard-group-66"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/67.webp",
+        "number": 67,
+        "id": "yuyuhakusho-playingcard-group-67"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/68.webp",
+        "number": 68,
+        "id": "yuyuhakusho-playingcard-group-68"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/69.webp",
+        "number": 69,
+        "id": "yuyuhakusho-playingcard-group-69"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/70.webp",
+        "number": 70,
+        "id": "yuyuhakusho-playingcard-group-70"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/71.webp",
+        "number": 71,
+        "id": "yuyuhakusho-playingcard-group-71"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-playingcard-group/72.webp",
+        "number": 72,
+        "id": "yuyuhakusho-playingcard-group-72"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho Power",
+    "status": "published",
+    "id": "yuyuhakusho-power",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-power/backprint-1.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-power-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-power-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-power-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-power-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-power-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-power-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-power-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-power-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-power-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-power-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-power-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-power-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-power-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-power-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-power-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-power-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-power-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-power-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-power-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-power-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-power-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-power-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-power-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-power-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-power-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-power-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-power-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-power-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-power-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-power-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-power-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-power-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-power-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-power-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-power-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-power/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-power-36"
+      }
+    ]
+  },
+  {
+    "name": "Yuyu Hakusho Supreme",
+    "status": "published",
+    "id": "yuyuhakusho-supreme",
+    "cover": "/images/teks/ghost-fighter/yuyuhakusho-supreme/backprint-1.webp",
+    "category_id": "ghost-fighter",
+    "cards": [
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/1.webp",
+        "number": 1,
+        "id": "yuyuhakusho-supreme-1"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/2.webp",
+        "number": 2,
+        "id": "yuyuhakusho-supreme-2"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/3.webp",
+        "number": 3,
+        "id": "yuyuhakusho-supreme-3"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/4.webp",
+        "number": 4,
+        "id": "yuyuhakusho-supreme-4"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/5.webp",
+        "number": 5,
+        "id": "yuyuhakusho-supreme-5"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/6.webp",
+        "number": 6,
+        "id": "yuyuhakusho-supreme-6"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/7.webp",
+        "number": 7,
+        "id": "yuyuhakusho-supreme-7"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/8.webp",
+        "number": 8,
+        "id": "yuyuhakusho-supreme-8"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/9.webp",
+        "number": 9,
+        "id": "yuyuhakusho-supreme-9"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/10.webp",
+        "number": 10,
+        "id": "yuyuhakusho-supreme-10"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/11.webp",
+        "number": 11,
+        "id": "yuyuhakusho-supreme-11"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/12.webp",
+        "number": 12,
+        "id": "yuyuhakusho-supreme-12"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/13.webp",
+        "number": 13,
+        "id": "yuyuhakusho-supreme-13"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/14.webp",
+        "number": 14,
+        "id": "yuyuhakusho-supreme-14"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/15.webp",
+        "number": 15,
+        "id": "yuyuhakusho-supreme-15"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/16.webp",
+        "number": 16,
+        "id": "yuyuhakusho-supreme-16"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/17.webp",
+        "number": 17,
+        "id": "yuyuhakusho-supreme-17"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/18.webp",
+        "number": 18,
+        "id": "yuyuhakusho-supreme-18"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/19.webp",
+        "number": 19,
+        "id": "yuyuhakusho-supreme-19"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/20.webp",
+        "number": 20,
+        "id": "yuyuhakusho-supreme-20"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/21.webp",
+        "number": 21,
+        "id": "yuyuhakusho-supreme-21"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/22.webp",
+        "number": 22,
+        "id": "yuyuhakusho-supreme-22"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/23.webp",
+        "number": 23,
+        "id": "yuyuhakusho-supreme-23"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/24.webp",
+        "number": 24,
+        "id": "yuyuhakusho-supreme-24"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/25.webp",
+        "number": 25,
+        "id": "yuyuhakusho-supreme-25"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/26.webp",
+        "number": 26,
+        "id": "yuyuhakusho-supreme-26"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/27.webp",
+        "number": 27,
+        "id": "yuyuhakusho-supreme-27"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/28.webp",
+        "number": 28,
+        "id": "yuyuhakusho-supreme-28"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/29.webp",
+        "number": 29,
+        "id": "yuyuhakusho-supreme-29"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/30.webp",
+        "number": 30,
+        "id": "yuyuhakusho-supreme-30"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/31.webp",
+        "number": 31,
+        "id": "yuyuhakusho-supreme-31"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/32.webp",
+        "number": 32,
+        "id": "yuyuhakusho-supreme-32"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/33.webp",
+        "number": 33,
+        "id": "yuyuhakusho-supreme-33"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/34.webp",
+        "number": 34,
+        "id": "yuyuhakusho-supreme-34"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/35.webp",
+        "number": 35,
+        "id": "yuyuhakusho-supreme-35"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/36.webp",
+        "number": 36,
+        "id": "yuyuhakusho-supreme-36"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/37.webp",
+        "number": 37,
+        "id": "yuyuhakusho-supreme-37"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/38.webp",
+        "number": 38,
+        "id": "yuyuhakusho-supreme-38"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/39.webp",
+        "number": 39,
+        "id": "yuyuhakusho-supreme-39"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/40.webp",
+        "number": 40,
+        "id": "yuyuhakusho-supreme-40"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/41.webp",
+        "number": 41,
+        "id": "yuyuhakusho-supreme-41"
+      },
+      {
+        "image": "/images/teks/ghost-fighter/yuyuhakusho-supreme/42.webp",
+        "number": 42,
+        "id": "yuyuhakusho-supreme-42"
+      }
+    ]
+  }
+]

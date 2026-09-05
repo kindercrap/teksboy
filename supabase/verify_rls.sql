@@ -1,0 +1,20 @@
+begin;
+set local role anon;
+do $$ begin if (select count(*) from public.cards)<>541 then raise exception 'Catalog read failed';end if;end $$;
+reset role;
+insert into auth.users(id,email) values('00000000-0000-4000-8000-000000000101','teksboy-test-a@example.invalid'),('00000000-0000-4000-8000-000000000102','teksboy-test-b@example.invalid');
+set local role authenticated;
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000101',true);
+insert into public.checklists(id,user_id,set_id) values('00000000-0000-4000-8000-000000000201','00000000-0000-4000-8000-000000000101','yuyuhakusho-blackjack');
+insert into public.checklist_cards(checklist_id,card_id) values('00000000-0000-4000-8000-000000000201','yuyuhakusho-blackjack-1');
+do $$ begin
+if public.is_admin() then raise exception 'Unexpected admin access';end if;
+begin insert into public.checklists(user_id,set_id) values('00000000-0000-4000-8000-000000000102','yuyuhakusho-blackjack');raise exception 'Cross-user insertion allowed';exception when insufficient_privilege then null;end;
+begin insert into public.sets(id,category_id,name,cover) values('unauthorized','ghost-fighter','Unauthorized','/x');raise exception 'Catalog insertion allowed';exception when insufficient_privilege then null;end;
+begin insert into public.checklist_cards(checklist_id,card_id) values('00000000-0000-4000-8000-000000000201','yuyuhakusho-deluxe-1');raise exception 'Wrong-set card allowed';exception when raise_exception then if sqlerrm<>'Card does not belong to checklist set' then raise;end if;end;
+end $$;
+select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000102',true);
+do $$ begin if exists(select 1 from public.checklists) or exists(select 1 from public.checklist_cards) then raise exception 'Cross-user read leaked';end if;end $$;
+reset role;
+rollback;
+select 'PASS: public catalog, own writes, cross-user isolation, admin restrictions, set membership. All test data rolled back.' as result;
