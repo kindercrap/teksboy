@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Layers } from 'lucide-react';
+import Image from 'next/image';
 
 type LegalSection = {
   title: string;
@@ -21,10 +21,13 @@ export default function LegalPage({
     <main className="legal-shell">
       <header className="legal-header">
         <Link className="brand" href="/" aria-label="Teksboy home">
-          <Layers />
-          <span>
-            TEKS<b>BOY</b>
-          </span>
+          <Image
+            src="/images/general/logo.svg"
+            alt="Teksboy"
+            width={210}
+            height={34}
+            priority
+          />
         </Link>
         <Link className="button" href="/">
           Back to database

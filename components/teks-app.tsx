@@ -5,14 +5,10 @@ import { useEffect, useState, useRef, useEffectEvent } from 'react';
 import type { User, SupabaseClient } from '@supabase/supabase-js';
 import {
   Layers,
-  Search,
   ChevronRight,
   Plus,
   Library,
   CheckCheck,
-  Grid2X2,
-  List,
-  Expand,
   Check,
   Minus,
   Download,
@@ -22,7 +18,6 @@ import {
   Pause,
   SkipForward,
   Shield,
-  ArrowUpRight,
   Trophy,
   Undo2,
   X,
@@ -59,10 +54,7 @@ export default function TeksApp({
       { id: 'ghost-fighter', name: 'Ghost Fighter', position: 0 },
     ]),
     [tracks, setTracks] = useState<Track[]>(defaultTracks);
-  const [selectedId, select] = useState(initial[0].id),
-    [setSearch, setSetSearch] = useState(''),
-    [cardSearch, setCardSearch] = useState(''),
-    [layout, setLayout] = useState('grid');
+  const [selectedId, select] = useState(initial[0].id);
   const [client, setClient] = useState<SupabaseClient | null>(null),
     [user, setUser] = useState<User | null>(null),
     [providerReady, setProviderReady] = useState(false),
@@ -78,8 +70,7 @@ export default function TeksApp({
     [demo, setDemo] = useState<string[]>([]),
     [filter, setFilter] = useState('all'),
     [listFilter, setListFilter] = useState('progress');
-  const [zoom, setZoom] = useState<Card | null>(null),
-    [pending, setPending] = useState<string[]>([]),
+  const [pending, setPending] = useState<string[]>([]),
     [flash, setFlash] = useState(''),
     [undo, setUndo] = useState<{
       card: Card;
@@ -253,18 +244,6 @@ export default function TeksApp({
     ).catch(() => {});
     return () => life.abort();
   }, [sets]);
-  const resumePending = useEffectEvent(() => {
-    if (!ready || !user || !client) return;
-    const id = sessionStorage.getItem('teksboy-pending-set');
-    if (id) {
-      sessionStorage.removeItem('teksboy-pending-set');
-      const s = sets.find((s) => s.id === id);
-      if (s) void addSet(s);
-    }
-  });
-  useEffect(() => {
-    resumePending();
-  }, [ready, user?.id]);
   async function signIn() {
     if (!client) return;
     setBusy(true);
@@ -278,6 +257,15 @@ export default function TeksApp({
       setMessage(errorText(e));
       setBusy(false);
     }
+  }
+  function openChecklist(id: string, isPreview: boolean) {
+    setPreview(isPreview);
+    setDemo([]);
+    setFilter('all');
+    setUndo(null);
+    setCelebrate(false);
+    setTrackIndex(0);
+    setEditing(id);
   }
   async function addSet(s: TeksSet) {
     if (!user || !client) {
@@ -309,15 +297,19 @@ export default function TeksApp({
       setBusy(false);
     }
   }
-  function openChecklist(id: string, isPreview: boolean) {
-    setPreview(isPreview);
-    setDemo([]);
-    setFilter('all');
-    setUndo(null);
-    setCelebrate(false);
-    setTrackIndex(0);
-    setEditing(id);
-  }
+  const resumePending = useEffectEvent(() => {
+    if (!ready || !user || !client) return;
+    const id = sessionStorage.getItem('teksboy-pending-set');
+    if (!id) return;
+    const s = sets.find((set) => set.id === id);
+    if (!s) return;
+    sessionStorage.removeItem('teksboy-pending-set');
+    void addSet(s);
+  });
+  useEffect(() => {
+    const timer = window.setTimeout(resumePending, 0);
+    return () => window.clearTimeout(timer);
+  }, [ready, user?.id]);
   async function toggle(card: Card, value?: boolean) {
     if (!editSet || pendingRef.current.has(card.id)) return;
     const sid = editSet.id;
@@ -411,19 +403,18 @@ export default function TeksApp({
   return (
     <>
       <header className="topbar">
-        <Link className="brand" href="/">
-          <Layers />
-          TEKS<b>BOY</b>
+        <Link className="brand" href="/" aria-label="Teksboy home">
+          <img src="/images/general/logo.svg" alt="Teksboy" />
         </Link>
         <nav>
           <Link className={view === 'database' ? 'active' : ''} href="/">
-            <Library /> Database
+            Database
           </Link>
           <Link
             className={view === 'checklist' ? 'active' : ''}
             href="/checklist"
           >
-            <CheckCheck /> My checklist
+            My checklist
           </Link>
           {admin && (
             <Link className={view === 'admin' ? 'active' : ''} href="/admin">
@@ -433,7 +424,7 @@ export default function TeksApp({
         </nav>
         {user ? (
           <button
-            className="button"
+            className="account-block"
             onClick={async () => {
               await client?.auth.signOut();
               setUser(null);
@@ -442,184 +433,89 @@ export default function TeksApp({
               setAdmin(false);
             }}
           >
-            Sign out
+            <strong>Logout</strong>
+            <span>{user.email}</span>
           </button>
         ) : (
-          <button className="button" onClick={() => setLogin(true)}>
-            Sign in <ArrowUpRight size={16} />
+          <button className="account-block" onClick={() => setLogin(true)}>
+            <strong>Login</strong>
+            <span>Save your checklist</span>
           </button>
         )}
       </header>
       {view === 'database' && (
         <aside className="sidebar">
-          <div className="eyebrow">THE ARCHIVE</div>
-          <label className="search sidebar-search">
-            <Search size={16} />
-            <input
-              aria-label="Find a set"
-              placeholder="Find a set…"
-              value={setSearch}
-              onChange={(e) => setSetSearch(e.target.value)}
-            />
-          </label>
+          <div className="sidebar-title">Database</div>
           <div className="category-list">
             {categories.map((cat) => (
               <section key={cat.id}>
-                <div className="category">
-                  ✦ {cat.name}
-                  <span>
-                    {sets.filter((s) => s.category_id === cat.id).length}
-                  </span>
-                </div>
+                <div className="category">{cat.name}</div>
                 <div className="set-links">
                   {sets
                     .filter(
                       (s) =>
-                        s.status === 'published' &&
-                        s.category_id === cat.id &&
-                        s.name.toLowerCase().includes(setSearch.toLowerCase()),
+                        s.status === 'published' && s.category_id === cat.id,
                     )
                     .map((s) => (
                       <button
                         className={s.id === selected?.id ? 'selected' : ''}
                         key={s.id}
-                        onClick={() => {
-                          select(s.id);
-                          setCardSearch('');
-                        }}
+                        onClick={() => select(s.id)}
                       >
                         {s.name.replace('Yuyu Hakusho ', '')}
-                        <ChevronRight size={14} />
                       </button>
                     ))}
                 </div>
               </section>
             ))}
           </div>
-          <div className="sidebar-foot">
-            <Layers />
-            <p>
-              A little nostalgia.
-              <br />A collection of your own.
-            </p>
-          </div>
         </aside>
       )}
       <main className={'workspace ' + (view !== 'database' ? 'wide' : '')}>
         {view === 'database' && selected && (
           <>
-            <div className="breadcrumbs">
-              Database /{' '}
-              {categories.find((c) => c.id === selected.category_id)?.name}
-            </div>
-            <div className="page-title">
-              <div className="eyebrow">THE COLLECTOR’S ARCHIVE</div>
-              <h1>Every teks has a story.</h1>
-              <p>Find your favorites. Keep track of every last one.</p>
-            </div>
             <section className="set-hero">
-              <button
-                className="cover-stack"
-                onClick={() =>
-                  setZoom({ id: 'cover', number: 0, image: selected.cover })
-                }
-                aria-label="Enlarge set back print"
-              >
+              <div className="cover-stack">
                 <img src={selected.cover} alt="Set back print" />
-              </button>
-              <div className="hero-info">
-                <span className="tag">
-                  {categories.find((c) => c.id === selected.category_id)?.name}
-                </span>
-                <h2>{selected.name}</h2>
-                <p>
-                  <b>{selected.cards.length}</b> cards · Numbered collection
-                </p>
-                <div className="hero-buttons">
-                  <button
-                    className="button primary"
-                    disabled={busy || !ready}
-                    onClick={() => addSet(selected)}
-                  >
-                    {lists[selected.id] ? (
-                      <Check size={18} />
-                    ) : (
-                      <Plus size={18} />
-                    )}{' '}
-                    {lists[selected.id]
-                      ? 'Open my checklist'
-                      : 'Add to my checklist'}
-                  </button>
-                  <button
-                    className="text-button"
-                    onClick={() => openChecklist(selected.id, true)}
-                  >
-                    Preview checklist ↗
-                  </button>
-                </div>
               </div>
-              <div className="hero-mark">
-                幽<br />遊
+              <div className="hero-info">
+                <h2>{selected.name}</h2>
+                <p className="total-label">Total teks:</p>
+                <strong className="total-count">{selected.cards.length}</strong>
+              </div>
+              <div className="hero-action">
+                <button
+                  className="button outline-primary"
+                  disabled={busy || !ready}
+                  onClick={() => addSet(selected)}
+                >
+                  {lists[selected.id] ? (
+                    <Check size={18} />
+                  ) : (
+                    <Plus size={18} />
+                  )}{' '}
+                  {lists[selected.id]
+                    ? 'Open my checklist'
+                    : 'Add to your checklist'}
+                </button>
               </div>
             </section>
-            <div className="toolbar">
-              <h3>
-                Explore the set <span>{selected.cards.length}</span>
-              </h3>
-              <div className="toolbar-actions">
-                <label className="search">
-                  <Search size={16} />
-                  <input
-                    aria-label="Search card number"
-                    placeholder="Card number…"
-                    value={cardSearch}
-                    onChange={(e) => setCardSearch(e.target.value)}
-                  />
-                </label>
-                <button
-                  className={'icon-button ' + (layout === 'grid' ? 'on' : '')}
-                  aria-label="Grid view"
-                  onClick={() => setLayout('grid')}
-                >
-                  <Grid2X2 size={17} />
-                </button>
-                <button
-                  className={'icon-button ' + (layout === 'list' ? 'on' : '')}
-                  aria-label="List view"
-                  onClick={() => setLayout('list')}
-                >
-                  <List size={17} />
-                </button>
-              </div>
+            <div className="card-grid database-cards">
+              {selected.cards.map((c) => (
+                <div className="teks-card" key={c.id}>
+                  <div className="card-image">
+                    <img
+                      src={c.image}
+                      alt={'Card ' + c.number}
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-            <div
-              className={'card-grid ' + (layout === 'list' ? 'list-view' : '')}
-            >
-              {selected.cards
-                .filter((c) => String(c.number).includes(cardSearch))
-                .map((c) => (
-                  <button
-                    className="teks-card"
-                    key={c.id}
-                    onClick={() => setZoom(c)}
-                  >
-                    <div className="card-image">
-                      <img
-                        src={c.image}
-                        alt={'Card ' + c.number}
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="card-label">
-                      <span>NO. {String(c.number).padStart(3, '0')}</span>
-                      <Expand size={13} />
-                    </div>
-                  </button>
-                ))}
-            </div>
-            {!selected.cards.some((c) =>
-              String(c.number).includes(cardSearch),
-            ) && <div className="empty">No cards match this number.</div>}
+            {!selected.cards.length && (
+              <div className="empty">No cards have been added to this set.</div>
+            )}
           </>
         )}
         {view === 'database' && !selected && (
@@ -741,15 +637,6 @@ export default function TeksApp({
             onUpdate={() => client && refresh(client, user)}
           />
         )}
-        <footer>
-          <Link href="/">TEKSBOY</Link>
-          <span>Made for the joy of collecting.</span>
-          <span className="footer-links">
-            <Link href="/privacy">Privacy</Link>
-            <Link href="/terms">Terms</Link>
-            <Link href="/admin">CMS</Link>
-          </span>
-        </footer>
       </main>
       <Dialog open={login} onOpenChange={setLogin}>
         <DialogContent className="modal login-modal">
@@ -876,7 +763,6 @@ export default function TeksApp({
                             )}
                           </div>
                           <div className="card-label">
-                            <span>#{String(c.number).padStart(3, '0')}</span>
                             <span className="status">
                               {currentOwned.includes(c.id) ? (
                                 <Check size={14} />
@@ -888,13 +774,6 @@ export default function TeksApp({
                                 : 'Missing'}
                             </span>
                           </div>
-                        </button>
-                        <button
-                          className="enlarge"
-                          onClick={() => setZoom(c)}
-                          aria-label={'Enlarge card ' + c.number}
-                        >
-                          <Expand size={14} />
                         </button>
                       </div>
                     ))}
@@ -1021,24 +900,6 @@ export default function TeksApp({
                 </div>
               )}
             </>
-          )}
-        </DialogContent>
-      </Dialog>
-      <Dialog
-        open={!!zoom}
-        onOpenChange={(v) => {
-          if (!v) setZoom(null);
-        }}
-      >
-        <DialogContent className="modal zoom-modal">
-          <DialogTitle>
-            {zoom?.number ? 'Card #' + zoom.number : 'Set back print'}
-          </DialogTitle>
-          {zoom && (
-            <img
-              src={zoom.image}
-              alt={zoom.number ? 'Card ' + zoom.number : 'Back print'}
-            />
           )}
         </DialogContent>
       </Dialog>
