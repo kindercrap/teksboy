@@ -744,7 +744,11 @@ export default function TeksApp({
         <footer>
           <Link href="/">TEKSBOY</Link>
           <span>Made for the joy of collecting.</span>
-          <Link href="/admin">CMS</Link>
+          <span className="footer-links">
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/admin">CMS</Link>
+          </span>
         </footer>
       </main>
       <Dialog open={login} onOpenChange={setLogin}>

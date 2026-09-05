@@ -417,6 +417,76 @@ footer {
 footer span {
   letter-spacing: 0;
 }
+.footer-links {
+  display: flex;
+  gap: 18px;
+}
+.footer-links a:hover,
+.legal-links a:hover {
+  color: var(--primary);
+}
+.legal-shell {
+  min-height: 100vh;
+  padding: 0 24px 72px;
+  background:
+    radial-gradient(circle at 12% 0%, #173633 0, transparent 34%),
+    var(--background);
+}
+.legal-header {
+  max-width: 920px;
+  min-height: 86px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.legal-card {
+  max-width: 920px;
+  margin: 32px auto 0;
+  padding: clamp(28px, 6vw, 64px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #171c1f;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 30%);
+}
+.legal-card h1 {
+  margin: 10px 0 8px;
+  font-size: clamp(34px, 6vw, 58px);
+  letter-spacing: -2px;
+}
+.legal-updated {
+  color: #7f9095;
+  font-size: 13px;
+}
+.legal-intro {
+  margin: 30px 0 38px;
+  color: #c7d1d3;
+  font-size: 18px;
+  line-height: 1.7;
+}
+.legal-card section {
+  padding: 26px 0;
+  border-top: 1px solid #293236;
+}
+.legal-card section h2 {
+  margin: 0 0 14px;
+  font-size: 20px;
+}
+.legal-card section p {
+  margin-top: 10px;
+  color: #aebbc0;
+  line-height: 1.75;
+}
+.legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  padding-top: 26px;
+  color: #8c9a9e;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
 @media (min-width: 1600px) {
   .card-grid {
     grid-template-columns: repeat(7, minmax(0, 1fr));
