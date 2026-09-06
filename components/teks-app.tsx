@@ -1,6 +1,5 @@
 'use client';
-/* eslint-disable next/no-img-element -- Original WebP scans and generated blob URLs must retain their original pixels for export. */
-import Link from 'next/link';
+/* eslint-disable next/no-img-element, next/no-html-link-for-pages -- Scans must keep their original pixels; full-page links avoid unreliable client routing on the deployed Worker. */
 import { useEffect, useState, useRef, useEffectEvent } from 'react';
 import type { User, SupabaseClient } from '@supabase/supabase-js';
 import {
@@ -403,23 +402,49 @@ export default function TeksApp({
   return (
     <>
       <header className="topbar">
-        <Link className="brand" href="/" aria-label="Teksboy home">
+        <a
+          className="brand"
+          href="/"
+          aria-label="Teksboy home"
+          onClick={(event) => {
+            event.preventDefault();
+            window.location.assign('/');
+          }}
+        >
           <img src="/images/general/logo.svg" alt="Teksboy" />
-        </Link>
+        </a>
         <nav>
-          <Link className={view === 'database' ? 'active' : ''} href="/">
+          <a
+            className={view === 'database' ? 'active' : ''}
+            href="/"
+            onClick={(event) => {
+              event.preventDefault();
+              window.location.assign('/');
+            }}
+          >
             Database
-          </Link>
-          <Link
+          </a>
+          <a
             className={view === 'checklist' ? 'active' : ''}
             href="/checklist"
+            onClick={(event) => {
+              event.preventDefault();
+              window.location.assign('/checklist');
+            }}
           >
             My checklist
-          </Link>
+          </a>
           {admin && (
-            <Link className={view === 'admin' ? 'active' : ''} href="/admin">
+            <a
+              className={view === 'admin' ? 'active' : ''}
+              href="/admin"
+              onClick={(event) => {
+                event.preventDefault();
+                window.location.assign('/admin');
+              }}
+            >
               <Shield /> CMS
-            </Link>
+            </a>
           )}
         </nav>
         {user ? (
@@ -617,9 +642,16 @@ export default function TeksApp({
                         : 'A new collection is calling.'}
                     </h2>
                     <p>Explore the database to find your next set.</p>
-                    <Link className="button primary" href="/">
+                    <a
+                      className="button primary"
+                      href="/"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        window.location.assign('/');
+                      }}
+                    >
                       Explore database
-                    </Link>
+                    </a>
                   </div>
                 )}
               </div>

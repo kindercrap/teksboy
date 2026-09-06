@@ -1,4 +1,5 @@
-import Link from 'next/link';
+'use client';
+/* eslint-disable next/no-html-link-for-pages -- Full-page links avoid unreliable client routing on the deployed Worker. */
 import Image from 'next/image';
 
 type LegalSection = {
@@ -20,7 +21,15 @@ export default function LegalPage({
   return (
     <main className="legal-shell">
       <header className="legal-header">
-        <Link className="brand" href="/" aria-label="Teksboy home">
+        <a
+          className="brand"
+          href="/"
+          aria-label="Teksboy home"
+          onClick={(event) => {
+            event.preventDefault();
+            window.location.assign('/');
+          }}
+        >
           <Image
             src="/images/general/logo.svg"
             alt="Teksboy"
@@ -28,10 +37,17 @@ export default function LegalPage({
             height={34}
             priority
           />
-        </Link>
-        <Link className="button" href="/">
+        </a>
+        <a
+          className="button"
+          href="/"
+          onClick={(event) => {
+            event.preventDefault();
+            window.location.assign('/');
+          }}
+        >
           Back to database
-        </Link>
+        </a>
       </header>
       <article className="legal-card">
         <p className="eyebrow">TEKSBOY</p>
@@ -47,8 +63,24 @@ export default function LegalPage({
           </section>
         ))}
         <div className="legal-links">
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
+          <a
+            href="/privacy"
+            onClick={(event) => {
+              event.preventDefault();
+              window.location.assign('/privacy');
+            }}
+          >
+            Privacy
+          </a>
+          <a
+            href="/terms"
+            onClick={(event) => {
+              event.preventDefault();
+              window.location.assign('/terms');
+            }}
+          >
+            Terms
+          </a>
           <a href="mailto:reymagsino@gmail.com">Contact</a>
         </div>
       </article>
