@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useEffect, useState } from 'react';
 type LinkType = { id: string; name: string; layout: string; color?: string };
 export default function CommunityTypes() {
@@ -8,7 +9,7 @@ export default function CommunityTypes() {
     [error, setError] = useState(''),
     [busy, setBusy] = useState(false);
   async function load() {
-    const r = await fetch('/__local/community-types');
+    const r = await appFetch('/__local/community-types');
     if (!r.ok) throw Error('Could not load types.');
     const d = (await r.json()) as { types: LinkType[] };
     setRows(d.types);
@@ -24,7 +25,7 @@ export default function CommunityTypes() {
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/__local/' + (remove ? 'delete' : 'save'), {
+      const r = await appFetch('/__local/' + (remove ? 'delete' : 'save'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(

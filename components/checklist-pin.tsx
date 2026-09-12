@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useEffect, useState } from 'react';
 import { Pin } from 'lucide-react';
 export default function ChecklistPin({
@@ -16,7 +17,7 @@ export default function ChecklistPin({
     [error, setError] = useState('');
   useEffect(() => {
     let active = true;
-    void fetch('/__local/collector')
+    void appFetch('/__local/collector')
       .then(async (r) => {
         if (!r.ok) throw Error('Unable to load message.');
         return (await r.json()) as {
@@ -42,7 +43,7 @@ export default function ChecklistPin({
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/__local/collector', {
+      const r = await appFetch('/__local/collector', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin: { setId, text } }),

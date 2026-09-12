@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useEffect, useState, useCallback } from 'react';
 import { BadgeCheck } from 'lucide-react';
 import {
@@ -26,7 +27,7 @@ export default function VerificationRequest({
     [busy, setBusy] = useState(false),
     [error, setError] = useState('');
   const load = useCallback(async () => {
-    const r = await fetch(
+    const r = await appFetch(
       '/__local/verification?set=' + encodeURIComponent(setId),
     );
     const d = (await r.json()) as Status & { error?: string };
@@ -61,7 +62,7 @@ export default function VerificationRequest({
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
-      const r = await fetch('/__local/verification', {
+      const r = await appFetch('/__local/verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ setId, type: file.type, base64, note }),

@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 /* eslint-disable next/no-img-element -- CMS-managed community photos. */
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -41,7 +42,7 @@ export default function Community({
     [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
     try {
-      const r = await fetch(
+      const r = await appFetch(
         '/__local/community' + (management ? '?manage=1' : ''),
       );
       const d = (await r.json()) as {
@@ -63,7 +64,7 @@ export default function Community({
     return () => clearTimeout(timer);
   }, [load]);
   async function post(endpoint: string, body: unknown) {
-    const r = await fetch('/__local/' + endpoint, {
+    const r = await appFetch('/__local/' + endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

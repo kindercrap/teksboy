@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import catalog from './catalog.json';
 import groups from './categories.json';
+import { snapshot } from '@/server/backend.mjs';
 type Params = Record<string, string | string[] | undefined>;
 export async function shareMetadata(
   search: Promise<Params> | Params,
@@ -15,11 +16,50 @@ export async function shareMetadata(
     host = h.get('host') || 'localhost:3100';
   const local = /^(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/.test(host);
   const origin =
-    process.env.NEXT_PUBLIC_SITE_URL || `${local ? 'http' : 'https'}://${host}`;
+    process.env.SITE_URL ||
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    `${local ? 'http' : 'https'}://${host}`;
   let set: { name: string; cover?: string; cards?: unknown[] } | undefined =
       catalog.find((s) => s.id === setId),
     owner = '',
     progress = '';
+  let liveGroup: { name: string } | undefined;
+  if (!local) {
+    try {
+      const snap = await snapshot();
+      const rows = snap.records as {
+        kind: string;
+        id: string;
+        data: Record<string, unknown>;
+      }[];
+      const item = rows.find(
+        (r) =>
+          r.kind === 'collections' &&
+          r.id === setId &&
+          r.data.status === 'published',
+      );
+      if (item) set = item.data as typeof set;
+      liveGroup = rows.find((r) => r.kind === 'groups' && r.id === groupId)
+        ?.data as typeof liveGroup;
+      const u = rows.find(
+        (r) =>
+          r.kind === 'users' && r.id === userId && r.data.status === 'active',
+      )?.data;
+      const list = rows.find(
+        (r) => r.kind === 'checklists' && r.id === userId + ':' + setId,
+      )?.data;
+      if (u && list && checklist) {
+        owner =
+          typeof u.display_name === 'string'
+            ? u.display_name
+            : typeof u.name === 'string'
+              ? u.name
+              : 'Collector';
+        if (owner.includes('@')) owner = 'Collector';
+        progress = `${(list.owned as unknown[]).length} of ${set?.cards?.length || 0} teks collected. `;
+      }
+    } catch {}
+  }
   if (local && setId && userId && checklist) {
     try {
       const r = await fetch(
@@ -48,12 +88,14 @@ export async function shareMetadata(
       /* A basic collection preview remains available if the local store is offline. */
     }
   }
-  const group = groups.find((g) => g.id === groupId);
+  const group = liveGroup || groups.find((g) => g.id === groupId);
   const title = set
     ? `${set.name}${checklist ? ' — ' + (owner ? owner + '’s ' : '') + 'Checklist' : ''} | Teksboy`
     : group
       ? `${group.name} Collections | Teksboy`
-      : checklist ? 'Collectors | Teksboy' : 'Archives | Teksboy';
+      : checklist
+        ? 'Collectors | Teksboy'
+        : 'Archives | Teksboy';
   const description = set
     ? `${progress}View ${owner ? owner + '’s ' : ''}${set.name} ${checklist ? 'checklist and missing teks' : 'collection'}. #teksboy`
     : 'Explore the Teksboy collecting community. #teksboy';

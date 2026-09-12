@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 /* eslint-disable next/no-img-element -- Private collection evidence. */
 import { useEffect, useState } from 'react';
 import UserName from './user-name';
@@ -27,7 +28,7 @@ export default function CmsVerifications() {
     [error, setError] = useState(''),
     [busy, setBusy] = useState(false);
   async function load() {
-    const r = await fetch('/__local/verification-review');
+    const r = await appFetch('/__local/verification-review');
     const d = (await r.json()) as { requests: Request[]; error?: string };
     if (!r.ok) throw Error(d.error);
     setRows(d.requests);
@@ -43,7 +44,7 @@ export default function CmsVerifications() {
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/__local/verification-review', {
+      const r = await appFetch('/__local/verification-review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: selected?.id, decision, reason }),

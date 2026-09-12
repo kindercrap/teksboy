@@ -1,9 +1,9 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import { Avatar } from './my-profile';
 import UserName from './user-name';
-import { localDemoEnabled } from '@/lib/local-demo';
 type Ranking = {
   id: string;
   name: string;
@@ -29,11 +29,7 @@ export default function Leaderboard() {
       setLoading(true);
       setError('');
       try {
-        if (!localDemoEnabled())
-          throw Error(
-            'The leaderboard is available in the local preview for now.',
-          );
-        const r = await fetch(
+        const r = await appFetch(
           '/__local/leaderboard?group=' +
             encodeURIComponent(group) +
             (verifiedOnly ? '&verified=1' : '') +

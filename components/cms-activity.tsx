@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useEffect, useState } from 'react';
 type Event = {
   id: string;
@@ -15,7 +16,7 @@ export default function CmsActivity() {
     [error, setError] = useState('');
   async function load() {
     try {
-      const r = await fetch('/__local/activity');
+      const r = await appFetch('/__local/activity');
       const d = (await r.json()) as { items: Event[]; error?: string };
       if (!r.ok) throw Error(d.error);
       setRows(d.items);

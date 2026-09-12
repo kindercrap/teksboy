@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 /* eslint-disable next/no-img-element, next/no-html-link-for-pages -- Local scans and full-page links. */
 import { useEffect, useState } from 'react';
 import {
@@ -95,7 +96,7 @@ const empty: Data = {
   checklists: [],
 };
 async function api<T = Record<string, unknown>>(path: string, body?: unknown) {
-  const response = await fetch(
+  const response = await appFetch(
     '/__local/' + path,
     body === undefined
       ? undefined
@@ -194,11 +195,7 @@ export default function LocalCms() {
   }
   useEffect(() => {
     void (async () => {
-      if (!localDemoEnabled()) {
-        setReady(true);
-        return;
-      }
-      setLocal(true);
+      setLocal(localDemoEnabled());
       try {
         await refresh();
       } catch {
@@ -327,37 +324,38 @@ export default function LocalCms() {
     .filter((c) => c.missing > 0)
     .sort((a, b) => b.missing - a.missing)
     .slice(0, 10);
-  if (!ready) return <main className="cms-login">Loading local CMS…</main>;
-  if (!local)
-    return (
-      <main className="cms-login">
-        <h1>Local CMS</h1>
-        <p>This management area is available in local development only.</p>
-        <a href="/">Back to Archives</a>
-      </main>
-    );
+  if (!ready) return <main className="cms-login">Loading CMS…</main>;
   if (!authorized)
     return (
       <main className="cms-login">
         <div>
           <Layers size={32} />
           <h1>Teksboy CMS</h1>
-          <p>Local development · SQLite</p>
           <p>
-            Use the local administrator to manage this computer’s catalog and
-            test users. No Google account is needed.
+            {local
+              ? 'Local development · SQLite'
+              : 'Administrator sign-in required'}
+          </p>
+          <p>
+            {local
+              ? 'Use a local administrator to manage test data.'
+              : 'Sign in with Google using an account with management permissions.'}
           </p>
           <button
             className="button primary"
             disabled={busy}
             onClick={() =>
               void action(async () => {
+                if (!local) {
+                  window.location.href = '/';
+                  return;
+                }
                 await api('login', {});
                 await refresh();
               })
             }
           >
-            Enter local CMS
+            {local ? 'Enter local CMS' : 'Go to sign in'}
           </button>
           {message && <p role="alert">{message}</p>}
           <a href="/">Back to Archives</a>
@@ -370,7 +368,7 @@ export default function LocalCms() {
         <a className="cms-brand" href="/">
           <img src="/images/general/logo.svg" alt="Teksboy" />
         </a>
-        <small>LOCAL MANAGEMENT</small>
+        <small>{local ? 'LOCAL MANAGEMENT' : 'MANAGEMENT'}</small>
         <nav>
           {[
             { name: '', ids: ['dashboard', 'activity'] },
@@ -452,8 +450,8 @@ export default function LocalCms() {
             <h1>{sections.find((s) => s.id === section)?.name}</h1>
             <p>
               {section === 'dashboard'
-                ? 'Local users, checklists and collection activity.'
-                : 'Changes are saved to the local database.'}
+                ? 'Users, checklists and collection activity.'
+                : 'Changes are saved to your database.'}
             </p>
           </div>
           {section !== 'dashboard' &&
@@ -464,7 +462,8 @@ export default function LocalCms() {
             section !== 'community-types' &&
             section !== 'avatars' &&
             section !== 'verifications' &&
-            section !== 'activity' && (
+            section !== 'activity' &&
+            (section !== 'users' || local) && (
               <button
                 className="button primary"
                 disabled={busy}

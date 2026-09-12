@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useState } from 'react';
 import { Users } from 'lucide-react';
 import {
@@ -26,7 +27,7 @@ export default function CollectionCollectors({ setId }: { setId: string }) {
     setLoading(true);
     setError('');
     try {
-      const r = await fetch(
+      const r = await appFetch(
         '/__local/social/set-collectors?set=' + encodeURIComponent(setId),
       );
       const d = (await r.json()) as { collectors: Person[]; error?: string };

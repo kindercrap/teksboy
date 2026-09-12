@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useEffect, useState } from 'react';
 export type RoleDefinition = {
   id: string;
@@ -10,7 +11,7 @@ export type RoleDefinition = {
 type Registry = { roles: RoleDefinition[]; permissions: string[] };
 let pending: Promise<Registry> | null = null;
 function load() {
-  return (pending ??= fetch('/__local/roles')
+  return (pending ??= appFetch('/__local/roles')
     .then(async (r) => {
       if (!r.ok) throw Error('Roles unavailable');
       return (await r.json()) as Registry;

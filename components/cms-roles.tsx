@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useState } from 'react';
 import { useRoles, type RoleDefinition } from './role-provider';
 const choices = [
@@ -22,7 +23,7 @@ export default function CmsRoles() {
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/__local/' + endpoint, {
+      const r = await appFetch('/__local/' + endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

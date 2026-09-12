@@ -31,7 +31,7 @@ export type Track = {
 };
 export let googleEnabled = false;
 let client: SupabaseClient | null = null;
-export async function getClient() {
+async function initializeClient() {
   if (client) return client;
   const response = await fetch('/api/config');
   if (!response.ok)
@@ -47,6 +47,13 @@ export async function getClient() {
     auth: { flowType: 'pkce', detectSessionInUrl: true, persistSession: true },
   });
   return client;
+}
+let initialization: Promise<SupabaseClient | null> | null = null;
+export function getClient() {
+  return (initialization ??= initializeClient().catch((error) => {
+    initialization = null;
+    throw error;
+  }));
 }
 export function errorText(e: unknown) {
   return e instanceof Error

@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 /* eslint-disable next/no-img-element -- Original local card and proof previews. */
 import { useState } from 'react';
 import {
@@ -10,7 +11,7 @@ import {
 import UserName from './user-name';
 import type { CmsData, CmsRow } from './local-cms';
 async function request(endpoint: string, body: unknown) {
-  const response = await fetch('/__local/' + endpoint, {
+  const response = await appFetch('/__local/' + endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

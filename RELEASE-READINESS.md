@@ -1,32 +1,26 @@
-# Production release audit — 12 September 2026
+# Production migration — 12 September 2026
 
-Status: NOT READY TO DEPLOY the latest local feature set.
+The latest application uses Supabase through `/api/app/*`. Local demo accounts remain available only in local development.
 
-## Confirmed
-- Production build succeeds on Node 24.
-- Supabase project udvhnhdczlxmyeufyexe is healthy; Google authentication is enabled.
-- Existing live schema: categories, sets, cards, tracks, profiles, admin_users, checklists, checklist_cards, audit_log.
-- Existing hosting URL: https://teksboy-collection.directorremj.chatgpt.site (earlier deployment; not the latest local app).
-- Live owner email confirmed privately by the user; assign its authenticated UUID during migration.
-- Local test collectors, progress, comments and evidence must stay local.
+## Persistence and authorization
+- `004_live_backend.sql` adds RLS-protected records and atomic revision-checked writes; existing v1 tables remain intact.
+- Only server-side service credentials can access these records. Each request validates Google authentication with Supabase and enforces role/ownership permissions.
+- Archive contributors manage groups, sets and playlists. Super Admin controls roles and user management.
+- Public media uploads use `teksboy-media`; verification images use private `teksboy-evidence`, served only to their owner and authorized reviewers.
+- Local sign-in/account enumeration endpoints are unavailable in production.
 
-## Blocking migration work
-1. Replace development-only /__local endpoints with authenticated production APIs. The Vite configureServer middleware does not ship in the Worker build. Do not expose the account-switching or Enter local CMS login endpoints publicly.
-2. Extend Supabase schema for profile bio/photo/Facebook, configurable roles and permissions, public collector/checklist views, pins, comments/replies, notifications, community types/links, avatars, verification requests and activity. Enforce ownership and role permissions in server code/RLS, not UI alone.
-3. Import the current public catalog, preserving stable set/card IDs, group logos, prices, ordering and curated community/playlist data. The original 002_seed.sql is an outdated first catalog and must not be rerun over existing data.
-4. Store public catalog uploads in public Storage; keep proof/evidence in a separate private bucket with short-lived authorized access.
-5. Connect all screens and mutations to the production API, including exports, removal, Super Admin protection, reviewer decisions and notifications.
-6. Assign the verified Google owner account Super Admin after confirming its authenticated UUID. Do not copy local-admin/local-demo identifiers or grant roles from user-editable auth metadata.
-7. Replace local-only metadata lookup with production public collector lookup. Set the deployment origin and verify crawler-visible share tags.
-8. Check Supabase redirect URLs, hosting audience and real sign-in/out on the final domain; run cross-user and anonymous access tests before release.
+## Import
+- Imported 81 current sets, 14 groups, 4 tracks, 22 community links, 4 types and 13 avatars.
+- No local test users, checklists, comments or evidence were imported.
+- The existing real Google account is Super Admin. Its two earlier live checklists were preserved with legacy sets archived from the public catalog.
+- Import scripts are additive and preserve previously imported rows. Do not run the old catalog seed over production.
 
-## Prepared public import
-Run `node scripts/export-public-catalog.mjs` to refresh `supabase/import/public-catalog.json` and copy referenced public CMS uploads into `public/images/catalog-import/`. The export explicitly excludes users, checklists, comments, private evidence and local activity. It does not modify Supabase or the local database.
+## Validation
+- TypeScript and domain tests cover authentication requirements, contributor permissions, owner bootstrap, ownership isolation, private evidence, verification approval and invalidation.
+- Production smoke checks validate Supabase connectivity, anonymous reads and denial of CMS/local-login access.
+- The repository has pre-existing lint errors in unused UI primitives; migration files are checked separately.
 
-## Publishing tooling
+## Operations
+Set runtime variables SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_SERVICE_ROLE_KEY (secret), TEKSBOY_OWNER_EMAIL and SITE_URL. Do not expose the server key in client configuration.
 
-The Sites plugin moved from curated-remote 0.1.62 to bundled 0.1.66 during preparation. The current publishing tools are available there. The remaining blocker is application/backend migration, not the build.
-
-Do not present the old hosted URL as an updated release. Do not deploy the development middleware or local SQLite database to work around the migration.
-
-
+The server applies a revision-checked transaction to a request-scoped copy of records. This keeps current behavior consistent for this initial community release. At higher volume, replace whole-snapshot reads with indexed per-feature queries and paginate activity/notifications. Database backups and ongoing monitoring remain operational responsibilities.

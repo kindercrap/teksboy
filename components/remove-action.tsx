@@ -1,4 +1,7 @@
 'use client';
+import { getClient } from '@/lib/data';
+import { localDemoEnabled } from '@/lib/local-demo';
+import { appFetch } from '@/lib/app-fetch';
 import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import {
@@ -37,13 +40,15 @@ export default function RemoveAction({
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/__local/remove-' + kind, {
+      const r = await appFetch('/__local/remove-' + kind, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, confirm: true }),
       });
       const d = (await r.json()) as { error?: string };
       if (!r.ok) throw Error(d.error);
+      if (kind === 'account' && !localDemoEnabled())
+        await (await getClient())?.auth.signOut({ scope: 'local' });
       setOpen(false);
       if (onRemoved) await onRemoved();
       else window.location.assign(kind === 'account' ? '/' : '/checklist');

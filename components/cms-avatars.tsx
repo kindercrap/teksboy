@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 /* eslint-disable next/no-img-element -- Managed local avatar images. */
 import { useEffect, useState } from 'react';
 type Item = {
@@ -14,7 +15,7 @@ export default function CmsAvatars() {
     [busy, setBusy] = useState(false),
     [error, setError] = useState('');
   async function load() {
-    const r = await fetch('/__local/avatars?manage=1');
+    const r = await appFetch('/__local/avatars?manage=1');
     const d = (await r.json()) as { avatars: Item[]; error?: string };
     if (!r.ok) throw Error(d.error);
     setRows(d.avatars);
@@ -27,7 +28,7 @@ export default function CmsAvatars() {
     return () => clearTimeout(timer);
   }, []);
   async function post(endpoint: string, body: unknown) {
-    const r = await fetch('/__local/' + endpoint, {
+    const r = await appFetch('/__local/' + endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

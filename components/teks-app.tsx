@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 import { useRoles } from './role-provider';
 import { Backprint, Segments, SetCompleted } from './collection-visuals';
 import NotificationBell from './notification-bell';
@@ -152,7 +153,7 @@ export default function TeksApp({
   const [groupFilterOpen, setGroupFilterOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
-  const [shareTitle,setShareTitle] = useState('Teksboy collection');
+  const [shareTitle, setShareTitle] = useState('Teksboy collection');
   const [archivesOpen, setArchivesOpen] = useState(false);
   const [checkAllConfirm, setCheckAllConfirm] = useState(false);
   const [overviewGroup, setOverviewGroup] = useState<string | null>(null);
@@ -199,26 +200,6 @@ export default function TeksApp({
   const audio = useRef<HTMLAudioElement>(null);
   const pendingRef = useRef(new Set<string>());
   const selected = sets.find((s) => s.id === selectedId) || sets[0];
-  useEffect(() => {
-    if (localMode) return;
-    const timer = window.setTimeout(() => {
-      try {
-        const saved = user
-          ? JSON.parse(localStorage.getItem(profileKey(user.id)) || 'null')
-          : null;
-        setProfileInfo(
-          saved &&
-            typeof saved.displayName === 'string' &&
-            typeof saved.photo === 'string'
-            ? saved
-            : emptyProfile,
-        );
-      } catch {
-        setProfileInfo(emptyProfile);
-      }
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [user, localMode]);
   function groupName(set: TeksSet) {
     return (
       categories.find((c) => c.id === set.category_id)?.name || set.category_id
@@ -265,43 +246,49 @@ export default function TeksApp({
   const currentOwned = preview ? demo : owned[editing || ''] || [];
   const playlist = tracks.filter((t) => t.category_id === editSet?.category_id);
   const track = playlist[trackIndex % Math.max(playlist.length, 1)];
-  async function refresh(db: SupabaseClient, u: User | null) {
-    const [sr, cr, tr, ar] = await Promise.all([
-      db.from('sets').select('*,cards(*)').order('position'),
-      db.from('categories').select('*').order('position'),
-      db.from('tracks').select('*').order('position'),
-      u ? db.rpc('is_admin') : Promise.resolve({ data: false, error: null }),
-    ]);
-    if (sr.error || cr.error || tr.error)
-      throw sr.error || cr.error || tr.error;
-    setSets(
-      (sr.data || []).map((s) => ({
-        ...s,
-        cards: s.cards.sort((a: Card, b: Card) => a.number - b.number),
-      })),
-    );
-    setCategories(cr.data || []);
-    setTracks(tr.data || []);
-    setAdmin(!!ar.data);
+  async function refresh(_db: SupabaseClient, u: User | null) {
+    const response = await appFetch('/__local/catalog');
+    if (!response.ok) throw Error('Could not load the catalog. Please retry.');
+    const catalog = (await response.json()) as {
+      sets: TeksSet[];
+      categories: Category[];
+      tracks: Track[];
+    };
+    setSets(catalog.sets);
+    setCategories(catalog.categories);
+    setTracks(catalog.tracks);
     if (u) {
-      const lr = await db
-        .from('checklists')
-        .select('id,set_id,checklist_cards(card_id)')
-        .eq('user_id', u.id);
-      if (lr.error) throw lr.error;
-      setLists(Object.fromEntries(lr.data.map((l) => [l.set_id, l.id])));
-      setOwned(
-        Object.fromEntries(
-          lr.data.map((l) => [
-            l.set_id,
-            l.checklist_cards.map((c: { card_id: string }) => c.card_id),
-          ]),
-        ),
-      );
+      const response = await appFetch('/__local/collector');
+      const collector = (await response.json()) as LocalCollector & {
+        error?: string;
+      };
+      if (!response.ok)
+        throw Error(collector.error || 'Could not load your profile.');
+      setUserRole(collector.profile.role || 'Normal');
+      setUserVerified(!!collector.profile.user_verified);
+      setLists(collector.lists);
+      setOwned(collector.owned);
+      setChecklistMeta(collector.metadata || {});
+      setProfileInfo({
+        displayName:
+          collector.profile.display_name || collector.profile.name || '',
+        photo: collector.profile.photo || '',
+        bio: collector.profile.bio || '',
+        facebookUrl: collector.profile.facebook_url || '',
+      });
+      const roles = (await appFetch('/__local/roles').then((r) =>
+        r.json(),
+      )) as { permissions: string[] };
+      setAdmin(roles.permissions?.length > 0);
     } else {
       setLists({});
       setOwned({});
+      setAdmin(false);
+      setProfileInfo(emptyProfile);
+      setUserRole('Normal');
+      setUserVerified(false);
     }
+    setSocialRevision((v) => v + 1);
   }
   useEffect(() => {
     let stopped = false;
@@ -310,7 +297,7 @@ export default function TeksApp({
       try {
         if (localDemoEnabled()) {
           setLocalMode(true);
-          const localResponse = await fetch('/__local/catalog');
+          const localResponse = await appFetch('/__local/catalog');
           if (!localResponse.ok)
             throw Error(
               'Local database is unavailable. Restart the development server.',
@@ -323,18 +310,18 @@ export default function TeksApp({
           setSets(localCatalog.sets);
           setCategories(localCatalog.categories);
           setTracks(localCatalog.tracks);
-          const accounts = (await fetch('/__local/social/accounts').then((r) =>
-            r.json(),
+          const accounts = (await appFetch('/__local/social/accounts').then(
+            (r) => r.json(),
           )) as { users: { id: string; name: string; role: string }[] };
           setLocalAccounts(accounts.users);
-          const session = (await fetch('/__local/social/session').then((r) =>
+          const session = (await appFetch('/__local/social/session').then((r) =>
             r.json(),
           )) as { user: { id: string } | null };
           if (!session.user) {
             setUser(null);
             return;
           }
-          const collectorResponse = await fetch('/__local/collector');
+          const collectorResponse = await appFetch('/__local/collector');
           if (!collectorResponse.ok) {
             setUser(null);
             return;
@@ -494,7 +481,7 @@ export default function TeksApp({
   }, [sets]);
   async function signIn() {
     if (localMode && localDemoEnabled()) {
-      const response = await fetch('/__local/social/login', {
+      const response = await appFetch('/__local/social/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: localAccount }),
@@ -534,63 +521,37 @@ export default function TeksApp({
     l: Record<string, string>,
     o: Record<string, string[]>,
   ) {
-    const response = await fetch('/__local/collector', {
+    const response = await appFetch('/__local/collector', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ lists: l, owned: o }),
     });
     if (!response.ok) {
       const data = (await response.json()) as { error?: string };
-      throw Error(data.error || 'Could not save to local database.');
+      throw Error(data.error || 'Could not save your checklist.');
     }
     const saved = (await response.json()) as LocalCollector;
     setChecklistMeta(saved.metadata || {});
     setSocialRevision((v) => v + 1);
   }
   async function addSet(s: TeksSet) {
-    if (localMode && user && localDemoEnabled()) {
+    if (user) {
       try {
         await saveLocal(
-          { ...lists, [s.id]: 'demo-' + s.id },
-          { ...owned, [s.id]: owned[s.id] || [] },
+          { [s.id]: user.id + ':' + s.id },
+          { [s.id]: owned[s.id] || [] },
         );
       } catch (e) {
         setMessage(errorText(e));
         return;
       }
-      setLists((p) => ({ ...p, [s.id]: 'demo-' + s.id }));
+      setLists((p) => ({ ...p, [s.id]: user.id + ':' + s.id }));
       setOwned((p) => ({ ...p, [s.id]: p[s.id] || [] }));
       openChecklist(s.id, false);
       return;
     }
-    if (!user || !client) {
-      sessionStorage.setItem('teksboy-pending-set', s.id);
-      setLogin(true);
-      return;
-    }
-    if (lists[s.id]) {
-      openChecklist(s.id, false);
-      return;
-    }
-    setBusy(true);
-    try {
-      const result = await client
-        .from('checklists')
-        .upsert(
-          { user_id: user.id, set_id: s.id },
-          { onConflict: 'user_id,set_id' },
-        )
-        .select()
-        .single();
-      if (result.error) throw result.error;
-      setLists((p) => ({ ...p, [s.id]: result.data.id }));
-      setOwned((p) => ({ ...p, [s.id]: [] }));
-      openChecklist(s.id, false);
-    } catch (e) {
-      setMessage(errorText(e));
-    } finally {
-      setBusy(false);
-    }
+    sessionStorage.setItem('teksboy-pending-set', s.id);
+    setLogin(true);
   }
   const resumePending = useEffectEvent(() => {
     if (!ready || !user || (!client && !localMode)) return;
@@ -623,17 +584,7 @@ export default function TeksApp({
     pendingRef.current.add('check-all');
     setPending([...pendingRef.current]);
     try {
-      if (localMode && localDemoEnabled())
-        await saveLocal(lists, { ...owned, [sid]: all });
-      else if (client) {
-        const result = await client.from('checklist_cards').insert(
-          missing.map((card) => ({
-            checklist_id: lists[sid],
-            card_id: card.id,
-          })),
-        );
-        if (result.error) throw result.error;
-      } else return;
+      await saveLocal({ [sid]: lists[sid] }, { [sid]: all });
       setOwned((previous) => ({ ...previous, [sid]: all }));
       setUndo(null);
       setCelebrate(true);
@@ -649,7 +600,7 @@ export default function TeksApp({
       !editSet ||
       pendingRef.current.has('check-all') ||
       pendingRef.current.has(card.id) ||
-      (localMode && pendingRef.current.size)
+      pendingRef.current.size
     )
       return;
     const sid = editSet.id;
@@ -666,11 +617,14 @@ export default function TeksApp({
       if (next) setFlash(card.id);
       return;
     }
-    if (localMode && user && localDemoEnabled()) {
+    if (user) {
       pendingRef.current.add(card.id);
       setPending([...pendingRef.current]);
       try {
-        await saveLocal(lists, { ...owned, [sid]: apply(owned[sid] || []) });
+        await saveLocal(
+          { [sid]: lists[sid] },
+          { [sid]: apply(owned[sid] || []) },
+        );
       } catch (e) {
         setMessage(errorText(e));
         return;
@@ -684,37 +638,6 @@ export default function TeksApp({
       if (next && apply(currentOwned).length === editSet.cards.length)
         setCelebrate(true);
       return;
-    }
-    if (!client || !user || !lists[sid]) return;
-    pendingRef.current.add(card.id);
-    setPending([...pendingRef.current]);
-    setOwned((p) => ({ ...p, [sid]: apply(p[sid] || []) }));
-    if (next) setFlash(card.id);
-    try {
-      const result = next
-        ? await client
-            .from('checklist_cards')
-            .insert({ checklist_id: lists[sid], card_id: card.id })
-        : await client
-            .from('checklist_cards')
-            .delete()
-            .eq('checklist_id', lists[sid])
-            .eq('card_id', card.id);
-      if (result.error) throw result.error;
-      setUndo({ card, value: old, setId: sid });
-      if (next && apply(currentOwned).length === editSet.cards.length)
-        setCelebrate(true);
-    } catch (e) {
-      setOwned((p) => ({
-        ...p,
-        [sid]: old
-          ? [...new Set([...(p[sid] || []), card.id])]
-          : (p[sid] || []).filter((id) => id !== card.id),
-      }));
-      setMessage('Change was not saved: ' + errorText(e));
-    } finally {
-      pendingRef.current.delete(card.id);
-      setPending([...pendingRef.current]);
     }
   }
   async function prepareExport() {
@@ -874,7 +797,7 @@ export default function TeksApp({
                   className="account-block"
                   onClick={async () => {
                     setMenuOpen(false);
-                    await fetch('/__local/social/logout', {
+                    await appFetch('/__local/social/logout', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: '{}',
@@ -1137,7 +1060,14 @@ export default function TeksApp({
             onAdd={addSet}
             onShare={(url) => {
               const target = new URL(url, window.location.origin);
-              setShareTitle(sets.find(s=>s.id===target.searchParams.get('set'))?.name || categories.find(g=>g.id===target.searchParams.get('group'))?.name || 'Teksboy collection');
+              setShareTitle(
+                sets.find((s) => s.id === target.searchParams.get('set'))
+                  ?.name ||
+                  categories.find(
+                    (g) => g.id === target.searchParams.get('group'),
+                  )?.name ||
+                  'Teksboy collection',
+              );
               setShareUrl(target.toString());
               setShareOpen(true);
             }}
@@ -1451,10 +1381,7 @@ export default function TeksApp({
         <DialogContent className="modal share-modal">
           <DialogTitle>Share collection</DialogTitle>
           <DialogDescription>{shareTitle}</DialogDescription>
-          <ShareActions
-            url={shareUrl}
-            title={shareTitle}
-          />
+          <ShareActions url={shareUrl} title={shareTitle} />
         </DialogContent>
       </Dialog>
       {profileOpen && user && (
@@ -1464,7 +1391,7 @@ export default function TeksApp({
           role={userRole}
           onClose={() => setProfileOpen(false)}
           onSave={async (value) => {
-            const response = await fetch('/__local/collector', {
+            const response = await appFetch('/__local/collector', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ profile: value }),
@@ -1477,7 +1404,7 @@ export default function TeksApp({
             setProfileInfo(value);
             setSocialRevision((v) => v + 1);
             setProfileOpen(false);
-            setMessage('Profile saved to the local database.');
+            setMessage('Profile saved.');
           }}
         />
       )}
@@ -1631,7 +1558,7 @@ export default function TeksApp({
                   </div>
                 )}
                 {!preview &&
-                  localMode &&
+                  user &&
                   editSet.cards.length > 0 &&
                   editSet.cards.every((card) =>
                     currentOwned.includes(card.id),
@@ -1642,7 +1569,7 @@ export default function TeksApp({
                       name={editSet.name}
                     />
                   )}
-                {!preview && localMode && (
+                {!preview && user && (
                   <ChecklistPin
                     key={editSet.id}
                     setId={editSet.id}
@@ -1672,8 +1599,7 @@ export default function TeksApp({
                           aria-label={`${currentOwned.includes(c.id) ? 'Mark missing' : 'Mark collected'}: card ${c.number}`}
                           aria-pressed={currentOwned.includes(c.id)}
                           disabled={
-                            pending.includes(c.id) ||
-                            (localMode && pending.length > 0)
+                            pending.includes(c.id) || pending.length > 0
                           }
                           onClick={() => toggle(c)}
                         >
@@ -1717,7 +1643,7 @@ export default function TeksApp({
                   )}
                 <div className="checklist-bottom-actions">
                   {' '}
-                  {!preview && localMode && (
+                  {!preview && user && (
                     <RemoveAction
                       kind="checklist"
                       id={editSet.id}

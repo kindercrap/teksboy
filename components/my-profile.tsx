@@ -1,4 +1,5 @@
 'use client';
+import { appFetch } from '@/lib/app-fetch';
 /* eslint-disable next/no-img-element -- Local avatar previews include uploaded data URLs. */
 import RemoveAction from './remove-action';
 import { useEffect, useState } from 'react';
@@ -55,7 +56,7 @@ export default function MyProfile({
     { id: string; name: string; image: string }[]
   >([]);
   useEffect(() => {
-    void fetch('/__local/avatars')
+    void appFetch('/__local/avatars')
       .then(async (r) => {
         if (!r.ok) throw Error('Avatar choices unavailable.');
         return (await r.json()) as {

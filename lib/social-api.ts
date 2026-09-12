@@ -1,8 +1,9 @@
+import { appFetch } from '@/lib/app-fetch';
 export async function socialApi<T = { ok: boolean }>(
   op: string,
   body?: unknown,
 ) {
-  const r = await fetch(
+  const r = await appFetch(
     '/__local/social/' + op,
     body
       ? {
