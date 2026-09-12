@@ -24,3 +24,6 @@ The latest application uses Supabase through `/api/app/*`. Local demo accounts r
 Set runtime variables SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_SERVICE_ROLE_KEY (secret), TEKSBOY_OWNER_EMAIL and SITE_URL. Do not expose the server key in client configuration.
 
 The server applies a revision-checked transaction to a request-scoped copy of records. This keeps current behavior consistent for this initial community release. At higher volume, replace whole-snapshot reads with indexed per-feature queries and paginate activity/notifications. Database backups and ongoing monitoring remain operational responsibilities.
+
+## Live domain
+The canonical production origin is https://teksboy.com. Supabase Site URL and its redirect allowlist must include this origin. Existing ChatGPT Sites URLs may remain as compatibility redirects; social preview canonical URLs use SITE_URL.

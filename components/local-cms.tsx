@@ -416,7 +416,11 @@ export default function LocalCms() {
           })}
         </nav>
         <div className="cms-sidebar-bottom">
-          <span>SQLite · stored on this computer</span>
+          <span>
+            {local
+              ? 'SQLite · stored on this computer'
+              : 'Supabase · synced online'}
+          </span>
           <button
             disabled={busy}
             onClick={() =>
@@ -649,7 +653,9 @@ export default function LocalCms() {
             <section className="cms-panel">
               <h2>Most-collected sets</h2>
               <p>
-                Based on saved local checklists. Test accounts are included.
+                {local
+                  ? 'Based on saved local checklists. Test accounts are included.'
+                  : 'Based on collectors’ saved checklists.'}
               </p>
               <div className="cms-table-wrap">
                 <table>
@@ -1174,8 +1180,8 @@ export default function LocalCms() {
                     Restrict commenting
                   </label>
                   <p className="profile-note">
-                    Local test accounts only. VIP is a role label; premium
-                    features are not enabled yet.
+                    {local ? 'Local test accounts only. ' : ''}VIP is a role
+                    label; premium features are not enabled yet.
                   </p>
                 </>
               )}
