@@ -5,6 +5,8 @@ import { defineConfig } from 'vite';
 import hostingConfig from './.openai/hosting.json';
 import localCms from './local/cms-plugin.mjs';
 import vinextBrowserAls from './local/vinext-browser-als.mjs';
+import { cpSync, mkdirSync, mkdtempSync } from 'node:fs';
+import path from 'node:path';
 
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   '00000000-0000-4000-8000-000000000000';
@@ -36,7 +38,21 @@ const localBindingConfig = {
     : [],
 };
 
-export default defineConfig(async () => {
+export default defineConfig(async ({ command }) => {
+  // Publish only curated media. The ignored development upload directory can
+  // contain test/unselected files; public-catalog export copies approved assets.
+  let publicDir = path.resolve('public');
+  if (command === 'build') {
+    const stagingRoot = path.resolve('.sites-runtime');
+    mkdirSync(stagingRoot, { recursive: true });
+    const stagedPublic = mkdtempSync(path.join(stagingRoot, 'public-'));
+    const localUploads = path.join(publicDir, 'local-media');
+    cpSync(publicDir, stagedPublic, {
+      recursive: true,
+      filter: (source) => source !== localUploads,
+    });
+    publicDir = stagedPublic;
+  }
   // Keep Wrangler and Miniflare state project-local. These are non-secret tool
   // settings; application environment belongs in ignored `.env*` files.
   process.env.WRANGLER_WRITE_LOGS ??= 'false';
@@ -47,6 +63,7 @@ export default defineConfig(async () => {
   const { cloudflare } = await import('@cloudflare/vite-plugin');
 
   return {
+    publicDir,
     css: { postcss: { plugins: [tailwindcss()] } },
     server: isCodexSeatbeltSandbox
       ? { watch: { useFsEvents: false, usePolling: true } }
