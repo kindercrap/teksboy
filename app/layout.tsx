@@ -9,6 +9,10 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: '/images/general/favicon.png',
+    apple: '/images/general/favicon.png',
+  },
   title: 'Teksboy — The collector’s archive',
   description: 'Explore teks, track your collection, and share missing cards.',
 };
@@ -20,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${nunitoSans.variable} antialiased`}>{children}</body>
+      <body className={`${nunitoSans.variable} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }

@@ -9,11 +9,19 @@ export type TeksSet = {
   id: string;
   name: string;
   category_id: string;
+  market_price_min?: number | null;
+  market_price_max?: number | null;
   cover: string;
   status: string;
   cards: Card[];
 };
-export type Category = { id: string; name: string; position: number };
+export type Category = {
+  logo?: string;
+  id: string;
+  name: string;
+  position: number;
+  status?: string;
+};
 export type Track = {
   id: string;
   category_id: string;

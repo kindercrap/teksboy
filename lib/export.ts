@@ -37,8 +37,12 @@ export async function exportPage(
   cards: Card[],
   page: number,
   pages: number,
-  totalMissing: number,
+  _totalMissing: number,
+  groupName: string = set.category_id,
 ) {
+  await document.fonts.ready;
+  const font = getComputedStyle(document.body).fontFamily;
+  const cover = await loadImage(set.cover);
   const images = await Promise.all(cards.map((c) => loadImage(c.image)));
   const w = 1200,
     cols = 5,
@@ -49,35 +53,76 @@ export async function exportPage(
     rows = Math.ceil(cards.length / cols);
   const canvas = document.createElement('canvas');
   canvas.width = w;
-  canvas.height = 186 + rows * (ch + gap) + 56;
+  canvas.height = 174 + rows * (ch + gap) + 20;
   const ctx = canvas.getContext('2d');
   if (!ctx) throw Error('Image export is unavailable in this browser.');
-  ctx.fillStyle = '#141b20';
+  ctx.fillStyle = '#1a232b';
   ctx.fillRect(0, 0, w, canvas.height);
-  ctx.fillStyle = '#213331';
+  ctx.fillStyle = '#14191d';
   ctx.fillRect(0, 0, w, 150);
-  ctx.fillStyle = '#3de4d5';
-  ctx.font = 'bold 17px Arial';
-  ctx.fillText('TEKSBOY / LOOKING FOR', pad, 40);
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 32px Arial';
-  let title = set.name;
-  while (ctx.measureText(title).width > w - pad * 2) {
-    title = title.slice(0, -2);
+  const coverSize = 150;
+  ctx.font = `900 32px ${font}`;
+  let titleSize = 32;
+  while (ctx.measureText(set.name).width > 840 && titleSize > 18) {
+    ctx.font = `900 ${--titleSize}px ${font}`;
   }
-  ctx.fillText(title, pad, 88);
-  ctx.fillStyle = '#aec0c1';
-  ctx.font = '18px Arial';
-  ctx.fillText(
-    `${totalMissing} missing cards · Page ${page + 1} of ${pages}`,
+  const headerX = Math.max(
     pad,
-    121,
+    (w - coverSize - 28 - ctx.measureText(set.name).width) / 2,
   );
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(headerX, 0, coverSize, coverSize);
+  ctx.clip();
+  ctx.filter = 'blur(10px) brightness(0.3)';
+  const bgScale = Math.max(coverSize / cover.width, coverSize / cover.height);
+  ctx.drawImage(
+    cover,
+    headerX + (coverSize - cover.width * bgScale) / 2,
+    (coverSize - cover.height * bgScale) / 2,
+    cover.width * bgScale,
+    cover.height * bgScale,
+  );
+  ctx.filter = 'none';
+  const coverScale = Math.min(
+    coverSize / cover.width,
+    coverSize / cover.height,
+  );
+  ctx.drawImage(
+    cover,
+    headerX + (coverSize - cover.width * coverScale) / 2,
+    (coverSize - cover.height * coverScale) / 2,
+    cover.width * coverScale,
+    cover.height * coverScale,
+  );
+  ctx.restore();
+  ctx.save();
+  ctx.fillStyle = '#00eaff';
+  ctx.font = `800 16px ${font}`;
+  ctx.fillText(groupName.toUpperCase(), headerX + coverSize + 28, 34);
+  ctx.restore();
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(set.name, headerX + coverSize + 28, 72);
+  ctx.fillStyle = '#c5c5c5';
+  ctx.font = `700 19px ${font}`;
+  ctx.fillText('generated using ', headerX + coverSize + 28, 104);
+  const creditWidth = ctx.measureText('generated using ').width;
+  ctx.fillStyle = '#00eaff';
+  ctx.fillText('teksboy.com', headerX + coverSize + 28 + creditWidth, 104);
+  if (pages > 1) {
+    ctx.fillStyle = '#93999e';
+    ctx.font = `14px ${font}`;
+    ctx.textAlign = 'right';
+    ctx.fillText(`${page + 1} / ${pages}`, w - pad, 139);
+    ctx.textAlign = 'left';
+  }
   images.forEach((im, i) => {
     const x = pad + (i % cols) * (cw + gap),
       y = 174 + Math.floor(i / cols) * (ch + gap);
-    ctx.fillStyle = '#253037';
+    ctx.fillStyle = '#20262b';
     ctx.fillRect(x, y, cw, ch);
+    ctx.strokeStyle = '#454a4e';
+    ctx.strokeRect(x + 0.5, y + 0.5, cw - 1, ch - 1);
     const ih = ch - 40,
       iw = cw - 12,
       scale = Math.min(iw / im.width, ih / im.height);
@@ -88,21 +133,21 @@ export async function exportPage(
       im.width * scale,
       im.height * scale,
     );
-    ctx.fillStyle = '#ff8893';
-    ctx.font = 'bold 15px Arial';
+    ctx.fillStyle = '#ff2846';
+    ctx.font = `900 14px ${font}`;
+    const labelWidth = ctx.measureText(
+      '#' + String(cards[i].number).padStart(3, '0') + ' MISSING',
+    ).width;
+    const labelX = x + (cw - labelWidth - 26) / 2;
+    ctx.fillRect(labelX, y + ch - 27, 19, 19);
     ctx.fillText(
-      `MISSING · #${String(cards[i].number).padStart(3, '0')}`,
-      x + 12,
-      y + ch - 13,
+      '#' + String(cards[i].number).padStart(3, '0') + ' MISSING',
+      labelX + 26,
+      y + ch - 12,
     );
+    ctx.fillStyle = '#20262b';
+    ctx.fillRect(labelX + 4, y + ch - 19, 11, 3);
   });
-  ctx.fillStyle = '#99adad';
-  ctx.font = '15px Arial';
-  ctx.fillText(
-    'Generated with Teksboy · Made for the joy of collecting.',
-    pad,
-    canvas.height - 23,
-  );
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob(
       (b) => (b ? resolve(b) : reject(Error('Could not generate image.'))),

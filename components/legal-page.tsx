@@ -46,7 +46,7 @@ export default function LegalPage({
             window.location.assign('/');
           }}
         >
-          Back to database
+          Back to archives
         </a>
       </header>
       <article className="legal-card">

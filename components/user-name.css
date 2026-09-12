@@ -1,0 +1,34 @@
+/* Shared identity spacing: photo 10px name-row, check 3px name, role 6px. */
+.user-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 18px;
+}
+.user-name .user-name-text {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user-name .verified-user-badge { margin: 0; display: inline-flex; flex-shrink: 0; }
+.user-name .verified-user-badge svg { display: block; width: 15px; height: 15px; }
+.user-name .role-badge {
+  margin: 0 0 0 3px;
+  flex-shrink: 0;
+  padding: 1px 5px;
+  line-height: 12px;
+  font-size: 8px;
+}
+.leaderboard-identity, .profile-account-button { gap: 10px; }
+.leaderboard-identity > .profile-avatar, .profile-account-button > .profile-avatar { margin: 0; width: 34px; height: 34px; }
+.profile-account-button > span:last-child { max-width: 230px; }
+.profile-account-button .user-name { flex-direction: row; }
+.user-name .verified-user-badge, .user-name .role-badge { position: static; top: auto; transform: none; align-self: center; }

@@ -21,7 +21,22 @@ test('catalog has unique stable IDs, natural numbers and real images', () => {
       count++;
     }
   }
-  assert.equal(count, 541);
+  const source = new URL('../../images/teks/', import.meta.url);
+  let sourceCards = 0;
+  let sourceSets = 0;
+  for (const group of ['ghost-fighter', 'dragonball']) {
+    for (const folder of fs
+      .readdirSync(new URL(group + '/', source), { withFileTypes: true })
+      .filter((f) => f.isDirectory())) {
+      sourceSets++;
+      const files = fs.readdirSync(new URL(`${group}/${folder.name}/`, source));
+      sourceCards += files.filter(
+        (f) => /\.(webp|png|jpe?g)$/i.test(f) && !/^backprint/i.test(f),
+      ).length;
+    }
+  }
+  assert.equal(sets.length, sourceSets);
+  assert.equal(count, sourceCards);
 });
 test('missing exports omit owned cards and preserve order without duplicates', () => {
   const s = sets[0],
