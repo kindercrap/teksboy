@@ -24,7 +24,9 @@ Status: NOT READY TO DEPLOY the latest local feature set.
 Run `node scripts/export-public-catalog.mjs` to refresh `supabase/import/public-catalog.json` and copy referenced public CMS uploads into `public/images/catalog-import/`. The export explicitly excludes users, checklists, comments, private evidence and local activity. It does not modify Supabase or the local database.
 
 ## Publishing tooling
-The configured Sites 0.1.62 plugin files became unavailable during preparation. The documented build helper and publishing reference could not be found. A direct `vinext build` succeeded. Restore the Sites plugin before its packaging/deployment workflow.
+
+The Sites plugin moved from curated-remote 0.1.62 to bundled 0.1.66 during preparation. The current publishing tools are available there. The remaining blocker is application/backend migration, not the build.
 
 Do not present the old hosted URL as an updated release. Do not deploy the development middleware or local SQLite database to work around the migration.
+
 
