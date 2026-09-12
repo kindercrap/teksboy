@@ -1007,7 +1007,7 @@ export default function TeksApp({
         </button>
       </header>
       <Dialog open={menuOpen} onOpenChange={setMenuOpen}>
-        <DialogContent className="navigation-drawer right-drawer">
+        <DialogContent placement="side" className="navigation-drawer right-drawer">
           <DialogTitle>TEKSBOY</DialogTitle>
           <DialogDescription className="sr-only">
             Main navigation and account
@@ -1031,7 +1031,7 @@ export default function TeksApp({
             {archiveNavigation()}
           </aside>
           <Dialog open={archivesOpen} onOpenChange={setArchivesOpen}>
-            <DialogContent className="navigation-drawer left-drawer">
+            <DialogContent placement="side" className="navigation-drawer left-drawer">
               <DialogTitle>Archives</DialogTitle>
               <DialogDescription className="sr-only">
                 Choose a collection group and set
