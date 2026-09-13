@@ -3,6 +3,7 @@ import { appFetch } from '@/lib/app-fetch';
 import { useState } from 'react';
 import { useRoles, type RoleDefinition } from './role-provider';
 const choices = [
+  ['homepage', 'Homepage Quick Links'],
   ['dashboard', 'Dashboard & analytics'],
   ['groups', 'Collection groups'],
   ['collections', 'Collections & teks images'],

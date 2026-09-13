@@ -1,4 +1,5 @@
 'use client';
+import { ContentSkeleton } from './content-skeleton';
 import { appFetch } from '@/lib/app-fetch';
 import { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
@@ -107,7 +108,7 @@ export default function Leaderboard() {
         </button>
       </div>
       {loading ? (
-        <p className="empty">Loading rankings…</p>
+        <ContentSkeleton kind="rows" count={5}/>
       ) : error ? (
         <p className="empty" role="alert">
           {error}

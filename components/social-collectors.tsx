@@ -1,4 +1,5 @@
 'use client';
+import { ContentSkeleton, LoadingImage } from './content-skeleton';
 /* eslint-disable next/no-html-link-for-pages, next/no-img-element -- Local scans and full-page navigation follow the app routing. */
 import ChecklistShare from './checklist-share';
 import RemoveAction from './remove-action';
@@ -80,6 +81,7 @@ export default function SocialCollectors({
     [listGroup, setListGroup] = useState('all');
   const [editComment, setEditComment] = useState(''),
     [editText, setEditText] = useState('');
+  const [loading, setLoading] = useState(true);
   const [directory, setDirectory] = useState<Person[]>([]),
     [me, setMe] = useState<Person | null>(null),
     [profile, setProfile] = useState<Profile | null>(null),
@@ -97,33 +99,41 @@ export default function SocialCollectors({
     set = new URLSearchParams(window.location.search).get('set') || '',
   ) {
     const version = ++refreshVersion.current;
-    const session = await socialApi<{ user: Person | null }>('session');
-    if (new URLSearchParams(window.location.search).has('mine') && session.user)
-      owner = session.user.id;
-    const directory = await socialApi<{
-      users: Person[];
-      groups: { id: string; name: string }[];
-    }>('directory');
-    let result: Profile | null = null;
-    let problem = '';
+    setLoading(true);
     try {
-      if (owner)
-        result = await socialApi<Profile>(
-          'profile?user=' +
-            encodeURIComponent(owner) +
-            '&set=' +
-            encodeURIComponent(set),
-        );
-    } catch (e) {
-      problem = e instanceof Error ? e.message : 'Profile unavailable';
+      const session = await socialApi<{ user: Person | null }>('session');
+      if (
+        new URLSearchParams(window.location.search).has('mine') &&
+        session.user
+      )
+        owner = session.user.id;
+      const directory = await socialApi<{
+        users: Person[];
+        groups: { id: string; name: string }[];
+      }>('directory');
+      let result: Profile | null = null;
+      let problem = '';
+      try {
+        if (owner)
+          result = await socialApi<Profile>(
+            'profile?user=' +
+              encodeURIComponent(owner) +
+              '&set=' +
+              encodeURIComponent(set),
+          );
+      } catch (e) {
+        problem = e instanceof Error ? e.message : 'Profile unavailable';
+      }
+      if (version !== refreshVersion.current) return;
+      setMe(session.user);
+      setDirectory(directory.users);
+      setProfile(result);
+      setGroups(directory.groups);
+      setLocation({ owner, set });
+      setError(problem);
+    } finally {
+      if (version === refreshVersion.current) setLoading(false);
     }
-    if (version !== refreshVersion.current) return;
-    setMe(session.user);
-    setDirectory(directory.users);
-    setProfile(result);
-    setGroups(directory.groups);
-    setLocation({ owner, set });
-    setError(problem);
   }
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -136,7 +146,10 @@ export default function SocialCollectors({
         .then(() => {
           if (owner) void socialApi('visit', { owner, set }).catch(() => {});
         })
-        .catch((e) => setError(e.message));
+        .catch((e) => {
+          setError(e.message);
+          setLoading(false);
+        });
     }, 0);
     return () => window.clearTimeout(timer);
   }, [revision]);
@@ -180,6 +193,15 @@ export default function SocialCollectors({
     '/collectors?user=' +
     encodeURIComponent(owner) +
     (set ? '&set=' + encodeURIComponent(set) : '');
+  if (loading)
+    return (
+      <section className="social-page">
+        <ContentSkeleton
+          kind={location.owner ? 'profile' : 'people'}
+          count={6}
+        />
+      </section>
+    );
   return (
     <section className="social-page">
       <header className="social-heading">
@@ -548,7 +570,7 @@ export default function SocialCollectors({
                       id={'card-' + c.id}
                       key={c.id}
                     >
-                      <img
+                      <LoadingImage
                         src={c.image}
                         alt={'Teks #' + c.number}
                         loading="lazy"

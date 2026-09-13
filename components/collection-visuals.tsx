@@ -1,9 +1,10 @@
+import { LoadingImage } from './content-skeleton';
 /* eslint-disable next/no-img-element -- Backprints preserve scan proportions. */
 export function Backprint({ src }: { src: string }) {
   return (
     <div className="backprint">
       <img className="backprint-blur" src={src} alt="" aria-hidden="true" />
-      <img className="backprint-front" src={src} alt="Set backprint" />
+      <LoadingImage className="backprint-front" src={src} alt="Set backprint" />
     </div>
   );
 }

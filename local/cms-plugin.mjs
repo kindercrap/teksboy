@@ -2,6 +2,7 @@ import { removeAction } from './remove-action.mjs';
 import { verificationService } from './verification.mjs';
 import communitySeed from './community-seed.mjs';
 import { socialService } from './social.mjs';
+import { siteContent } from '../server/site-content.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
@@ -163,10 +164,11 @@ export function openStore(root) {
     'social',
     'community',
     'avatars',
+    'homepage',
   ];
   for (const [name, color, perms] of [
     ['Super Admin', '#e879f9', permissionKeys],
-    ['Admin', '#ef4444', ['groups', 'collections', 'tracks']],
+    ['Admin', '#ef4444', ['groups', 'collections', 'tracks', 'homepage']],
     ['VIP', '#eab308', []],
     ['Normal', '#94a3b8', []],
   ])
@@ -178,6 +180,11 @@ export function openStore(root) {
         permissions: perms,
         builtin: true,
       });
+  if (!get('meta', 'homepage-permission-v1')) {
+    const role = list('roles').find(r => r.name === 'Admin');
+    if (role) put('roles', {...role, permissions: [...new Set([...role.permissions, 'homepage'])]});
+    put('meta', {id:'homepage-permission-v1'});
+  }
   function permissions(user) {
     if (!user || user.status !== 'active') return [];
     return user.role === 'Super Admin'
@@ -722,6 +729,7 @@ export default function localCms() {
               store.get('users', session.id));
           const granted = store.permissions(admin);
           const allowed = granted.length > 0;
+          if (siteContent(store, endpoint, req.method, data, admin, new URL(req.url, `http://${host}`).searchParams, send)) return;
           if (req.method === 'POST') {
             const tracked = {
               '/__local/save': 'Saved',

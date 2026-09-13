@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { siteContent } from './site-content.mjs';
 import { socialService } from './social.mjs';
 import { verificationService } from './verification.mjs';
 import { removeAction } from './remove-action.mjs';
@@ -26,6 +27,7 @@ export async function dispatch(store, req, data, actor, media) {
   };
   const social = socialService(store, actor),
     verification = verificationService(store, media, social.notify);
+  if (siteContent(store, endpoint, req.method, data, actor, new URL(req.url).searchParams, send)) return response;
   if (endpoint === '/__local/social/accounts' || endpoint === '/__local/login')
     return send(403, {
       error: 'Local test sign-in is unavailable on the live site.',

@@ -1,4 +1,5 @@
 'use client';
+import { ContentSkeleton, LoadingImage } from './content-skeleton';
 import { appFetch } from '@/lib/app-fetch';
 /* eslint-disable next/no-img-element -- CMS-managed community photos. */
 import { useCallback, useEffect, useState } from 'react';
@@ -332,7 +333,7 @@ export default function Community({
         </form>
       )}
       {loading ? (
-        <p>Loading community links…</p>
+        <ContentSkeleton count={6}/>
       ) : !visible.length ? (
         <p>No matching links.</p>
       ) : (
@@ -346,7 +347,7 @@ export default function Community({
             >
               <div className="community-photo">
                 {r.image ? (
-                  <img
+                  <LoadingImage
                     src={r.image}
                     alt={r.name}
                     loading="lazy"

@@ -32,6 +32,8 @@ import { socialApi } from '@/lib/social-api';
 import UserName from './user-name';
 import CmsActivity from './cms-activity';
 import CmsVerifications from './cms-verifications';
+import { CmsHomeQuickLinks } from './home-quick-links';
+import { ContentSkeleton } from './content-skeleton';
 import CmsAvatars from './cms-avatars';
 import CommunityTypes from './community-types';
 import Community from './community';
@@ -74,6 +76,7 @@ export type CmsData = Record<Kind | 'checklists', Row[]>;
 type Kind = 'groups' | 'collections' | 'users' | 'tracks';
 type Data = Record<Kind | 'checklists', Row[]>;
 const sections = [
+  { id: 'homepage', name: 'Homepage Quick Links', icon: LayoutDashboard },
   { id: 'activity', name: 'Activity Timeline', icon: Users },
   { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard },
   { id: 'groups', name: 'Collection Groups', icon: Layers },
@@ -324,7 +327,7 @@ export default function LocalCms() {
     .filter((c) => c.missing > 0)
     .sort((a, b) => b.missing - a.missing)
     .slice(0, 10);
-  if (!ready) return <main className="cms-login">Loading CMS…</main>;
+  if (!ready) return <main className="cms-login"><ContentSkeleton kind="rows" count={5}/></main>;
   if (!authorized)
     return (
       <main className="cms-login">
@@ -371,7 +374,7 @@ export default function LocalCms() {
         <small>{local ? 'LOCAL MANAGEMENT' : 'MANAGEMENT'}</small>
         <nav>
           {[
-            { name: '', ids: ['dashboard', 'activity'] },
+            { name: '', ids: ['dashboard', 'activity', 'homepage'] },
             { name: 'Collections', ids: ['groups', 'collections', 'tracks'] },
             {
               name: 'Profiles',
@@ -465,6 +468,7 @@ export default function LocalCms() {
             section !== 'community' &&
             section !== 'community-types' &&
             section !== 'avatars' &&
+            section !== 'homepage' &&
             section !== 'verifications' &&
             section !== 'activity' &&
             (section !== 'users' || local) && (
@@ -492,7 +496,9 @@ export default function LocalCms() {
             </button>
           </output>
         )}
-        {section === 'activity' ? (
+        {section === 'homepage' ? (
+          <CmsHomeQuickLinks />
+        ) : section === 'activity' ? (
           <CmsActivity />
         ) : section === 'verifications' ? (
           <CmsVerifications />

@@ -94,7 +94,7 @@ test('leaderboard uses completed totals, shared ranks and a ten-collector limit'
  const store=openStore(root);
  try {
  store.save('users',{id:'contributor',name:'Contributor',email:'c@local.test',role:'Admin',status:'active'});
- assert.deepEqual(store.permissions(store.get('users','contributor')),['groups','collections','tracks']);
+ assert.deepEqual(store.permissions(store.get('users','contributor')),['groups','collections','tracks','homepage']);
  store.save('groups',{id:'g',name:'Edited',logo:'/images/test.png',status:'published'},'contributor');
 assert.equal(store.get('groups','g').logo,'/images/test.png');
 assert.throws(()=>store.save('groups',{id:'g',name:'Edited',status:'published',logo:'javascript:alert(1)'},'contributor'),/logo/);

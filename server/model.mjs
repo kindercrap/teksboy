@@ -61,10 +61,11 @@ export function createModel(records) {
     'social',
     'community',
     'avatars',
+    'homepage',
   ];
   for (const [name, color, perms] of [
     ['Super Admin', '#e879f9', permissionKeys],
-    ['Admin', '#ef4444', ['groups', 'collections', 'tracks']],
+    ['Admin', '#ef4444', ['groups', 'collections', 'tracks', 'homepage']],
     ['VIP', '#eab308', []],
     ['Normal', '#94a3b8', []],
   ])
@@ -76,6 +77,11 @@ export function createModel(records) {
         permissions: perms,
         builtin: true,
       });
+  if (!get('meta', 'homepage-permission-v1')) {
+    const role = list('roles').find(r => r.name === 'Admin');
+    if (role) put('roles', {...role, permissions: [...new Set([...role.permissions, 'homepage'])]});
+    put('meta', {id:'homepage-permission-v1'});
+  }
   function permissions(user) {
     if (!user || user.status !== 'active') return [];
     return user.role === 'Super Admin'

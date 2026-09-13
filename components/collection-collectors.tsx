@@ -1,4 +1,5 @@
 'use client';
+import { ContentSkeleton } from './content-skeleton';
 import { appFetch } from '@/lib/app-fetch';
 import { useState } from 'react';
 import { Users } from 'lucide-react';
@@ -54,7 +55,7 @@ export default function CollectionCollectors({ setId }: { setId: string }) {
             Open a collector’s checklist to see their collection.
           </DialogDescription>
           {loading ? (
-            <p>Loading collectors…</p>
+            <ContentSkeleton kind="people" count={3}/>
           ) : error ? (
             <p role="alert">{error}</p>
           ) : !rows.length ? (

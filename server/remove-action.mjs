@@ -57,6 +57,7 @@ export async function removeAction(
           erase('verification-requests', r.id);
         }
       if (kind === 'account') {
+        erase('guide-progress', user.id);
         for (const n of store.list('notifications'))
           if (n.user_id === user.id) erase('notifications', n.id);
         store.put('users', {

@@ -1,4 +1,7 @@
 'use client';
+import HomeQuickLinks from './home-quick-links';
+import SiteGuide from './site-guide';
+import { ContentSkeleton, LoadingImage } from './content-skeleton';
 import { appFetch } from '@/lib/app-fetch';
 import { useRoles } from './role-provider';
 import { Backprint, Segments, SetCompleted } from './collection-visuals';
@@ -155,15 +158,24 @@ export default function TeksApp({
   const [shareUrl, setShareUrl] = useState('');
   const [shareTitle, setShareTitle] = useState('Teksboy collection');
   const [archivesOpen, setArchivesOpen] = useState(false);
+  useEffect(() => {
+    const help = (event: Event) => {
+      const feature = (event as CustomEvent<string>).detail;
+      if (feature === 'archives') { setExpandedCategory(null); setArchivesOpen(true); }
+      if (feature === 'checklist') setMessage('Open a checklist to start its guide.');
+    };
+    window.addEventListener('teksboy-guide-open', help);
+    return () => window.removeEventListener('teksboy-guide-open', help);
+  }, []);
   const [checkAllConfirm, setCheckAllConfirm] = useState(false);
   const [overviewGroup, setOverviewGroup] = useState<string | null>(null);
   const [archiveSearch, setArchiveSearch] = useState('');
   const [archiveGroup, setArchiveGroup] = useState('all');
   const [archiveSort, setArchiveSort] = useState('default');
   const [expandedCategory, setExpandedCategory] = useState<string | null>(
-    'ghost-fighter',
+    null,
   );
-  const [selectedId, select] = useState(initial[0].id);
+  const [selectedId, select] = useState('');
   const [localMode, setLocalMode] = useState(false);
   const [client, setClient] = useState<SupabaseClient | null>(null),
     [user, setUser] = useState<User | null>(null),
@@ -199,7 +211,7 @@ export default function TeksApp({
     [trackIndex, setTrackIndex] = useState(0);
   const audio = useRef<HTMLAudioElement>(null);
   const pendingRef = useRef(new Set<string>());
-  const selected = sets.find((s) => s.id === selectedId) || sets[0];
+  const selected = sets.find((s) => s.id === selectedId);
   function groupName(set: TeksSet) {
     return (
       categories.find((c) => c.id === set.category_id)?.name || set.category_id
@@ -208,8 +220,7 @@ export default function TeksApp({
   function chooseSet(id: string) {
     setOverviewGroup(null);
     select(id);
-    const set = sets.find((s) => s.id === id);
-    if (set) setExpandedCategory(set.category_id);
+
     const url = new URL(window.location.href);
     url.searchParams.delete('group');
     url.searchParams.set('set', id);
@@ -221,16 +232,9 @@ export default function TeksApp({
     const params = new URL(window.location.href).searchParams;
     const group = params.get('group');
     setOverviewGroup(group);
-    if (group) {
-      setExpandedCategory(group);
-      return;
-    }
+    if (group) return;
     const id = params.get('set');
-    const set = id ? sets.find((s) => s.id === id) : sets[0];
-    if (set) {
-      select(set.id);
-      setExpandedCategory(set.category_id);
-    }
+    select(id || '');
   });
   useEffect(() => {
     if (view !== 'database') return;
@@ -863,15 +867,7 @@ export default function TeksApp({
             value={archiveSearch}
             onChange={(e) => {
               setArchiveSearch(e.target.value);
-              const first = sets.find(
-                (s) =>
-                  s.status === 'published' &&
-                  (archiveGroup === 'all' || s.category_id === archiveGroup) &&
-                  s.name
-                    .toLowerCase()
-                    .includes(e.target.value.trim().toLowerCase()),
-              );
-              if (first) setExpandedCategory(first.category_id);
+
             }}
           />
           <div>
@@ -881,8 +877,7 @@ export default function TeksApp({
               value={archiveGroup}
               onChange={(e) => {
                 setArchiveGroup(e.target.value);
-                if (e.target.value !== 'all')
-                  setExpandedCategory(e.target.value);
+
               }}
             >
               <option value="all">All groups</option>
@@ -984,6 +979,7 @@ export default function TeksApp({
   }
   return (
     <>
+      <SiteGuide ready={ready} userId={user?.id} view={view} archivesOpen={archivesOpen} checklistOpen={!!editing}/>
       <header className="topbar">
         <a
           className="brand"
@@ -1021,7 +1017,7 @@ export default function TeksApp({
             className="icon-button archives-toggle"
             aria-label="Open archives menu"
             aria-expanded={archivesOpen}
-            onClick={() => setArchivesOpen(true)}
+            onClick={() => { setExpandedCategory(null); setArchivesOpen(true); }}
           >
             <Menu size={18} />
             <span>Archives</span>
@@ -1031,7 +1027,7 @@ export default function TeksApp({
             {archiveNavigation()}
           </aside>
           <Dialog open={archivesOpen} onOpenChange={setArchivesOpen}>
-            <DialogContent placement="side" className="navigation-drawer left-drawer">
+            <DialogContent placement="side" initialFocus={false} className="navigation-drawer left-drawer">
               <DialogTitle>Archives</DialogTitle>
               <DialogDescription className="sr-only">
                 Choose a collection group and set
@@ -1043,7 +1039,9 @@ export default function TeksApp({
       )}
       <main className={'workspace ' + (view !== 'database' ? 'wide' : '')}>
         {view === 'community' && <Community />}
-        {view === 'database' && overviewGroup && (
+        {view === 'database' && !ready && (!!selectedId || !!overviewGroup) && <ContentSkeleton kind={selectedId ? 'teks' : 'cards'} count={selectedId ? 12 : 3}/>}
+        {view === 'database' && !selectedId && !overviewGroup && <HomeQuickLinks userId={user?.id} ready={ready} onLogin={() => localMode || !client || !providerReady ? setLogin(true) : void signIn()}/>}
+        {view === 'database' && ready && overviewGroup && (
           <GroupOverview
             group={categories.find(
               (c) =>
@@ -1073,7 +1071,7 @@ export default function TeksApp({
             }}
           />
         )}
-        {view === 'database' && !overviewGroup && selected && (
+        {view === 'database' && ready && !overviewGroup && selected && (
           <>
             <section className="set-hero">
               <Backprint src={selected.cover} />
@@ -1144,7 +1142,7 @@ export default function TeksApp({
               {selected.cards.map((c) => (
                 <div className="teks-card" key={c.id}>
                   <div className="card-image">
-                    <img
+                    <LoadingImage
                       src={c.image}
                       alt={'Card ' + c.number}
                       loading="lazy"
@@ -1161,7 +1159,7 @@ export default function TeksApp({
             )}
           </>
         )}
-        {view === 'database' && !overviewGroup && !selected && (
+        {view === 'database' && ready && !!selectedId && !overviewGroup && !selected && (
           <div className="empty">
             <Library />
             <h2>The archive is waiting.</h2>
@@ -1290,7 +1288,7 @@ export default function TeksApp({
               </select>
             </div>
             {!ready ? (
-              <div className="empty">Loading your collection…</div>
+              <ContentSkeleton kind="cards" count={4}/>
             ) : !user ? (
               <div className="empty">
                 <Layers />
@@ -1604,7 +1602,7 @@ export default function TeksApp({
                           onClick={() => toggle(c)}
                         >
                           <div className="card-image">
-                            <img
+                            <LoadingImage
                               src={c.image}
                               alt={'Card ' + c.number}
                               loading="lazy"
@@ -1721,7 +1719,7 @@ export default function TeksApp({
                     No playlist for this category
                   </span>
                 )}
-                <div className="footer-actions">
+                <div className="footer-actions" data-guide-save>
                   <span className="save-status" aria-live="polite">
                     {preview
                       ? 'Preview only'
