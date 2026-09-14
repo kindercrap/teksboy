@@ -30,6 +30,7 @@ import Collectors from './cms-collectors';
 import SocialManagement from './social-management';
 import { socialApi } from '@/lib/social-api';
 import UserName from './user-name';
+import { Avatar } from './my-profile';
 import CmsActivity from './cms-activity';
 import CmsVerifications from './cms-verifications';
 import { CmsHomeQuickLinks } from './home-quick-links';
@@ -42,6 +43,9 @@ import { useRoles } from './role-provider';
 
 type Card = { id: string; number: number; image: string };
 export type CmsRow = {
+  photo?: string;
+  display_name?: string;
+  slug?: string;
   logo?: string;
   id: string;
   name?: string;
@@ -873,13 +877,14 @@ export default function LocalCms() {
                     <tr key={row.id}>
                       <td>
                         <div className="cms-record-name">
+                          {kind === 'users' && <Avatar photo={row.photo || ''} className="cms-user-avatar"/>}
                           {row.cover && (
                             <img className="cms-thumb" src={row.cover} alt="" />
                           )}
                           <div>
                             {kind === 'users' ? (
                               <UserName
-                                name={row.name}
+                                name={row.display_name || row.name}
                                 verified={row.user_verified}
                                 role={row.role}
                               />

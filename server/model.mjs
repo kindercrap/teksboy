@@ -1,3 +1,4 @@
+import { ensureCollectorSlugs } from '../server/collector-slugs.mjs';
 import { randomUUID } from 'node:crypto';
 // Per-request working copy. PostgreSQL owns persistence and atomic revision checks.
 export function createModel(records) {
@@ -324,6 +325,7 @@ export function createModel(records) {
         );
     }
     if (kind === 'users') {
+      row.slug = old?.slug;
       row.public_profile = true;
       row.leaderboard_visible = true;
       row.notification_preferences = {};
@@ -524,6 +526,7 @@ export function createModel(records) {
         const candidate = u.display_name || u.name || 'Collector';
         return {
           id: u.id,
+          slug: u.slug,
           name: candidate.includes('@') ? 'Collector' : candidate,
           photo: u.photo || '',
           role: u.role,
@@ -546,6 +549,7 @@ export function createModel(records) {
       return { ...r, rank };
     });
   }
+  ensureCollectorSlugs({list, get, put});
   return {
     db,
     changes,

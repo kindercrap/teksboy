@@ -1,4 +1,5 @@
 'use client';
+import { collectorUrl } from '@/lib/collector-url';
 import { ContentSkeleton } from './content-skeleton';
 import { appFetch } from '@/lib/app-fetch';
 import { useState } from 'react';
@@ -13,6 +14,7 @@ import { Avatar } from './my-profile';
 import UserName from './user-name';
 type Person = {
   id: string;
+  slug: string;
   name: string;
   photo: string;
   role: string;
@@ -22,10 +24,11 @@ export default function CollectionCollectors({ setId }: { setId: string }) {
   const [open, setOpen] = useState(false),
     [rows, setRows] = useState<Person[]>([]),
     [loading, setLoading] = useState(false),
+    [resolvedSet, setResolvedSet] = useState(''),
     [error, setError] = useState('');
   async function show() {
     setOpen(true);
-    setLoading(true);
+    setLoading(resolvedSet !== setId);
     setError('');
     try {
       const r = await appFetch(
@@ -37,6 +40,7 @@ export default function CollectionCollectors({ setId }: { setId: string }) {
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unable to load collectors.');
     } finally {
+      setResolvedSet(setId);
       setLoading(false);
     }
   }
@@ -73,10 +77,7 @@ export default function CollectionCollectors({ setId }: { setId: string }) {
                   <a
                     className="button"
                     href={
-                      '/collectors?user=' +
-                      encodeURIComponent(u.id) +
-                      '&set=' +
-                      encodeURIComponent(setId)
+                      collectorUrl(u.slug, setId)
                     }
                   >
                     View

@@ -1,4 +1,5 @@
 'use client';
+import { collectorUrl } from '@/lib/collector-url';
 /* eslint-disable next/no-html-link-for-pages -- Full-page links follow the local app routing. */
 import { useEffect, useState } from 'react';
 import { socialApi } from '@/lib/social-api';
@@ -19,7 +20,7 @@ type Data = {
   comments: Row[];
   notifications: Row[];
   visits: unknown[];
-  users: { id: string; name: string }[];
+  users: { id: string; name: string; slug: string }[];
   collections: {
     id: string;
     name: string;
@@ -196,9 +197,7 @@ export default function SocialManagement() {
                     <a
                       className="button"
                       href={
-                        '/collectors?user=' +
-                        encodeURIComponent(r.owner) +
-                        (r.set ? '&set=' + encodeURIComponent(r.set) : '') +
+                        collectorUrl(data?.users.find(u => u.id === r.owner)?.slug, r.set) +
                         '#comment-' +
                         r.id
                       }

@@ -9,6 +9,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import UserName from './user-name';
+import { Avatar } from './my-profile';
 import type { CmsData, CmsRow } from './local-cms';
 async function request(endpoint: string, body: unknown) {
   const response = await appFetch('/__local/' + endpoint, {
@@ -190,11 +191,11 @@ export default function Collectors({
                     return (
                       <tr key={u.id}>
                         <td>
-                          <UserName
-                            name={u.name}
+                          <div className="cms-record-name"><Avatar photo={u.photo || ''} className="cms-user-avatar"/><UserName
+                            name={u.display_name || u.name}
                             verified={u.user_verified}
                             role={u.role}
-                          />
+                          /></div>
                           <small className="collector-account-status">
                             {u.status}
                           </small>
@@ -228,8 +229,8 @@ export default function Collectors({
             <button className="button" onClick={() => setCollector(null)}>
               ← All collectors
             </button>
-            <UserName
-              name={user.name}
+            <Avatar photo={user.photo || ''} className="cms-user-avatar"/><UserName
+              name={user.display_name || user.name}
               verified={user.user_verified}
               role={user.role}
             />

@@ -155,7 +155,7 @@ export function CmsHomeQuickLinks() {
   useEffect(() => {
     request(undefined, true)
       .then((d) => setRows(d.rows))
-      .catch((e) => setError(e.message));
+      .catch((e) => { setError(e.message); setRows([]); });
   }, []);
   async function act(body: unknown) {
     setBusy(true);

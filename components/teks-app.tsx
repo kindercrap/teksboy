@@ -1,4 +1,5 @@
 'use client';
+import { collectorUrl } from '@/lib/collector-url';
 import HomeQuickLinks from './home-quick-links';
 import SiteGuide from './site-guide';
 import { ContentSkeleton, LoadingImage } from './content-skeleton';
@@ -91,6 +92,7 @@ type LocalCollector = {
   owned: Record<string, string[]>;
   profile: {
     id: string;
+    slug?: string;
     email?: string;
     name?: string;
     display_name?: string;
@@ -149,6 +151,7 @@ export default function TeksApp({
   const [checklistSort, setChecklistSort] = useState('name'),
     [checklistSearch, setChecklistSearch] = useState('');
   const [userRole, setUserRole] = useState('Normal');
+  const [userSlug, setUserSlug] = useState('');
   const [userVerified, setUserVerified] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileInfo, setProfileInfo] = useState<ProfileInfo>(emptyProfile);
@@ -268,6 +271,7 @@ export default function TeksApp({
       };
       if (!response.ok)
         throw Error(collector.error || 'Could not load your profile.');
+      setUserSlug(collector.profile.slug || '');
       setUserRole(collector.profile.role || 'Normal');
       setUserVerified(!!collector.profile.user_verified);
       setLists(collector.lists);
@@ -337,7 +341,8 @@ export default function TeksApp({
             email: collector.profile.email,
           });
           setLocalAccount(collector.profile.id);
-          setUserRole(collector.profile.role || 'Normal');
+          setUserSlug(collector.profile.slug || '');
+      setUserRole(collector.profile.role || 'Normal');
           setUserVerified(!!collector.profile.user_verified);
           setLists(collector.lists);
           setOwned(collector.owned);
@@ -361,7 +366,11 @@ export default function TeksApp({
           if (error) throw error;
           setUser(data.session?.user || null);
           await refresh(db, data.session?.user || null);
-          const result = db.auth.onAuthStateChange((_event, session) => {
+          let currentIdentity = data.session?.user.id || '';
+          const result = db.auth.onAuthStateChange((event, session) => {
+            const nextIdentity = session?.user.id || '';
+            if (nextIdentity === currentIdentity && event !== 'USER_UPDATED') return;
+            currentIdentity = nextIdentity;
             if (stopped) return;
             setUser(session?.user || null);
             setTimeout(
@@ -772,13 +781,12 @@ export default function TeksApp({
                 <span aria-hidden="true">▾</span>
               </summary>
               <div className="account-dropdown-panel">
-                <a href={'/collectors?user=' + encodeURIComponent(user.id)}>
+                <a href={collectorUrl(userSlug)}>
                   My Profile
                 </a>
                 <a
                   href={
-                    '/collectors?user=' +
-                    encodeURIComponent(user.id) +
+                    collectorUrl(userSlug) +
                     '#checklists'
                   }
                 >
@@ -1167,7 +1175,8 @@ export default function TeksApp({
           </div>
         )}
         {view === 'leaderboard' && <Leaderboard />}
-        {view === 'collectors' && (
+        {view === 'collectors' && !ready && <ContentSkeleton kind="people" count={6}/>}
+        {view === 'collectors' && ready && (
           <SocialCollectors
             revision={socialRevision}
             onEditProfile={() => setProfileOpen(true)}
@@ -1549,7 +1558,7 @@ export default function TeksApp({
                 {!preview && user && (
                   <div className="checklist-share-row">
                     <ChecklistShare
-                      userId={user.id}
+                      slug={userSlug}
                       setId={editSet.id}
                       title={editSet.name}
                     />

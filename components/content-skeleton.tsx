@@ -30,9 +30,10 @@ export function ContentSkeleton({
   );
 }
 
+const settledImages = new Set<ImgHTMLAttributes<HTMLImageElement>['src']>();
 export function LoadingImage(props: ImgHTMLAttributes<HTMLImageElement>) {
   const [loaded, setLoaded] =
-    useState<ImgHTMLAttributes<HTMLImageElement>['src']>('');
+    useState<ImgHTMLAttributes<HTMLImageElement>['src']>(() => settledImages.has(props.src) ? props.src : '');
   return (
     <img
       {...props}
@@ -44,10 +45,12 @@ export function LoadingImage(props: ImgHTMLAttributes<HTMLImageElement>) {
         .filter(Boolean)
         .join(' ')}
       onLoad={(e) => {
+        settledImages.add(props.src);
         setLoaded(props.src || '');
         props.onLoad?.(e);
       }}
       onError={(e) => {
+        settledImages.add(props.src);
         setLoaded(props.src || '');
         props.onError?.(e);
       }}

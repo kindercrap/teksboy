@@ -1,3 +1,4 @@
+import { collectorPath } from '../server/collector-slugs.mjs';
 import { randomUUID } from 'node:crypto';
 import { siteContent } from './site-content.mjs';
 import { socialService } from './social.mjs';
@@ -275,7 +276,7 @@ export async function dispatch(store, req, data, actor, media) {
         result.verified
           ? 'Your collection was verified'
           : 'Your collection verification was cleared after review or changes',
-        '/collectors?user=' + result.user_id + '&set=' + result.set_id,
+        collectorPath(store, result.user_id, result.set_id),
       );
     return send(200, result);
   }
@@ -318,7 +319,7 @@ export async function dispatch(store, req, data, actor, media) {
           l.user_id,
           'account',
           'New teks added to ' + result.name,
-          '/collectors?user=' + l.user_id + '&set=' + result.id,
+          collectorPath(store, l.user_id, result.id),
         );
     }
     if (data.kind === 'users' && before) {
@@ -327,7 +328,7 @@ export async function dispatch(store, req, data, actor, media) {
           result.id,
           'account',
           'Your role is now ' + result.role,
-          '/collectors?user=' + result.id,
+          collectorPath(store, result.id),
         );
       if (!!before.user_verified !== !!result.user_verified)
         social.notify(
@@ -336,7 +337,7 @@ export async function dispatch(store, req, data, actor, media) {
           result.user_verified
             ? 'Your user account is verified'
             : 'Your user verification was removed',
-          '/collectors?user=' + result.id,
+          collectorPath(store, result.id),
         );
     }
     return send(200, result);

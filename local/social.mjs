@@ -1,3 +1,4 @@
+import { ensureCollectorSlugs, collectorPath } from '../server/collector-slugs.mjs';
 import { randomUUID, createHash } from 'node:crypto';
 export function socialService(store) {
   const sessions = new Map();
@@ -6,6 +7,7 @@ export function socialService(store) {
     put = store.put;
   const identity = (u) => ({
     id: u.id,
+    slug: get('users', u.id)?.slug,
     name: (u.display_name || u.name || 'Collector').includes('@')
       ? 'Collector'
       : u.display_name || u.name || 'Collector',
@@ -15,10 +17,7 @@ export function socialService(store) {
     role: u.role,
     user_verified: !!u.user_verified,
   });
-  const url = (owner, set = '') =>
-    '/collectors?user=' +
-    encodeURIComponent(owner) +
-    (set ? '&set=' + encodeURIComponent(set) : '');
+  const url = (owner, set = '') => collectorPath(store, owner, set);
   function notify(user, type, text, link) {
     if (!user) return;
     const previous =
@@ -69,6 +68,7 @@ export function socialService(store) {
   }
   async function handle(req, res, endpoint, data, admin, send) {
     if (!endpoint.startsWith('/__local/social/')) return false;
+    ensureCollectorSlugs(store);
     const q = new URL(req.url, 'http://localhost').searchParams;
     const actor = currentUser(req);
     const requireUser = () => {
@@ -165,7 +165,7 @@ export function socialService(store) {
       return true;
     }
     if (op === 'profile' && req.method === 'GET') {
-      const owner = q.get('user'),
+      const owner = q.get('slug') ? list('users').find(u => u.slug === q.get('slug'))?.id : q.get('user'),
         set = q.get('set') || '';
       const u = target(owner, set, actor?.id);
       const checklists = list('checklists')

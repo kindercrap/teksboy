@@ -1,4 +1,5 @@
 'use client';
+import { collectorUrl } from '@/lib/collector-url';
 import { ContentSkeleton } from './content-skeleton';
 import { appFetch } from '@/lib/app-fetch';
 import { useEffect, useState } from 'react';
@@ -7,6 +8,7 @@ import { Avatar } from './my-profile';
 import UserName from './user-name';
 type Ranking = {
   id: string;
+  slug: string;
   name: string;
   photo: string;
   role: string;
@@ -27,7 +29,7 @@ export default function Leaderboard() {
   useEffect(() => {
     const controller = new AbortController();
     void (async () => {
-      setLoading(true);
+      // Keep rankings visible during filter changes and refreshes.
       setError('');
       try {
         const r = await appFetch(
@@ -153,7 +155,7 @@ export default function Leaderboard() {
                   </td>
                   <td>
                     <a
-                      href={'/collectors?user=' + encodeURIComponent(r.id)}
+                      href={collectorUrl(r.slug)}
                       className="leaderboard-identity"
                     >
                       <Avatar photo={r.photo} />

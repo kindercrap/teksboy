@@ -1,3 +1,4 @@
+import { collectorPath } from '../server/collector-slugs.mjs';
 import { randomUUID, createHash } from 'node:crypto';
 export function verificationService(store, media, notify) {
   const snapshot = (list, set) =>
@@ -118,7 +119,7 @@ export function verificationService(store, media, notify) {
             data.decision === 'approved'
               ? 'Your collection verification was approved.'
               : 'Your collection verification was rejected: ' + reason,
-            '/collectors?user=' + row.user_id + '&set=' + row.set_id,
+            collectorPath(store, row.user_id, row.set_id),
           );
           store.db.exec('COMMIT');
         } catch (e) {

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import catalog from './catalog.json';
 import groups from './categories.json';
+import { createModel } from '@/server/model.mjs';
+import { collectorUrl } from './collector-url';
 import { snapshot } from '@/server/backend.mjs';
 type Params = Record<string, string | string[] | undefined>;
 export async function shareMetadata(
@@ -22,7 +24,9 @@ export async function shareMetadata(
   let set: { name: string; cover?: string; cards?: unknown[] } | undefined =
       catalog.find((s) => s.id === setId),
     owner = '',
-    progress = '';
+    progress = '',
+    publicSlug = typeof params.slug === 'string' ? params.slug : '',
+    profilePhoto = ''; 
   let liveGroup: { name: string } | undefined;
   if (!local) {
     try {
@@ -41,12 +45,11 @@ export async function shareMetadata(
       if (item) set = item.data as typeof set;
       liveGroup = rows.find((r) => r.kind === 'groups' && r.id === groupId)
         ?.data as typeof liveGroup;
-      const u = rows.find(
-        (r) =>
-          r.kind === 'users' && r.id === userId && r.data.status === 'active',
-      )?.data;
+      const model = createModel(snap.records);
+      const u = model.list('users').find((u: {id:string;slug:string;status:string}) => (publicSlug ? u.slug === publicSlug : u.id === userId) && u.status === 'active');
+      if (u) { publicSlug = u.slug; owner = u.display_name || u.name || 'Collector'; if (owner.includes('@')) owner = 'Collector'; profilePhoto = u.photo || ''; }
       const list = rows.find(
-        (r) => r.kind === 'checklists' && r.id === userId + ':' + setId,
+        (r) => r.kind === 'checklists' && r.id === (u?.id || userId) + ':' + setId,
       )?.data;
       if (u && list && checklist) {
         owner =
@@ -94,7 +97,7 @@ export async function shareMetadata(
     : group
       ? `${group.name} Collections | Teksboy`
       : checklist
-        ? 'Collectors | Teksboy'
+        ? (owner ? owner + ' — Collector Profile | Teksboy' : 'Collectors | Teksboy')
         : 'Archives | Teksboy';
   const description = set
     ? `${progress}View ${owner ? owner + '’s ' : ''}${set.name} ${checklist ? 'checklist and missing teks' : 'collection'}. #teksboy`
@@ -104,11 +107,11 @@ export async function shareMetadata(
   if (checklist && userId) query.set('user', userId);
   if (groupId) query.set('group', groupId);
   const url = new URL(
-    (checklist ? '/collectors' : '/') +
+    checklist && publicSlug ? collectorUrl(publicSlug, setId) : (checklist ? '/collectors' : '/') +
       (query.size ? '?' + query.toString() : ''),
     origin,
   ).href;
-  const image = new URL(set?.cover || '/images/general/favicon.png', origin)
+  const image = new URL(set?.cover || profilePhoto || '/images/general/favicon.png', origin)
     .href;
   return {
     title,

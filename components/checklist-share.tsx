@@ -1,4 +1,5 @@
 'use client';
+import { collectorUrl } from '@/lib/collector-url';
 import { useState } from 'react';
 import { Share2, Copy } from 'lucide-react';
 import {
@@ -78,11 +79,11 @@ export function ShareActions({ url, title }: { url: string; title: string }) {
   );
 }
 export default function ChecklistShare({
-  userId,
+  slug,
   setId,
   title,
 }: {
-  userId: string;
+  slug: string;
   setId: string;
   title: string;
 }) {
@@ -101,10 +102,7 @@ export default function ChecklistShare({
             <ShareActions
               url={
                 new URL(
-                  '/collectors?user=' +
-                    encodeURIComponent(userId) +
-                    '&set=' +
-                    encodeURIComponent(setId),
+                  collectorUrl(slug, setId),
                   window.location.origin,
                 ).href
               }

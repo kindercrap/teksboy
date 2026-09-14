@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { randomUUID } from 'node:crypto';
+import { ensureCollectorSlugs } from './collector-slugs.mjs';
 import { createModel } from './model.mjs';
 import { dispatch } from './dispatch.mjs';
 import { socialService } from './social.mjs';
@@ -110,7 +111,8 @@ export function resolveActor(store, authUser, ownerEmail) {
           '/cms?section=users',
         );
   }
-  return actor;
+  ensureCollectorSlugs(store);
+  return store.get('users', actor.id);
 }
 export async function handle(request) {
   const url = new URL(request.url),

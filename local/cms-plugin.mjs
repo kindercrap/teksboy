@@ -1,3 +1,5 @@
+import { collectorPath } from '../server/collector-slugs.mjs';
+import { ensureCollectorSlugs } from '../server/collector-slugs.mjs';
 import { removeAction } from './remove-action.mjs';
 import { verificationService } from './verification.mjs';
 import communitySeed from './community-seed.mjs';
@@ -427,6 +429,7 @@ export function openStore(root) {
         );
     }
     if (kind === 'users') {
+      row.slug = old?.slug;
       row.public_profile = true;
       row.leaderboard_visible = true;
       row.notification_preferences = {};
@@ -624,6 +627,7 @@ export function openStore(root) {
         const candidate = u.display_name || u.name || 'Collector';
         return {
           id: u.id,
+          slug: u.slug,
           name: candidate.includes('@') ? 'Collector' : candidate,
           photo: u.photo || '',
           role: u.role,
@@ -646,6 +650,7 @@ export function openStore(root) {
       return { ...r, rank };
     });
   }
+  ensureCollectorSlugs({list, get, put});
   return {
     db,
     list,
@@ -1092,7 +1097,7 @@ export default function localCms() {
                 result.verified
                   ? 'Your collection was verified'
                   : 'Your collection verification was cleared after review or changes',
-                '/collectors?user=' + result.user_id + '&set=' + result.set_id,
+                collectorPath(store, result.user_id, result.set_id),
               );
             return send(200, result);
           }
@@ -1141,7 +1146,7 @@ export default function localCms() {
                   l.user_id,
                   'account',
                   'New teks added to ' + result.name,
-                  '/collectors?user=' + l.user_id + '&set=' + result.id,
+                  collectorPath(store, l.user_id, result.id),
                 );
             }
             if (data.kind === 'users' && before) {
@@ -1150,7 +1155,7 @@ export default function localCms() {
                   result.id,
                   'account',
                   'Your role is now ' + result.role,
-                  '/collectors?user=' + result.id,
+                  collectorPath(store, result.id),
                 );
               if (!!before.user_verified !== !!result.user_verified)
                 social.notify(
@@ -1159,7 +1164,7 @@ export default function localCms() {
                   result.user_verified
                     ? 'Your user account is verified'
                     : 'Your user verification was removed',
-                  '/collectors?user=' + result.id,
+                  collectorPath(store, result.id),
                 );
             }
             return send(200, result);

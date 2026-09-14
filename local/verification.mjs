@@ -1,3 +1,4 @@
+import { collectorPath } from '../server/collector-slugs.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID, createHash } from 'node:crypto';
@@ -119,7 +120,7 @@ export function verificationService(store, root, notify) {
             data.decision === 'approved'
               ? 'Your collection verification was approved.'
               : 'Your collection verification was rejected: ' + reason,
-            '/collectors?user=' + row.user_id + '&set=' + row.set_id,
+            collectorPath(store, row.user_id, row.set_id),
           );
           store.db.exec('COMMIT');
         } catch (e) {

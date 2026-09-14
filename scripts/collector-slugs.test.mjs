@@ -1,0 +1,30 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createModel } from '../server/model.mjs';
+import { ensureCollectorSlugs, collectorPath } from '../server/collector-slugs.mjs';
+import { dispatch } from '../server/dispatch.mjs';
+const user = (id,name) => ({kind:'users', id, data:{id,name,display_name:name,role:'Normal',status:'active'}});
+test('slugs are unique, URL safe, stable after renaming and reserved after deletion', () => {
+  const store = createModel([user('a','Jay Ibarra'),user('b','Jay Ibarra'),user('c','Éloïse / Test!'),user('d','private@example.com')]);
+  assert.equal(store.get('users','a').slug,'jay-ibarra');
+  assert.equal(store.get('users','b').slug,'jay-ibarra-2');
+  assert.equal(store.get('users','c').slug,'eloise-test');
+  assert.equal(store.get('users','d').slug,'collector');
+  store.put('users',{...store.get('users','a'),name:'New Name',display_name:'New Name',slug:undefined});
+  ensureCollectorSlugs(store);
+  assert.equal(store.get('users','a').slug,'jay-ibarra');
+  store.db.prepare('DELETE FROM records WHERE kind=? AND id=?').run('users','b');
+  store.put('users',user('e','Jay Ibarra').data);
+  ensureCollectorSlugs(store);
+  assert.equal(store.get('users','e').slug,'jay-ibarra-3');
+  assert.equal(collectorPath(store,'a','my-set'),'/collectors/jay-ibarra/my-set');
+});
+test('legacy IDs and pretty slugs resolve the same profile and checklist', async () => {
+  const store = createModel([user('user-uuid','Jay Ibarra'),{kind:'collections',id:'my-set',data:{id:'my-set',name:'My Set',status:'published',cards:[]}}, {kind:'checklists',id:'user-uuid:my-set',data:{id:'user-uuid:my-set',user_id:'user-uuid',set_id:'my-set',owned:[]}}]);
+  const call = async query => (await dispatch(store,new Request('https://teksboy.com/api/app/social/profile?'+query),{},null,{})).json();
+  const old = await call('user=user-uuid&set=my-set');
+  const pretty = await call('slug=jay-ibarra&set=my-set');
+  assert.deepEqual(pretty,old);
+  assert.equal(pretty.user.slug,'jay-ibarra');
+  assert.equal(pretty.checklists[0].set_id,'my-set');
+});

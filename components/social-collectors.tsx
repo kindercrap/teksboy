@@ -1,4 +1,5 @@
 'use client';
+import { collectorUrl } from '@/lib/collector-url';
 import { ContentSkeleton, LoadingImage } from './content-skeleton';
 /* eslint-disable next/no-html-link-for-pages, next/no-img-element -- Local scans and full-page navigation follow the app routing. */
 import ChecklistShare from './checklist-share';
@@ -14,6 +15,7 @@ import { Backprint, Segments, SetCompleted } from './collection-visuals';
 import Leaderboard from './leaderboard';
 type Person = {
   id: string;
+  slug: string;
   name: string;
   bio?: string;
   facebook_url?: string;
@@ -99,7 +101,10 @@ export default function SocialCollectors({
     set = new URLSearchParams(window.location.search).get('set') || '',
   ) {
     const version = ++refreshVersion.current;
-    setLoading(true);
+    const path = window.location.pathname.split('/').filter(Boolean);
+    const slug = path[1] ? decodeURIComponent(path[1]) : '';
+    if (path[2]) set = decodeURIComponent(path[2]);
+    // Refreshes preserve the already rendered view. Initial loading ends once below.
     try {
       const session = await socialApi<{ user: Person | null }>('session');
       if (
@@ -114,10 +119,9 @@ export default function SocialCollectors({
       let result: Profile | null = null;
       let problem = '';
       try {
-        if (owner)
+        if (owner || slug)
           result = await socialApi<Profile>(
-            'profile?user=' +
-              encodeURIComponent(owner) +
+            'profile?' + (slug ? 'slug=' + encodeURIComponent(slug) : 'user=' + encodeURIComponent(owner)) +
               '&set=' +
               encodeURIComponent(set),
           );
@@ -127,10 +131,13 @@ export default function SocialCollectors({
       if (version !== refreshVersion.current) return;
       setMe(session.user);
       setDirectory(directory.users);
-      setProfile(result);
+      if (!problem || !profile) setProfile(result);
       setGroups(directory.groups);
-      setLocation({ owner, set });
+      owner = result?.user.id || owner;
+      if (!problem || !profile) setLocation({ owner, set });
+      if (result?.user.slug) window.history.replaceState(null, '', collectorUrl(result.user.slug, set) + window.location.hash);
       setError(problem);
+      return result;
     } finally {
       if (version === refreshVersion.current) setLoading(false);
     }
@@ -141,10 +148,9 @@ export default function SocialCollectors({
         owner = q.get('user') || '',
         set = q.get('set') || '';
       setTab(q.get('tab') === 'leaderboard' ? 'leaderboard' : 'all');
-      setLocation({ owner, set });
       refresh(owner, set)
-        .then(() => {
-          if (owner) void socialApi('visit', { owner, set }).catch(() => {});
+        .then((result) => {
+          if (result && !result.mine) void socialApi('visit', { owner: result.user.id, set: new URL(window.location.href).pathname.split('/')[3] || set }).catch(() => {});
         })
         .catch((e) => {
           setError(e.message);
@@ -189,10 +195,7 @@ export default function SocialCollectors({
     .forEach((c) => appendThread(c, 0));
   comments.filter((c) => !seen.has(c.id)).forEach((c) => appendThread(c, 0));
   const selected = profile?.checklists.find((l) => l.set_id === location.set);
-  const href = (owner: string, set = '') =>
-    '/collectors?user=' +
-    encodeURIComponent(owner) +
-    (set ? '&set=' + encodeURIComponent(set) : '');
+  const href = (owner: string, set = '') => collectorUrl(profile?.user.id === owner ? profile.user.slug : directory.find(u => u.id === owner)?.slug, set);
   if (loading)
     return (
       <section className="social-page">
@@ -531,7 +534,7 @@ export default function SocialCollectors({
                   )}
                 </div>
                 <ChecklistShare
-                  userId={profile.user.id}
+                  slug={profile.user.slug}
                   setId={selected.set_id}
                   title={selected.name}
                 />
@@ -652,7 +655,7 @@ export default function SocialCollectors({
                       <RemoveAction
                         kind="comment"
                         id={c.id}
-                        onRemoved={refresh}
+                        onRemoved={async () => { await refresh(); }}
                       />
                     )}
                     {c.canEdit && (
