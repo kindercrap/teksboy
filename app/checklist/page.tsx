@@ -1,2 +1,2 @@
-import {redirect} from 'next/navigation';
-export default function Page(){redirect('/collectors?mine=1#checklists');}
+import TeksApp from '@/components/teks-app';
+export default function Page(){return <TeksApp view="checklist"/>;}

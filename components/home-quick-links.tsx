@@ -80,10 +80,12 @@ async function request(body?: unknown, management = false) {
 }
 export default function HomeQuickLinks({
   userId,
+  guest = false,
   ready,
   onLogin,
 }: {
   userId?: string;
+  guest?: boolean;
   ready: boolean;
   onLogin: () => void;
 }) {
@@ -125,9 +127,9 @@ export default function HomeQuickLinks({
             return (
               <article className="home-quick-card" key={r.id}>
                 <Icon className="home-card-icon" size={28} />
-                <h2>{member ? r.memberTitle : r.title}</h2>
-                <p>{member ? r.memberDescription : r.description}</p>
-                {r.dynamic && !userId ? (
+                <h2>{guest && r.dynamic ? 'MY CHECKLIST' : member ? r.memberTitle : r.title}</h2>
+                <p>{guest && r.dynamic ? 'View your guest checklist, saved only in this browser.' : member ? r.memberDescription : r.description}</p>
+                {r.dynamic && guest ? <a className="button outline-primary" href="/checklist">View my checklist</a> : r.dynamic && !userId ? (
                   <button className="button primary" onClick={onLogin}>
                     {r.cta}
                   </button>

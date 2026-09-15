@@ -1,3 +1,4 @@
+import { importGuestChecklist } from '../server/guest-import.mjs';
 import { collectorPath } from '../server/collector-slugs.mjs';
 import { ensureCollectorSlugs } from '../server/collector-slugs.mjs';
 import { removeAction } from './remove-action.mjs';
@@ -952,7 +953,8 @@ export default function localCms() {
                 error: 'The demo collector account is suspended.',
               });
             if (req.method === 'POST') {
-              if (data.pin) {
+              if (data.guestImport) importGuestChecklist(store, user.id, data.guestImport);
+      if (data.pin) {
                 const { setId, text } = data.pin;
                 if (
                   typeof setId !== 'string' ||

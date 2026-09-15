@@ -1,4 +1,5 @@
 'use client';
+import { guestDataKey, guestModeKey, readGuest, startGuest, pauseGuest, guestIsActive, writeGuest, guestChecklist, migrateGuest } from '@/lib/guest-checklist';
 import { collectorUrl } from '@/lib/collector-url';
 import HomeQuickLinks from './home-quick-links';
 import SiteGuide from './site-guide';
@@ -152,6 +153,7 @@ export default function TeksApp({
     [checklistSearch, setChecklistSearch] = useState('');
   const [userRole, setUserRole] = useState('Normal');
   const [userSlug, setUserSlug] = useState('');
+  const [guest, setGuest] = useState(false), [syncError, setSyncError] = useState('');
   const [userVerified, setUserVerified] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileInfo, setProfileInfo] = useState<ProfileInfo>(emptyProfile);
@@ -251,6 +253,39 @@ export default function TeksApp({
   }, [sets, view]);
   const editSet = sets.find((s) => s.id === editing);
   const currentOwned = preview ? demo : owned[editing || ''] || [];
+  const canChecklist = !!user || guest;
+  function restoreGuest() {
+    if (!guestIsActive(localStorage)) return;
+    const state = readGuest(localStorage);
+    const checklist = guestChecklist(state.data);
+    setGuest(true); setLists(checklist.lists); setOwned(checklist.owned); setChecklistMeta({});
+    if (state.issue) setMessage(state.issue);
+  }
+  async function mergeGuest(collector: LocalCollector) {
+    try {
+      const merged = await migrateGuest(localStorage, async (data) => {
+        const r = await appFetch('/__local/collector', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({guestImport:data})});
+        const result = await r.json() as LocalCollector & {error?:string};
+        if (!r.ok) throw Error(result.error || 'Guest sync failed.');
+        return result as LocalCollector;
+      });
+      setGuest(false);
+      setSyncError(merged && Object.keys(readGuest(localStorage).data.sets).length
+        ? 'Newer guest changes are still on this device. Retry sync to add them to your account.'
+        : '');
+      return merged || collector;
+    } catch (e) {
+      setGuest(false); setSyncError('Your guest checklist is still on this device. ' + errorText(e));
+      return collector;
+    }
+  }
+  function continueAsGuest() {
+    try {
+      const state = startGuest(localStorage), checklist = guestChecklist(state.data);
+      setGuest(true); setLists(checklist.lists); setOwned(checklist.owned); setChecklistMeta({}); setLogin(false);
+      if (state.issue) setMessage(state.issue + ' A recovery copy was saved.');
+    } catch(e) { setMessage(errorText(e)); }
+  }
   const playlist = tracks.filter((t) => t.category_id === editSet?.category_id);
   const track = playlist[trackIndex % Math.max(playlist.length, 1)];
   async function refresh(_db: SupabaseClient, u: User | null) {
@@ -266,11 +301,12 @@ export default function TeksApp({
     setTracks(catalog.tracks);
     if (u) {
       const response = await appFetch('/__local/collector');
-      const collector = (await response.json()) as LocalCollector & {
+      let collector = (await response.json()) as LocalCollector & {
         error?: string;
       };
       if (!response.ok)
         throw Error(collector.error || 'Could not load your profile.');
+      collector = await mergeGuest(collector);
       setUserSlug(collector.profile.slug || '');
       setUserRole(collector.profile.role || 'Normal');
       setUserVerified(!!collector.profile.user_verified);
@@ -295,6 +331,7 @@ export default function TeksApp({
       setProfileInfo(emptyProfile);
       setUserRole('Normal');
       setUserVerified(false);
+      restoreGuest();
     }
     setSocialRevision((v) => v + 1);
   }
@@ -327,14 +364,16 @@ export default function TeksApp({
           )) as { user: { id: string } | null };
           if (!session.user) {
             setUser(null);
+            restoreGuest();
             return;
           }
           const collectorResponse = await appFetch('/__local/collector');
           if (!collectorResponse.ok) {
             setUser(null);
+            restoreGuest();
             return;
           }
-          const collector = (await collectorResponse.json()) as LocalCollector;
+          const collector = await mergeGuest((await collectorResponse.json()) as LocalCollector);
           setUser({
             ...demoUser,
             id: collector.profile.id,
@@ -361,6 +400,7 @@ export default function TeksApp({
         if (stopped) return;
         setClient(db);
         setProviderReady(googleEnabled);
+        if (!db) restoreGuest();
         if (db) {
           const { data, error } = await db.auth.getSession();
           if (error) throw error;
@@ -370,14 +410,24 @@ export default function TeksApp({
           const result = db.auth.onAuthStateChange((event, session) => {
             const nextIdentity = session?.user.id || '';
             if (nextIdentity === currentIdentity && event !== 'USER_UPDATED') return;
+            const identityChanged = nextIdentity !== currentIdentity;
             currentIdentity = nextIdentity;
             if (stopped) return;
+            setBusy(true);
+            // Never leave a previous identity's checklist writable if refresh fails.
+            if (identityChanged) {
+              setLists({});
+              setOwned({});
+              setChecklistMeta({});
+              setUserSlug('');
+              setGuest(false);
+            }
             setUser(session?.user || null);
             setTimeout(
               () =>
                 void refresh(db, session?.user || null).catch((e) =>
                   setMessage(errorText(e)),
-                ),
+                ).finally(() => setBusy(false)),
               0,
             );
           });
@@ -421,6 +471,21 @@ export default function TeksApp({
     }
   }, [localMode, ready, lists, owned, user?.id]);
   useEffect(() => {
+    if (ready && user && userSlug && view === 'checklist') window.location.replace(collectorUrl(userSlug) + '#checklists');
+  }, [ready, user?.id, userSlug, view]);
+  useEffect(() => {
+    if (!guest || user) return;
+    const changed = (event: StorageEvent) => {
+      if (event.key !== guestDataKey && event.key !== guestModeKey) return;
+      if (!guestIsActive(localStorage)) {setGuest(false);setLists({});setOwned({});setEditing(null);return;}
+      const state = readGuest(localStorage);
+      if (state.issue) {setMessage(state.issue);return;}
+      const c=guestChecklist(state.data);setLists(c.lists);setOwned(c.owned);
+    };
+    window.addEventListener('storage', changed);
+    return () => window.removeEventListener('storage', changed);
+  }, [guest, user?.id]);
+  useEffect(() => {
     if (!message) return;
     const t = setTimeout(() => setMessage(''), 7000);
     return () => clearTimeout(t);
@@ -430,8 +495,7 @@ export default function TeksApp({
       audio.current.volume = volume;
       audio.current.muted = muted;
     }
-    if (ready)
-      localStorage.setItem('teksboy-audio', JSON.stringify({ volume, muted }));
+    if (ready) { try { localStorage.setItem('teksboy-audio', JSON.stringify({ volume, muted })); } catch {} }
   }, [volume, muted, ready]);
   const applyAudioPreference = useEffectEvent((player: HTMLAudioElement) => {
     player.volume = volume;
@@ -534,6 +598,7 @@ export default function TeksApp({
     l: Record<string, string>,
     o: Record<string, string[]>,
   ) {
+    if (guest && !user) { writeGuest(localStorage, Object.fromEntries(Object.keys(l).map(id => [id, o[id] || []]))); return; }
     const response = await appFetch('/__local/collector', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -548,39 +613,40 @@ export default function TeksApp({
     setSocialRevision((v) => v + 1);
   }
   async function addSet(s: TeksSet) {
-    if (user) {
+    if (canChecklist) {
       try {
         await saveLocal(
-          { [s.id]: user.id + ':' + s.id },
+          { [s.id]: (user ? user.id + ':' : '') + s.id },
           { [s.id]: owned[s.id] || [] },
         );
       } catch (e) {
         setMessage(errorText(e));
         return;
       }
-      setLists((p) => ({ ...p, [s.id]: user.id + ':' + s.id }));
+      setLists((p) => ({ ...p, [s.id]: (user ? user.id + ':' : '') + s.id }));
       setOwned((p) => ({ ...p, [s.id]: p[s.id] || [] }));
       openChecklist(s.id, false);
       return;
     }
-    sessionStorage.setItem('teksboy-pending-set', s.id);
+    try { sessionStorage.setItem('teksboy-pending-set', s.id); } catch {}
     setLogin(true);
   }
   const resumePending = useEffectEvent(() => {
-    if (!ready || !user || (!client && !localMode)) return;
-    const id = sessionStorage.getItem('teksboy-pending-set');
+    if (!ready || !canChecklist) return;
+    let id = '';
+    try { id = sessionStorage.getItem('teksboy-pending-set') || ''; } catch { return; }
     if (!id) return;
     const s = sets.find((set) => set.id === id);
     if (!s) return;
-    sessionStorage.removeItem('teksboy-pending-set');
+    try { sessionStorage.removeItem('teksboy-pending-set'); } catch {}
     void addSet(s);
   });
   useEffect(() => {
     const timer = window.setTimeout(resumePending, 0);
     return () => window.clearTimeout(timer);
-  }, [ready, user?.id]);
+  }, [ready, user?.id, guest]);
   async function checkAll() {
-    if (!editSet || pendingRef.current.size) return;
+    if (!editSet || busy || pendingRef.current.size) return;
     const sid = editSet.id;
     const missing = editSet.cards.filter(
       (card) => !currentOwned.includes(card.id),
@@ -593,7 +659,7 @@ export default function TeksApp({
       setCelebrate(true);
       return;
     }
-    if (!user || (!localMode && (!client || !lists[sid]))) return;
+    if (!canChecklist || !lists[sid]) return;
     pendingRef.current.add('check-all');
     setPending([...pendingRef.current]);
     try {
@@ -610,7 +676,7 @@ export default function TeksApp({
   }
   async function toggle(card: Card, value?: boolean) {
     if (
-      !editSet ||
+      !editSet || busy ||
       pendingRef.current.has('check-all') ||
       pendingRef.current.has(card.id) ||
       pendingRef.current.size
@@ -630,7 +696,7 @@ export default function TeksApp({
       if (next) setFlash(card.id);
       return;
     }
-    if (user) {
+    if (canChecklist) {
       pendingRef.current.add(card.id);
       setPending([...pendingRef.current]);
       try {
@@ -809,6 +875,7 @@ export default function TeksApp({
                   className="account-block"
                   onClick={async () => {
                     setMenuOpen(false);
+                    pauseGuest(localStorage); setGuest(false); setLists({}); setOwned({}); setSyncError('');
                     await appFetch('/__local/social/logout', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
@@ -832,6 +899,8 @@ export default function TeksApp({
               </div>
             </details>
           </div>
+        ) : guest ? (
+          <div className="guest-account"><span><strong>Guest Mode</strong><small>Checklist saved on this device</small></span><a className="button" href="/checklist">My checklist</a><button className="button" onClick={() => {setMenuOpen(false);setLogin(true);}}>Sign in to sync</button></div>
         ) : (
           <button
             className="account-block"
@@ -987,7 +1056,7 @@ export default function TeksApp({
   }
   return (
     <>
-      <SiteGuide ready={ready} userId={user?.id} view={view} archivesOpen={archivesOpen} checklistOpen={!!editing}/>
+      <SiteGuide guest={guest} ready={ready} userId={user?.id} view={view} archivesOpen={archivesOpen} checklistOpen={!!editing}/>
       <header className="topbar">
         <a
           className="brand"
@@ -1046,9 +1115,12 @@ export default function TeksApp({
         </>
       )}
       <main className={'workspace ' + (view !== 'database' ? 'wide' : '')}>
+        {syncError && <div className="notice" role="alert">{syncError}<button className="button" disabled={busy} onClick={async()=>{if (!user) return;setBusy(true);try {if(client) await refresh(client,user);else window.location.reload();}finally{setBusy(false);}}}>Retry guest sync</button></div>}
+        {guest && view === 'checklist' && <p className="guest-checklist-note">Guest Mode · Saved only in this browser. <button className="button" onClick={()=>setLogin(true)}>Sign in to sync</button></p>}
+
         {view === 'community' && <Community />}
         {view === 'database' && !ready && (!!selectedId || !!overviewGroup) && <ContentSkeleton kind={selectedId ? 'teks' : 'cards'} count={selectedId ? 12 : 3}/>}
-        {view === 'database' && !selectedId && !overviewGroup && <HomeQuickLinks userId={user?.id} ready={ready} onLogin={() => localMode || !client || !providerReady ? setLogin(true) : void signIn()}/>}
+        {view === 'database' && !selectedId && !overviewGroup && <HomeQuickLinks userId={user?.id} ready={ready} guest={guest} onLogin={() => setLogin(true)}/>}
         {view === 'database' && ready && overviewGroup && (
           <GroupOverview
             group={categories.find(
@@ -1192,11 +1264,11 @@ export default function TeksApp({
             <div className="stats">
               <div>
                 <span>Completed sets</span>
-                <b>{user ? completed.length : 0}</b>
+                <b>{canChecklist ? completed.length : 0}</b>
               </div>
               <div>
                 <span>Sets in progress</span>
-                <b>{user ? inProgress.length : 0}</b>
+                <b>{canChecklist ? inProgress.length : 0}</b>
               </div>
             </div>
             <div className="checklist-filters">
@@ -1209,13 +1281,13 @@ export default function TeksApp({
                   <TabsTrigger value="progress">
                     In progress{' '}
                     <span className="filter-count">
-                      {user ? inProgress.length : 0}
+                      {canChecklist ? inProgress.length : 0}
                     </span>
                   </TabsTrigger>
                   <TabsTrigger value="complete">
                     Completed{' '}
                     <span className="filter-count">
-                      {user ? completed.length : 0}
+                      {canChecklist ? completed.length : 0}
                     </span>
                   </TabsTrigger>
                 </TabsList>
@@ -1298,20 +1370,20 @@ export default function TeksApp({
             </div>
             {!ready ? (
               <ContentSkeleton kind="cards" count={4}/>
-            ) : !user ? (
+            ) : !canChecklist ? (
               <div className="empty">
                 <Layers />
                 <h2>Your collection starts here.</h2>
                 <p>
                   {localMode
                     ? 'Try local collections. Progress is saved in the local database.'
-                    : 'Sign in with Google to save your checklist across devices.'}
+                    : 'Sign in to sync across devices, or continue as a guest on this browser.'}
                 </p>
                 <button
                   className="button primary"
                   onClick={() => setLogin(true)}
                 >
-                  {localMode ? 'Enter local demo' : 'Sign in with Google'}
+                  Start collecting
                 </button>
               </div>
             ) : (
@@ -1418,7 +1490,7 @@ export default function TeksApp({
       <Dialog open={login} onOpenChange={setLogin}>
         <DialogContent className="modal login-modal">
           <Layers className="login-icon" />
-          <DialogTitle>Keep your collection close.</DialogTitle>
+          <DialogTitle>Start collecting your Teks</DialogTitle>
           <DialogDescription>
             {localMode
               ? 'Explore local checklists and save progress on this computer.'
@@ -1453,6 +1525,9 @@ export default function TeksApp({
                 ? 'Connecting…'
                 : 'Continue with Google'}
           </button>
+          <p className="login-option-note">Save and sync your checklist across devices.</p>
+          {!user && <><button className="button guest-login-button" disabled={busy || !ready} onClick={continueAsGuest}>Continue as Guest</button><p className="login-option-note">No account needed. Your checklist will only be saved on this device.</p><small className="guest-storage-note">Guest checklists stay in this browser. Clearing site data or ending a private/incognito session may erase them. They won’t follow you to another browser or device.</small></>}
+          {guest && <p className="notice">Sign in to use public profiles, comments, sharing and collection verification.</p>}
           {localMode && (
             <p className="notice">
               Local development. Profiles and checklist changes are saved to
@@ -1606,7 +1681,7 @@ export default function TeksApp({
                           aria-label={`${currentOwned.includes(c.id) ? 'Mark missing' : 'Mark collected'}: card ${c.number}`}
                           aria-pressed={currentOwned.includes(c.id)}
                           disabled={
-                            pending.includes(c.id) || pending.length > 0
+                            busy || pending.includes(c.id) || pending.length > 0
                           }
                           onClick={() => toggle(c)}
                         >
@@ -1650,11 +1725,13 @@ export default function TeksApp({
                   )}
                 <div className="checklist-bottom-actions">
                   {' '}
-                  {!preview && user && (
+                  {!preview && canChecklist && (
                     <RemoveAction
                       kind="checklist"
                       id={editSet.id}
-                      disabled={pending.length > 0}
+                      removeOverride={guest ? async () => {const data = writeGuest(localStorage, {}, editSet.id);const c = guestChecklist(data);setLists(c.lists);setOwned(c.owned);setEditing(null);} : undefined}
+                      descriptionOverride={guest ? 'Remove this checklist and all its progress from this browser? This cannot be undone.' : undefined}
+                      disabled={busy || pending.length > 0}
                     />
                   )}
                 </div>
@@ -1734,13 +1811,13 @@ export default function TeksApp({
                       ? 'Preview only'
                       : pending.length
                         ? 'Saving…'
-                        : 'All changes saved'}
+                        : guest ? 'Saved on this device' : 'All changes saved'}
                   </span>
                   {undo && (
                     <button
                       className="icon-button"
                       aria-label="Undo last change"
-                      disabled={pending.length > 0}
+                      disabled={busy || pending.length > 0}
                       onClick={() => {
                         void toggle(undo.card, undo.value).then(() =>
                           setUndo(null),
@@ -1752,7 +1829,7 @@ export default function TeksApp({
                   )}
                   <button
                     className="button primary"
-                    disabled={pending.length > 0}
+                    disabled={busy || pending.length > 0}
                     onClick={closeEditor}
                   >
                     Done
@@ -1795,7 +1872,7 @@ export default function TeksApp({
             </button>
             <button
               className="button primary"
-              disabled={pending.length > 0}
+              disabled={busy || pending.length > 0}
               onClick={() => {
                 setCheckAllConfirm(false);
                 void checkAll();

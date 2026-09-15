@@ -1,3 +1,4 @@
+import { importGuestChecklist } from '../server/guest-import.mjs';
 import { collectorPath } from '../server/collector-slugs.mjs';
 import { randomUUID } from 'node:crypto';
 import { siteContent } from './site-content.mjs';
@@ -154,6 +155,7 @@ export async function dispatch(store, req, data, actor, media) {
         error: 'Your account is suspended.',
       });
     if (req.method === 'POST') {
+      if (data.guestImport) importGuestChecklist(store, user.id, data.guestImport);
       if (data.pin) {
         const { setId, text } = data.pin;
         if (

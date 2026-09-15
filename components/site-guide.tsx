@@ -90,12 +90,14 @@ function visible(selector: string) {
 const storageKey = 'teksboy-guide-v1';
 export default function SiteGuide({
   ready,
+  guest = false,
   userId,
   view,
   archivesOpen,
   checklistOpen,
 }: {
   ready: boolean;
+  guest?: boolean;
   userId?: string;
   view: string;
   archivesOpen: boolean;
@@ -185,7 +187,7 @@ export default function SiteGuide({
     return () => window.removeEventListener('online', retry);
   }, [persist]);
   const start = useCallback((feature: Feature) => {
-    const found = guides[feature].steps.filter((s) => visible(s.selector));
+    const found = guides[feature].steps.filter((s) => visible(s.selector)).map(s => guest && s.selector.includes('data-guide-save') ? {...s, text:'Changes save automatically in this browser. Sign in to sync your guest checklist across devices.'} : s);
     if (!found.length) return false;
     previousFocus.current = document.activeElement as HTMLElement;
     setSteps(found);
@@ -193,7 +195,7 @@ export default function SiteGuide({
     setActive(feature);
     setPicker(false);
     return true;
-  }, []);
+  }, [guest]);
   useEffect(() => {
     if (!loaded || welcome || active || picker) return;
     const feature: Feature | null = checklistOpen

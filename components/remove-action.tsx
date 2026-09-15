@@ -15,8 +15,12 @@ export default function RemoveAction({
   id,
   onRemoved,
   disabled = false,
+  removeOverride,
+  descriptionOverride,
 }: {
   kind: 'account' | 'checklist' | 'comment';
+  removeOverride?: () => Promise<void>;
+  descriptionOverride?: string;
   id?: string;
   disabled?: boolean;
   onRemoved?: () => void | Promise<void>;
@@ -40,6 +44,12 @@ export default function RemoveAction({
     setBusy(true);
     setError('');
     try {
+      if (removeOverride) {
+        await removeOverride();
+        setOpen(false);
+        await onRemoved?.();
+        return;
+      }
       const r = await appFetch('/__local/remove-' + kind, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,7 +87,7 @@ export default function RemoveAction({
       >
         <DialogContent className="modal remove-confirm">
           <DialogTitle>{label} permanently?</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogDescription>{descriptionOverride || description}</DialogDescription>
           {error && (
             <p role="alert" className="profile-error">
               {error}
