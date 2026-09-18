@@ -28,9 +28,9 @@ export default function GroupOverview({
   if (!group)
     return (
       <div className="empty">
-        <h2>Collection group unavailable</h2>
+        <h2>Series unavailable</h2>
         <a className="button" href="/">
-          Back to Archives
+          Back to Teks Sets
         </a>
       </div>
     );

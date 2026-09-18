@@ -260,7 +260,7 @@ export default function SocialCollectors({
                 value={group}
                 onChange={(e) => setGroup(e.target.value)}
               >
-                <option value="all">All groups</option>
+                <option value="all">All series</option>
                 {groups.map((g) => (
                   <option key={g.id} value={g.id}>
                     {g.name}
@@ -406,7 +406,7 @@ export default function SocialCollectors({
                   value={listGroup}
                   onChange={(e) => setListGroup(e.target.value)}
                 >
-                  <option value="all">All groups</option>
+                  <option value="all">All series</option>
                   {[
                     ...new Set(
                       profile.checklists.map((l) => l.group).filter(Boolean),

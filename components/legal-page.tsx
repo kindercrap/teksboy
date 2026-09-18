@@ -46,7 +46,7 @@ export default function LegalPage({
             window.location.assign('/');
           }}
         >
-          Back to archives
+          Back to Teks Sets
         </a>
       </header>
       <article className="legal-card">

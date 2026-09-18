@@ -14,11 +14,11 @@ type Feature = 'archives' | 'checklist' | 'collectors' | 'community';
 type Step = { selector: string; text: string };
 const guides: Record<Feature, { title: string; steps: Step[] }> = {
   archives: {
-    title: 'Explore the Archives',
+    title: 'Explore Teks Sets',
     steps: [
       {
         selector: '.navigation-drawer .archive-tools, .sidebar .archive-tools',
-        text: 'Search by collection name, or filter and sort the collection groups.',
+        text: 'Search by collection name, or filter and sort the series.',
       },
       {
         selector:

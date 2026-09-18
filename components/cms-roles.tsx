@@ -5,7 +5,7 @@ import { useRoles, type RoleDefinition } from './role-provider';
 const choices = [
   ['homepage', 'Homepage Quick Links'],
   ['dashboard', 'Dashboard & analytics'],
-  ['groups', 'Collection groups'],
+  ['groups', 'Series'],
   ['collections', 'Collections & teks images'],
   ['tracks', 'BGM playlists'],
   ['users', 'Users'],

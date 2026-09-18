@@ -98,7 +98,7 @@ export async function shareMetadata(
       ? `${group.name} Collections | Teksboy`
       : checklist
         ? (owner ? owner + ' — Collector Profile | Teksboy' : 'Collectors | Teksboy')
-        : 'Archives | Teksboy';
+        : 'Teks Sets | Teksboy';
   const description = set
     ? `${progress}View ${owner ? owner + '’s ' : ''}${set.name} ${checklist ? 'checklist and missing teks' : 'collection'}. #teksboy`
     : 'Explore the Teksboy collecting community. #teksboy';

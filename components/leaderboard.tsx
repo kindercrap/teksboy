@@ -71,13 +71,13 @@ export default function Leaderboard() {
       </div>
       <div className="leaderboard-toolbar">
         <label>
-          Collection group
+          Series
           <select
             value={group}
             onChange={(e) => setGroup(e.target.value)}
             className="field"
           >
-            <option value="all">All groups</option>
+            <option value="all">All series</option>
             {groups.map((g) => (
               <option key={g.id} value={g.id}>
                 {g.name}

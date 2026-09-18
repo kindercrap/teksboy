@@ -2,6 +2,7 @@
 import { guestDataKey, guestModeKey, readGuest, startGuest, pauseGuest, guestIsActive, writeGuest, guestChecklist, migrateGuest } from '@/lib/guest-checklist';
 import { collectorUrl } from '@/lib/collector-url';
 import HomeQuickLinks from './home-quick-links';
+import GlobalSetSearch from './global-set-search';
 import SiteGuide from './site-guide';
 import { ContentSkeleton, LoadingImage } from './content-skeleton';
 import { appFetch } from '@/lib/app-fetch';
@@ -809,7 +810,7 @@ export default function TeksApp({
               window.location.assign('/');
             }}
           >
-            Archives
+            Explore Teks Sets
           </a>
           <a
             href="/collectors"
@@ -950,14 +951,14 @@ export default function TeksApp({
           <div>
             <select
               className="field"
-              aria-label="Filter collection group"
+              aria-label="Filter series"
               value={archiveGroup}
               onChange={(e) => {
                 setArchiveGroup(e.target.value);
 
               }}
             >
-              <option value="all">All groups</option>
+              <option value="all">All series</option>
               {categories
                 .filter((c) => !c.status || c.status === 'published')
                 .map((c) => (
@@ -968,13 +969,13 @@ export default function TeksApp({
             </select>
             <select
               className="field"
-              aria-label="Sort collection groups"
+              aria-label="Sort series"
               value={archiveSort}
               onChange={(e) => setArchiveSort(e.target.value)}
             >
-              <option value="default">Group order</option>
-              <option value="az">Groups A–Z</option>
-              <option value="za">Groups Z–A</option>
+              <option value="default">Series order</option>
+              <option value="az">Series A–Z</option>
+              <option value="za">Series Z–A</option>
             </select>
           </div>
         </div>
@@ -1069,6 +1070,7 @@ export default function TeksApp({
         >
           <img src="/images/general/logo.svg" alt="Teksboy" />
         </a>
+        <GlobalSetSearch sets={sets} categories={categories} ready={ready} />
         <div className="desktop-navigation">{mainNavigation()}</div>
         <button
           className="icon-button menu-toggle"
@@ -1092,22 +1094,22 @@ export default function TeksApp({
         <>
           <button
             className="icon-button archives-toggle"
-            aria-label="Open archives menu"
+            aria-label="Open Teks Sets menu"
             aria-expanded={archivesOpen}
             onClick={() => { setExpandedCategory(null); setArchivesOpen(true); }}
           >
             <Menu size={18} />
-            <span>Archives</span>
+            <span>Teks Sets</span>
           </button>
           <aside className="sidebar">
-            <div className="sidebar-title">Archives</div>
+            <div className="sidebar-title">Teks Sets</div>
             {archiveNavigation()}
           </aside>
           <Dialog open={archivesOpen} onOpenChange={setArchivesOpen}>
             <DialogContent placement="side" initialFocus={false} className="navigation-drawer left-drawer">
-              <DialogTitle>Archives</DialogTitle>
+              <DialogTitle>Teks Sets</DialogTitle>
               <DialogDescription className="sr-only">
-                Choose a collection group and set
+                Choose a series and set
               </DialogDescription>
               {archiveNavigation()}
             </DialogContent>
@@ -1299,13 +1301,13 @@ export default function TeksApp({
                     (checklistGroup !== 'all' ? 'is-filtered' : '')
                   }
                   aria-label={
-                    'Filter collection group: ' +
+                    'Filter series: ' +
                     (checklistGroups.find((g) => g.id === checklistGroup)
                       ?.name || 'All')
                   }
                   title={
                     checklistGroups.find((g) => g.id === checklistGroup)
-                      ?.name || 'Filter collection group'
+                      ?.name || 'Filter series'
                   }
                 >
                   <SlidersHorizontal size={17} />
@@ -1320,9 +1322,9 @@ export default function TeksApp({
                   sideOffset={8}
                   className="group-filter-dropdown"
                 >
-                  <PopoverTitle>Collection group</PopoverTitle>
+                  <PopoverTitle>Series</PopoverTitle>
                   <fieldset>
-                    <legend className="sr-only">Collection group</legend>
+                    <legend className="sr-only">Series</legend>
                     {[
                       { id: 'all', name: 'All collections' },
                       ...checklistGroups,
@@ -1427,7 +1429,7 @@ export default function TeksApp({
                           ? 'Your first complete set is ahead.'
                           : 'A new collection is calling.'}
                     </h2>
-                    <p>Explore the archives to find your next set.</p>
+                    <p>Explore Teks Sets to find your next set.</p>
                     <a
                       className="button primary"
                       href="/"
@@ -1436,7 +1438,7 @@ export default function TeksApp({
                         window.location.assign('/');
                       }}
                     >
-                      Explore archives
+                      Explore Teks Sets
                     </a>
                   </div>
                 )}

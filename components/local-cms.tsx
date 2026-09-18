@@ -83,7 +83,7 @@ const sections = [
   { id: 'homepage', name: 'Homepage Quick Links', icon: LayoutDashboard },
   { id: 'activity', name: 'Activity Timeline', icon: Users },
   { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard },
-  { id: 'groups', name: 'Collection Groups', icon: Layers },
+  { id: 'groups', name: 'Series', icon: Layers },
   { id: 'collections', name: 'Collection Sets', icon: Library },
   { id: 'tracks', name: 'BGM Playlists', icon: Music },
   { id: 'users', name: 'Users', icon: Users },
@@ -365,7 +365,7 @@ export default function LocalCms() {
             {local ? 'Enter local CMS' : 'Go to sign in'}
           </button>
           {message && <p role="alert">{message}</p>}
-          <a href="/">Back to Archives</a>
+          <a href="/">Back to Teks Sets</a>
         </div>
       </main>
     );
@@ -483,7 +483,7 @@ export default function LocalCms() {
               >
                 <Plus size={15} /> Add{' '}
                 {section === 'groups'
-                  ? 'group'
+                  ? 'series'
                   : section === 'collections'
                     ? 'collection'
                     : section === 'users'
@@ -750,11 +750,11 @@ export default function LocalCms() {
               {['collections', 'tracks'].includes(section) && (
                 <select
                   className="field"
-                  aria-label="Filter by group"
+                  aria-label="Filter by series"
                   value={group}
                   onChange={(e) => setGroup(e.target.value)}
                 >
-                  <option value="all">All groups</option>
+                  <option value="all">All series</option>
                   {data.groups.map((g) => (
                     <option key={g.id} value={g.id}>
                       {g.name}
@@ -860,7 +860,7 @@ export default function LocalCms() {
                 <thead>
                   <tr>
                     <th>{kind === 'tracks' ? 'Track' : 'Name'}</th>
-                    {['collections', 'tracks'].includes(kind) && <th>Group</th>}
+                    {['collections', 'tracks'].includes(kind) && <th>Series</th>}
                     <th>
                       {kind === 'users'
                         ? 'Role'
@@ -995,7 +995,7 @@ export default function LocalCms() {
             {editing?.kind === 'collections'
               ? 'collection'
               : editing?.kind === 'groups'
-                ? 'group'
+                ? 'series'
                 : editing?.kind === 'users'
                   ? 'test user'
                   : 'track'}
@@ -1012,7 +1012,7 @@ export default function LocalCms() {
                   await refresh();
                   setEditing(null);
                   setMessage(
-                    'Saved. Refresh the Archives page to see catalog changes.',
+                    'Saved. Refresh the Teks Sets page to see catalog changes.',
                   );
                 });
               }}
@@ -1066,7 +1066,7 @@ export default function LocalCms() {
                     <img
                       className="cms-group-logo"
                       src={editing.row.logo}
-                      alt="Group logo preview"
+                      alt="Series logo preview"
                     />
                   )}
                 </>
@@ -1106,14 +1106,14 @@ export default function LocalCms() {
               )}
               {['collections', 'tracks'].includes(editing.kind) && (
                 <label className="form-label">
-                  Collection group
+                  Series
                   <select
                     className="field"
                     required
                     value={editing.row.category_id || ''}
                     onChange={(e) => update('category_id', e.target.value)}
                   >
-                    <option value="">Choose group</option>
+                    <option value="">Choose series</option>
                     {data.groups.map((g) => (
                       <option key={g.id} value={g.id}>
                         {g.name}
@@ -1407,7 +1407,7 @@ export default function LocalCms() {
           </DialogTitle>
           <DialogDescription>
             This permanently removes this record. Collections with checklists
-            and groups with collections cannot be deleted; archive them instead.
+            and series with collections cannot be deleted; archive them instead.
           </DialogDescription>
           {message && <p role="alert">{message}</p>}
           <div className="profile-actions">
