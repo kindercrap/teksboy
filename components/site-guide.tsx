@@ -10,9 +10,34 @@ import {
   DialogDescription,
 } from './ui/dialog';
 
-type Feature = 'archives' | 'checklist' | 'collectors' | 'community';
-type Step = { selector: string; text: string };
+type Feature =
+  | 'archives'
+  | 'checklist'
+  | 'collectors'
+  | 'community'
+  | 'scanner';
+type Step = { selector: string; text: string; title?: string };
 const guides: Record<Feature, { title: string; steps: Step[] }> = {
+  scanner: {
+    title: 'How to Scan a Backprint',
+    steps: [
+      {
+        selector: '.live-scanner-frame',
+        title: 'Scan',
+        text: 'Point your camera at the back of your Teks.',
+      },
+      {
+        selector: '.live-scanner-frame',
+        title: 'Align',
+        text: 'Keep the entire backprint inside the frame and hold steady.',
+      },
+      {
+        selector: '.live-scanner-frame',
+        title: 'That’s it!',
+        text: 'Teksboy scans automatically. No button needed!',
+      },
+    ],
+  },
   archives: {
     title: 'Explore Teks Sets',
     steps: [
@@ -107,6 +132,9 @@ export default function SiteGuide({
     [completed, setCompleted] = useState<string[]>([]),
     [welcome, setWelcome] = useState(false),
     [picker, setPicker] = useState(false),
+    [scannerRequest, setScannerRequest] = useState<{ replay: boolean } | null>(
+      null,
+    ),
     [active, setActive] = useState<Feature | null>(null),
     [index, setIndex] = useState(0),
     [steps, setSteps] = useState<Step[]>([]),
@@ -186,16 +214,55 @@ export default function SiteGuide({
     window.addEventListener('online', retry);
     return () => window.removeEventListener('online', retry);
   }, [persist]);
-  const start = useCallback((feature: Feature) => {
-    const found = guides[feature].steps.filter((s) => visible(s.selector)).map(s => guest && s.selector.includes('data-guide-save') ? {...s, text:'Changes save automatically in this browser. Sign in to sync your guest checklist across devices.'} : s);
-    if (!found.length) return false;
-    previousFocus.current = document.activeElement as HTMLElement;
-    setSteps(found);
-    setIndex(0);
-    setActive(feature);
-    setPicker(false);
-    return true;
-  }, [guest]);
+  const start = useCallback(
+    (feature: Feature) => {
+      const found = guides[feature].steps
+        .filter((s) => visible(s.selector))
+        .map((s) =>
+          guest && s.selector.includes('data-guide-save')
+            ? {
+                ...s,
+                text: 'Changes save automatically in this browser. Sign in to sync your guest checklist across devices.',
+              }
+            : s,
+        );
+      if (!found.length) return false;
+      previousFocus.current = document.activeElement as HTMLElement;
+      setSteps(found);
+      setIndex(0);
+      setActive(feature);
+      setPicker(false);
+      return true;
+    },
+    [guest],
+  );
+  useEffect(() => {
+    const request = (event: Event) =>
+      setScannerRequest({ replay: !!(event as CustomEvent).detail });
+    const close = () => {
+      setScannerRequest(null);
+      setActive((feature) => (feature === 'scanner' ? null : feature));
+      setRect(null);
+    };
+    window.addEventListener('teksboy-scanner-guide', request);
+    window.addEventListener('teksboy-scanner-closed', close);
+    return () => {
+      window.removeEventListener('teksboy-scanner-guide', request);
+      window.removeEventListener('teksboy-scanner-closed', close);
+    };
+  }, []);
+  useEffect(() => {
+    if (!loaded || !scannerRequest) return;
+    let replay = scannerRequest.replay;
+    try {
+      replay ||= sessionStorage.getItem('teksboy-guide-replay') === 'scanner';
+      if (replay) sessionStorage.removeItem('teksboy-guide-replay');
+    } catch {}
+    if (replay || !completion.current.includes('scanner')) {
+      if (!start('scanner')) return;
+    } else window.dispatchEvent(new Event('teksboy-scanner-guide-done'));
+    setScannerRequest(null);
+  }, [loaded, scannerRequest, start]);
   useEffect(() => {
     if (!loaded || welcome || active || picker) return;
     const feature: Feature | null = checklistOpen
@@ -285,6 +352,8 @@ export default function SiteGuide({
   }, [active, index, tooltipVisible]);
   function finish() {
     if (active) void persist([active]);
+    if (active === 'scanner')
+      window.dispatchEvent(new Event('teksboy-scanner-guide-done'));
     setActive(null);
     setRect(null);
     previousFocus.current?.focus();
@@ -297,7 +366,7 @@ export default function SiteGuide({
     typeof document === 'undefined'
       ? null
       : document.querySelector(
-          '.navigation-drawer[data-open], .checklist-modal[data-open]',
+          '.backprint-modal[data-open], .navigation-drawer[data-open], .checklist-modal[data-open]',
         ) || document.body;
   const hostRect =
     targetPortal && targetPortal !== document.body
@@ -368,6 +437,24 @@ export default function SiteGuide({
             ))}
           </div>
           <small>Checklist help is available after opening a checklist.</small>
+          <section>
+            <h3>How to Scan a Backprint</h3>
+            <ol>
+              <li>Point your phone at the back of the Teks.</li>
+              <li>Fit the entire backprint inside the scanner frame.</li>
+              <li>
+                Hold still for a moment — Teksboy will scan automatically.
+              </li>
+            </ol>
+            <p>
+              Use good lighting, avoid glare, and keep the camera straight above
+              the full backprint.
+            </p>
+            <p>
+              Once recognized, tap “View Teks Set” to open the matching
+              collection.
+            </p>
+          </section>
         </DialogContent>
       </Dialog>
       {active &&
@@ -428,6 +515,7 @@ export default function SiteGuide({
               <small>
                 {guides[active].title} · {index + 1} of {steps.length}
               </small>
+              {steps[index].title && <h3>{steps[index].title}</h3>}
               <p>{steps[index].text}</p>
               <div className="guide-actions">
                 <button onClick={finish}>Skip</button>
@@ -440,7 +528,11 @@ export default function SiteGuide({
                     index === steps.length - 1 ? finish() : setIndex(index + 1)
                   }
                 >
-                  {index === steps.length - 1 ? 'Got it' : 'Next'}
+                  {index === steps.length - 1
+                    ? active === 'scanner'
+                      ? 'Got It — Start Scanning'
+                      : 'Got it'
+                    : 'Next'}
                 </button>
               </div>
             </dialog>

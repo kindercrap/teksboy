@@ -164,14 +164,6 @@
 .live-spinner {
   animation: backprint-spectrum 1.4s linear infinite;
 }
-.live-scan-now {
-  display: block;
-  margin: 0 auto 22px;
-  color: #7eeaf2;
-  text-decoration: underline;
-  min-height: 44px;
-  padding: 6px 16px;
-}
 .live-scanner-body button,
 .live-scanner-body a {
   font: inherit;

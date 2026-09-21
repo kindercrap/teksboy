@@ -1,6 +1,6 @@
 # Backprint scanner: live-camera revision
 
-Status: implemented locally; automated checks pass. **Physical-phone recognition is not yet validated.** The five supplied images are UI mockups, not a labeled dataset of failed camera photos. Do not treat synthetic/source-image results as evidence of real-photo accuracy.
+Status: the user reports consistent recognition of physical backprints on their phone. This follow-up preserves recognition and makes the flow fully automatic. Automated tests remain synthetic and are not an independent real-photo accuracy measurement.
 
 ## Why V1 missed phone photos
 
@@ -14,11 +14,11 @@ The existing scanner trigger, single-row mobile header, CSS spectrum border, set
 
 The existing <768 px mobile breakpoint gates a lazy camera component. Desktop displays a small mobile-only notice and requests neither camera access, the scanner index nor OpenCV. On mobile, `getUserMedia` requests the rear camera with audio disabled; inline, unmirrored video appears in the scanner.
 
-The five UI states follow the supplied mockups: Ready, Hold Steady, Scanning, Best/Possible Match, and No Match/Timeout. Permission, preparation, error and paused states have retries plus existing Explore/Search actions. No file picker or normal upload/capture buttons remain. A secondary Scan Now appears after 6.5 seconds of visible content; auto-capture remains primary.
+The five UI states follow the supplied mockups: Ready, Hold Steady, Scanning, Best/Possible Match, and No Match/Timeout. Permission, preparation, error and paused states have retries plus existing Explore/Search actions. No file picker or normal upload/capture buttons remain. Capture is automatic; there is no manual scan action.
 
-Readiness samples a 96 × 144 target crop at 4 Hz. Brightness/contrast, Laplacian detail and frame-to-frame movement are checked separately from identification. A stable usable image for 750 ms triggers capture. Perfect contour detection is not required. The session times out after 30 seconds of ready-camera time. Matching runs once per capture, in a worker.
+Readiness samples a 96 × 144 target crop at 4 Hz. Brightness/contrast, Laplacian detail and frame-to-frame movement are checked separately from identification. A stable usable image for 750 ms triggers capture. Perfect contour detection is not required. The session times out after 30 seconds of ready-camera time. Matching runs once per capture, in a worker. After a miss, feedback appears for 1.5 seconds and live detection resumes. A changed camera view is required before another stable capture. Three misses or the 30-second session limit show No Match. Strong and ambiguous results stop scanning.
 
-Closing, Back, either fallback action, hidden tabs, page navigation, errors and completed captures stop camera tracks. Late permission resolutions stop their tracks instead of attaching to a closed scanner. A retry clears capture/results/timers/stability state. OpenCV remains initialized for normal Scan Again; interrupted/hung worker work is terminated. Temporary OpenCV Mats, vectors, matchers, transforms and algorithms are owned by try/finally scopes.
+Closing, Back, either fallback action, hidden tabs, page navigation, errors and final results stop camera tracks. During matching and the retry cooldown, detection pauses while the stream remains available for a seamless retry. Late permission resolutions stop their tracks instead of attaching to a closed scanner. A retry clears capture/results/timers/stability state. OpenCV remains initialized for normal Scan Again; interrupted/hung worker work is terminated. Temporary OpenCV Mats, vectors, matchers, transforms and algorithms are owned by try/finally scopes.
 
 ## OpenCV and index
 
@@ -43,7 +43,7 @@ Development-only logs show contour/corners, perspective/fallback use, sharpness,
 
 ## Validation and real-photo calibration
 
-Type checking, core tests, six scanner tests, targeted lint checks and the production build pass. Browser checks using simulated camera streams cover mobile auto-capture, normal Scan Again reuse, permission errors, failed OpenCV download/retry, no-match results, late permission cleanup, desktop gating, viewport changes, existing Search/Explore actions, the 30-second timeout and the secondary Scan Now action. Mobile Ready and No Match layouts were visually checked. These checks exercise application behavior, not physical camera accuracy or device performance. Publication for mobile field testing is authorized; physical-phone accuracy remains unvalidated.
+Type checking, core tests, six scanner tests, targeted lint checks and the production build pass. Browser checks using simulated camera streams cover mobile auto-capture, normal Scan Again reuse, permission errors, failed OpenCV download/retry, no-match results, late permission cleanup, desktop gating, viewport changes, existing Search/Explore actions, the 30-second timeout and automatic retry behavior. Mobile Ready and No Match layouts were visually checked. These checks exercise application behavior, not physical camera accuracy or device performance. The existing Site Guide supplies the three-step first-use tutorial, Skip, completion storage and replay. The scanner help button and Site Guide both provide access to it.
 
 `npm run test:scanner` covers index integrity, synthetic perspective/background/shadow/mild-blur cases, contour fallback, unrelated negatives, print ambiguity and readiness/video mapping. A transformed D-Best 40 example had appearance correlation 0.34 (which V1 would reject), but 287 RANSAC inliers, 0.97 inlier ratio, and aligned correlation 0.97; the new pipeline correctly identified it. Deluxe print variants with identical references remained Possible Matches. These fixtures are deliberately labeled synthetic.
 

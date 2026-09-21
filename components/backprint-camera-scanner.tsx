@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   AlertCircle,
   LoaderCircle,
+  CircleHelp,
 } from 'lucide-react';
 import { DialogTitle, DialogDescription } from './ui/dialog';
 import type { ScannerProps } from './backprint-scanner';
@@ -34,15 +35,14 @@ type State =
   | 'ready'
   | 'holding'
   | 'scanning'
+  | 'retrying'
   | 'result'
   | 'timeout'
   | 'error'
   | 'paused';
 const instructions = {
-  ready:
-    'Line up the full backprint inside the frame. The scanner captures automatically once it is centered and steady.',
-  holding:
-    'Keep the card still for a moment while we capture it automatically.',
+  ready: 'Fit the entire backprint inside the frame.',
+  holding: 'Teksboy will scan automatically.',
   scanning: 'Checking the captured backprint. This may take a moment.',
 };
 export default function BackprintCameraScanner({
@@ -59,7 +59,7 @@ export default function BackprintCameraScanner({
       null,
     );
   const [capture, setCapture] = useState(''),
-    [fallback, setFallback] = useState(false),
+    [guideReady, setGuideReady] = useState(false),
     [attempt, setAttempt] = useState(0);
   const video = useRef<HTMLVideoElement>(null),
     preview = useRef<HTMLDivElement>(null),
@@ -70,7 +70,6 @@ export default function BackprintCameraScanner({
     generation = useRef(0),
     busy = useRef(false),
     index = useRef<BackprintIndex | null>(null);
-  const captureNow = useRef<() => void>(() => {});
   const props = useRef({ sets, categories, ready });
   useEffect(() => {
     props.current = { sets, categories, ready };
@@ -93,10 +92,20 @@ export default function BackprintCameraScanner({
     setCapture('');
     setResult(null);
     setFailure(null);
-    setFallback(false);
     setState('preparing');
     setAttempt((a) => a + 1);
   }
+  useEffect(() => {
+    const done = () => setGuideReady(true);
+    window.addEventListener('teksboy-scanner-guide-done', done);
+    window.dispatchEvent(
+      new CustomEvent('teksboy-scanner-guide', { detail: false }),
+    );
+    return () => {
+      window.removeEventListener('teksboy-scanner-guide-done', done);
+      window.dispatchEvent(new Event('teksboy-scanner-closed'));
+    };
+  }, []);
   useEffect(() => {
     if (result || state === 'timeout' || state === 'error')
       resultArea.current?.scrollIntoView({
@@ -105,10 +114,13 @@ export default function BackprintCameraScanner({
       });
   }, [result, state]);
   useEffect(() => {
+    if (!guideReady) return;
     let active = true;
     const session = ++generation.current;
     let previousFrame: Uint8Array | undefined,
       stableSince = 0;
+    let failures = 0,
+      failedFrame: Uint8Array | undefined;
     let started = 0,
       permissionTimer: ReturnType<typeof setTimeout> | undefined;
     const valid = () => active && generation.current === session;
@@ -180,7 +192,6 @@ export default function BackprintCameraScanner({
         return;
       busy.current = true;
       clearTimeout(timer.current);
-      setFallback(false);
       try {
         const captured = getFrame();
         if (!captured) {
@@ -191,7 +202,7 @@ export default function BackprintCameraScanner({
         const { canvas, context, region } = captured;
         setCapture(canvas.toDataURL('image/jpeg', 0.85));
         setState('scanning');
-        release();
+        const attemptedFrame = previousFrame?.slice();
         const visible = new Set(
           props.current.sets
             .filter(
@@ -224,17 +235,32 @@ export default function BackprintCameraScanner({
           filtered,
         );
         if (!valid()) return;
-        setResult(found);
-        setState(found.matches.length ? 'result' : 'timeout');
+        if (found.matches.length) {
+          release();
+          setResult(found);
+          setState('result');
+        } else if (++failures >= 3 || Date.now() - started >= 30000) {
+          release();
+          setResult(found);
+          setState('timeout');
+        } else {
+          failedFrame = attemptedFrame;
+          stableSince = 0;
+          setState('retrying');
+          timer.current = setTimeout(() => {
+            if (!valid()) return;
+            setCapture('');
+            previousFrame = undefined;
+            setState('ready');
+            schedule();
+          }, 1500);
+        }
       } catch (error) {
         fail(error);
       } finally {
         if (valid()) busy.current = false;
       }
     }
-    captureNow.current = () => {
-      void recognize();
-    };
     function schedule() {
       if (valid()) timer.current = setTimeout(check, 250);
     }
@@ -303,7 +329,20 @@ export default function BackprintCameraScanner({
           );
         const quality = cameraReadiness(gray, 96, 144, previousFrame);
         previousFrame = gray;
-        if (elapsed > 6500 && quality.contrast > 8) setFallback(true);
+        // Require a changed view after a miss, rather than repeatedly matching
+        // the same stable image. This remains a cheap grayscale comparison.
+        if (failedFrame) {
+          let difference = 0;
+          for (let i = 0; i < gray.length; i++)
+            difference += Math.abs(gray[i] - failedFrame[i]);
+          if (difference / gray.length < 8) {
+            stableSince = 0;
+            setState('retrying');
+            schedule();
+            return;
+          }
+          failedFrame = undefined;
+        }
         if (quality.usable && quality.stable) {
           if (!stableSince) stableSince = Date.now();
           setState('holding');
@@ -415,7 +454,7 @@ export default function BackprintCameraScanner({
       document.removeEventListener('visibilitychange', hide);
       window.removeEventListener('pagehide', pagehide);
     };
-  }, [attempt]);
+  }, [attempt, guideReady]);
   const label =
     state === 'preparing'
       ? 'Preparing Scanner...'
@@ -423,19 +462,21 @@ export default function BackprintCameraScanner({
         ? 'Hold steady...'
         : state === 'scanning'
           ? 'Scanning Backprint...'
-          : state === 'result'
-            ? result?.matches[0]?.high
-              ? 'Backprint recognized'
-              : 'Possible matches found'
-            : state === 'timeout'
-              ? result?.matches.length === 0
-                ? 'No reliable match'
-                : 'Scan timed out'
-              : state === 'paused'
-                ? 'Camera paused'
-                : state === 'error'
-                  ? 'Camera / scanner unavailable'
-                  : 'Point at a Teks backprint';
+          : state === 'retrying'
+            ? 'No match yet — reposition the backprint'
+            : state === 'result'
+              ? result?.matches[0]?.high
+                ? 'Backprint recognized'
+                : 'Possible matches found'
+              : state === 'timeout'
+                ? result?.matches.length === 0
+                  ? 'No reliable match'
+                  : 'Scan timed out'
+                : state === 'paused'
+                  ? 'Camera paused'
+                  : state === 'error'
+                    ? 'Camera / scanner unavailable'
+                    : 'Point at a Teks backprint';
   return (
     <>
       <div className="global-search-bar">
@@ -447,6 +488,19 @@ export default function BackprintCameraScanner({
           <ArrowLeft size={23} />
         </button>
         <DialogTitle>SCAN BACKPRINT</DialogTitle>
+        <button
+          className="search-icon-action"
+          aria-label="How to Scan a Backprint"
+          onClick={() => {
+            again();
+            setGuideReady(false);
+            window.dispatchEvent(
+              new CustomEvent('teksboy-scanner-guide', { detail: true }),
+            );
+          }}
+        >
+          <CircleHelp size={22} />
+        </button>
       </div>
       <DialogDescription className="sr-only">
         Point your phone camera at a physical Teks backprint. Capture is
@@ -500,15 +554,6 @@ export default function BackprintCameraScanner({
                 ? 'Allow camera access to begin. The scanner is preparing on your device.'
                 : instructions[state]}
             </p>
-          )}
-          {fallback && (state === 'ready' || state === 'holding') && (
-            <button
-              className="live-scan-now"
-              disabled={!ready}
-              onClick={() => captureNow.current()}
-            >
-              {ready ? 'Scan Now' : 'Loading library...'}
-            </button>
           )}
           <section
             ref={resultArea}
@@ -581,8 +626,8 @@ export default function BackprintCameraScanner({
               <div className="live-no-match">
                 <h2>No matching Teks set found</h2>
                 <p>
-                  Try again with the full backprint visible, better lighting,
-                  less glare, and the camera directly above the Teks.
+                  We couldn&apos;t identify this backprint. Try better lighting,
+                  less glare, or a straighter camera angle.
                 </p>
                 <button className="live-primary" onClick={again}>
                   <RotateCw size={22} />
@@ -610,7 +655,10 @@ export default function BackprintCameraScanner({
               </div>
             )}
           </section>
-          <section className="live-scanner-fallback" aria-label="Other ways to find Teks">
+          <section
+            className="live-scanner-fallback"
+            aria-label="Other ways to find Teks"
+          >
             <h2>Can&apos;t find your Teks?</h2>
             <div>
               <button onClick={() => leave(onExplore)}>

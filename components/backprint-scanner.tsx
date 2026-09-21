@@ -1,5 +1,5 @@
 'use client';
-import { lazy, Suspense, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ScanLine } from 'lucide-react';
 import {
   Dialog,
@@ -22,6 +22,13 @@ export default function BackprintScanner(props: ScannerProps) {
   const [open, setOpen] = useState(false),
     trigger = useRef<HTMLButtonElement>(null);
   const mobile = useIsMobile();
+  useEffect(() => {
+    const replay = (event: Event) => {
+      if ((event as CustomEvent).detail === 'scanner') setOpen(true);
+    };
+    window.addEventListener('teksboy-guide-open', replay);
+    return () => window.removeEventListener('teksboy-guide-open', replay);
+  }, []);
   const leave = (action: () => void) => {
     setOpen(false);
     requestAnimationFrame(action);

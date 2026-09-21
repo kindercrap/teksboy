@@ -84,10 +84,15 @@ test('guide completion merges without overwriting and stays private to each acco
   const store = fixture();
   assert.equal((await call(store, 'guide-progress')).status, 401);
   await call(store, 'guide-progress', { completed: ['welcome'] }, 'a');
-  await call(store, 'guide-progress', { completed: ['archives'] }, 'a');
+  await call(
+    store,
+    'guide-progress',
+    { completed: ['archives', 'scanner'] },
+    'a',
+  );
   assert.deepEqual(
     (await call(store, 'guide-progress', null, 'a')).data.completed,
-    ['welcome', 'archives'],
+    ['welcome', 'archives', 'scanner'],
   );
   assert.deepEqual(
     (await call(store, 'guide-progress', null, 'b')).data.completed,

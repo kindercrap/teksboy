@@ -42,6 +42,7 @@ export const defaultHomeCards = [
   ...r,
 }));
 export const guideKeys = [
+  'scanner',
   'welcome',
   'archives',
   'checklist',
