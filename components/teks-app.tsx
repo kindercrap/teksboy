@@ -1070,7 +1070,7 @@ export default function TeksApp({
         >
           <img src="/images/general/logo.svg" alt="Teksboy" />
         </a>
-        <GlobalSetSearch sets={sets} categories={categories} ready={ready} />
+        <GlobalSetSearch sets={sets} categories={categories} ready={ready} onExplore={() => { setExpandedCategory(null); setArchivesOpen(true); }} />
         <div className="desktop-navigation">{mainNavigation()}</div>
         <button
           className="icon-button menu-toggle"

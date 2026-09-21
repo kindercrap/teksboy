@@ -13,7 +13,7 @@
     "format": "oxfmt",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test scripts/core.test.ts",
-    "scanner:index": "node scripts/build-backprint-index.mjs",
+    "scanner:index": "node --experimental-strip-types scripts/build-backprint-index.mjs",
     "prebuild": "npm run scanner:index",
     "predev": "npm run scanner:index",
     "test:scanner": "node --experimental-strip-types --test scripts/backprint-scanner.test.mjs"
@@ -45,6 +45,7 @@
     "@cloudflare/workers-types": "4.20260515.1",
     "@openai/sites-vite-plugin": "0.2.0",
     "@tailwindcss/postcss": "4.2.1",
+    "@techstark/opencv-js": "4.12.0-release.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

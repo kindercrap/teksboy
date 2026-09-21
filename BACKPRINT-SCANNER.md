@@ -1,71 +1,73 @@
-# Backprint scanner V1
+# Backprint scanner: live-camera revision
 
-The scanner identifies sets using conventional grayscale image similarity. It uses no AI, image recognition service, API key, or photo upload endpoint. Selected photos stay in browser memory and are released when replaced or the scanner closes.
+Status: implemented locally; automated checks pass. **Physical-phone recognition is not yet validated.** The five supplied images are UI mockups, not a labeled dataset of failed camera photos. Do not treat synthetic/source-image results as evidence of real-photo accuracy.
 
-## Integration and files
+## Why V1 missed phone photos
 
-Changed: `components/global-set-search.tsx`, `package.json`, `package-lock.json`.
+The previous matcher resized a centered crop to 192 px and compared 32 px luminance/gradient templates with an absolute luminance cutoff of 0.72. Background, perspective and imperfect framing shift pixel positions. A correct candidate could be discarded before stronger evidence was available. V1 had no card flattening, local feature descriptors, or geometric verification; source-to-source tests did not cover that gap.
 
-Added: `components/backprint-scanner.tsx`, `components/backprint-scanner.css`, `lib/backprint-matcher.ts`, `lib/backprint-worker.ts`, `lib/backprint-worker-client.d.ts`, `scripts/build-backprint-index.mjs`, `scripts/backprint-scanner.test.mjs`, `public/backprint-index.json`, and this document.
+## What is preserved
 
-The existing Base UI dialog supplies focus trapping, Escape dismissal and focus restoration. The existing header search is wrapped with the scanner trigger in a single flex row. Results use the existing `/?set=<encoded set ID>` route, without auto-navigation. Current runtime catalog visibility filters the index before matching; titles are read from the current catalog.
+The existing scanner trigger, single-row mobile header, CSS spectrum border, set IDs/full asset paths, variant mapping, Base UI dialogs, `/?set=` routes, catalog export/index workflow, and existing Search / Explore components are reused. No database schema or live data changes are needed.
 
-## Reference index and adding backprints
+## Live mobile experience
 
-Run `npm run scanner:index` from the app directory. This also runs before `npm run dev` and `npm run build`. Directly invoking Vite/Vinext bypasses npm lifecycle hooks, so run the index command first in that case.
+The existing <768 px mobile breakpoint gates a lazy camera component. Desktop displays a small mobile-only notice and requests neither camera access, the scanner index nor OpenCV. On mobile, `getUserMedia` requests the rear camera with audio disabled; inline, unmirrored video appears in the scanner.
 
-The generator reads `lib/catalog.json` plus the existing `supabase/import/public-catalog.json` export, whose records override the base catalog by set ID. It includes published set covers (the existing catalog uses backprints as covers), and automatically discovers `backprint*.webp/png/jpg/jpeg/avif` siblings in each set's `/images/teks/` directory. A cover without a backprint filename is still included. No individual set is hardcoded.
+The five UI states follow the supplied mockups: Ready, Hold Steady, Scanning, Best/Possible Match, and No Match/Timeout. Permission, preparation, error and paused states have retries plus existing Explore/Search actions. No file picker or normal upload/capture buttons remain. A secondary Scan Now appears after 6.5 seconds of visible content; auto-capture remains primary.
 
-For additional images outside set-specific folders, add an optional `backprints` array to the existing catalog set record, for example:
+Readiness samples a 96 × 144 target crop at 4 Hz. Brightness/contrast, Laplacian detail and frame-to-frame movement are checked separately from identification. A stable usable image for 750 ms triggers capture. Perfect contour detection is not required. The session times out after 30 seconds of ready-camera time. Matching runs once per capture, in a worker.
+
+Closing, Back, either fallback action, hidden tabs, page navigation, errors and completed captures stop camera tracks. Late permission resolutions stop their tracks instead of attaching to a closed scanner. A retry clears capture/results/timers/stability state. OpenCV remains initialized for normal Scan Again; interrupted/hung worker work is terminated. Temporary OpenCV Mats, vectors, matchers, transforms and algorithms are owned by try/finally scopes.
+
+## OpenCV and index
+
+`@techstark/opencv-js@4.12.0-release.1` is a pinned dev/build dependency. A generated same-origin ESM adapter of its 10.9 MB runtime loads only in the mobile scanner worker. The adapter changes the UMD global binding to `globalThis` and exports the runtime; no eval loader, external CDN or AI service is used. The upstream license is included alongside the runtime.
+
+`npm run scanner:index` still reads `lib/catalog.json` plus `supabase/import/public-catalog.json`, discovers backprint siblings in set-specific folders, and includes optional existing-record `backprints` metadata. It now precomputes contrast-normalized grayscale signatures, 24 spatial ORB landmarks per reference, and full ORB descriptors/keypoints. Feature files use content hashes so identical assets share data while retaining all set mappings. No full reference photos are downloaded for matching.
+
+The generated v2 index currently has 92 entries for 79 sets, with 78 distinct feature files. The index is about 252 KB; up to 12 shortlisted feature files are fetched per capture and up to 24 remain cached in the worker. `public/scanner-runtime/` and `public/backprint-features/` are generated, ignored source artifacts and must be present in deployed build output. The existing predev/prebuild hooks generate them automatically. Use Node ≥22.13 with the repository scripts; direct Vite/Vinext invocation requires running scanner:index first.
+
+## Recognition and confidence
+
+1. Capture the actual scanner-frame coordinates from the object-fit-cover video preview, at maximum 720 px working dimension.
+2. OpenCV grayscale, Gaussian blur, Canny, morphology, contours and polygon checks look for a plausible centered card. Reliable corners produce a perspective warp. Always retain the known scanner-frame crop as a fallback.
+3. Normalize scale and local contrast with CLAHE. Extract up to 800 ORB keypoints/descriptors.
+4. Shortlist a union of eight descriptor-sketch candidates and four appearance candidates, deduplicated by feature file. There is **no strict appearance veto**.
+5. BFMatcher Hamming distance + ratio test finds distinctive correspondences. RANSAC homography verifies a coherent plane; inlier coverage, projected-card geometry and aligned grayscale correlation reject coincidental local matches.
+6. Rank using inlier count, inlier ratio, area coverage, aligned similarity and coarse appearance. Deduplicate variants by set. Compare the winner with geometrically plausible runners-up before calling it strong. Return up to three plausible sets; identical shared artwork stays ambiguous.
+
+Current provisional gates: ≥9 inliers, inlier ratio ≥0.36, coverage ≥0.09 and aligned correlation ≥0.30, with valid geometry. Strong additionally requires ≥18 inliers, ratio ≥0.50, coverage ≥0.18, aligned correlation ≥0.52 and score separation ≥0.12. These are **engineering safeguards awaiting real-photo calibration**, not claimed probability thresholds. Users see Strong visual match / Possible match / No reliable match, never numerical accuracy percentages.
+
+Development-only logs show contour/corners, perspective/fallback use, sharpness, normalized dimensions, candidate names/scores, correspondence counts and classification. Production messages omit diagnostics. Photos are processed locally and are never uploaded.
+
+## Validation and real-photo calibration
+
+Type checking, core tests, six scanner tests, targeted lint checks and the production build pass. Browser checks using simulated camera streams cover mobile auto-capture, normal Scan Again reuse, permission errors, failed OpenCV download/retry, no-match results, late permission cleanup, desktop gating, viewport changes, existing Search/Explore actions, the 30-second timeout and the secondary Scan Now action. Mobile Ready and No Match layouts were visually checked. These checks exercise application behavior, not physical camera accuracy or device performance. Publication for mobile field testing is authorized; physical-phone accuracy remains unvalidated.
+
+`npm run test:scanner` covers index integrity, synthetic perspective/background/shadow/mild-blur cases, contour fallback, unrelated negatives, print ambiguity and readiness/video mapping. A transformed D-Best 40 example had appearance correlation 0.34 (which V1 would reject), but 287 RANSAC inliers, 0.97 inlier ratio, and aligned correlation 0.97; the new pipeline correctly identified it. Deluxe print variants with identical references remained Possible Matches. These fixtures are deliberately labeled synthetic.
+
+To evaluate actual physical-card photos, create a private manifest outside public/:
 
 ```json
-"backprints": [
-  {"image_path": "/images/catalog-import/example.webp", "print_variant": "Second print"}
+[
+  {"file":"photos/dbest40-angle.jpg","expected":"yuyuhakusho-dbest40","region":{"x":0.1,"y":0.05,"width":0.8,"height":0.9}},
+  {"file":"photos/unrelated.jpg","expected":null}
 ]
 ```
 
-Use the existing local CMS public-catalog export workflow for new CMS records/uploads, then regenerate the index and rebuild. Live CMS changes are not automatically reflected until exported and rebuilt. Never point the generator at private uploads. Missing or external assets fail generation with an actionable error; exported assets must exist under `public/images/`.
+`region` is optional and uses fractions of the EXIF-oriented photo; omit it for a tightly framed image. `expected` may be an array when multiple set mappings are intentionally equivalent.
 
-Entries retain full image paths, set IDs, titles, variants and fingerprints. Identical filenames in different folders do not collide. The current index has 92 entries for 79 sets and is approximately 147 KiB uncompressed. Only this compact file is fetched once per page session, on the first scan; full reference images load only for displayed results. Invalid requests can be retried.
-
-## Matching and confidence
-
-Build-time dependency: `sharp@0.34.5` (dev dependency only). It creates a 32 × 32 luminance thumbnail for every reference. The browser uses native Canvas and a Vite-bundled Web Worker; no additional browser matching library is required.
-
-1. Decode the selected image, apply the user-selected centered crop, resize to 192 × 192 and compute luminance.
-2. Reject very dark or near-uniform photos. Compare normalized 32 × 32 samples at four quarter-turn orientations, with offsets of −8°, −4°, 0°, 4°, 8°, three crop scales and three mild trapezoid sampling adjustments.
-3. Use normalized cross-correlation of luminance to find candidates; verify them using central-difference gradient correlation.
-4. Score = 0.75 × luminance correlation + 0.25 × gradient correlation. Require luminance ≥ 0.72, gradient ≥ 0.35 and combined score ≥ 0.67. Values below these thresholds produce no result.
-5. Keep the best variant per set and show at most three sets. Label the first High Match only at score ≥ 0.86 and a margin ≥ 0.07 above the next set. Otherwise label candidates Possible Match. Identical references on different sets remain ambiguous.
-
-The displayed similarity / 100 is a heuristic visual score, **not a calibrated probability**. Thresholds have synthetic regression coverage and should be revisited using labeled physical-card photos. The matcher accepts pixels and an index and returns matches/issues, so it can be replaced without redesigning the scanner UI.
-
-## Responsive design and border
-
-Search and Scan Backprint stay on one flex row. Search shrinks flexibly, the scanner label stays visible, and both controls are 44 px tall. Mobile reduces gaps/padding and logo width to 90 px, or 72 px at widths ≤390 px. Navigation uses the existing menu control at widths ≤1350 px to reserve room.
-
-A clipped conic-gradient pseudo-element rotates continuously over four seconds; an inset dark pseudo-element covers its center, exposing only the border. Text/icon do not rotate. Hover adds a subtle glow, without layout movement. `prefers-reduced-motion: reduce` disables rotation and leaves a static gradient border.
-
-## V1 limits and testing
-
-This is template comparison, not automatic card detection. Center the card and use Trim background; tightly framed photos work best. Severe blur, glare, occlusion, large perspective angles, arbitrary background, and off-center cards can prevent identification. Low-resolution backprints with very similar layouts can remain ambiguous. The quality checks are conservative heuristics, not a reliable diagnosis of blur or glare.
-
-Camera capture requests the rear camera through `capture="environment"`. Actual behavior depends on the device/browser; desktop may show a file chooser. HEIC/HEIF require browser decoding support; otherwise the user is asked to export JPEG/PNG. Files larger than 20 MB and very small images are rejected. Cancellation terminates matching, ignores stale responses, and releases preview URLs. Network/index/worker failures have retryable errors.
-
-Run with Node ≥22.13 (the repository requirement):
+Run:
 
 ```sh
-npm run scanner:index
-npm run test:scanner
-npm test
-npm run typecheck
-npm run build
+node --experimental-strip-types scripts/evaluate-backprints.mjs /absolute/path/photos.json /absolute/path/report.json
 ```
 
-The regression suite checks duplicate filenames, variants, compression, resize, quarter turns, slight rotation, lighting, mild blur, dark/blank/noise/unrelated images, ambiguous identical references, and malformed inputs. New files pass targeted Oxlint checks; repository-wide lint has unrelated existing failures.
+The local report contains each photo, expected/predicted sets, pass/fail, rankings and geometric metrics. The tool neither uploads nor copies private photos to the website. Use 5–10 physical sets with straight/angled/indoor-light photos plus unrelated negatives to tune thresholds. Real devices must additionally validate permission prompts, rear-camera selection, Safari inline playback, motion/glare, repeated scans, backgrounding, low memory and mobile network startup.
 
-Before release, exercise real iOS Safari and Android Chrome camera capture, photo permissions/cancellation, landscape mode, portrait widths 320–430 px, keyboard-only navigation, reduced motion, invalid/large files, slow/offline index requests, close-during-scan, and retry. Calibrate false positives/negatives using photos of several printed sets and unrelated objects under varied lighting; synthetic tests do not substitute for this.
+## Limits
 
-Recorded validation: the production build and TypeScript check passed; all 6 scanner tests and 3 core tests passed. A full catalog sweep found the owning set in the top three for all 92 indexed reference images. Headless Chrome tested the built production bundle at 1440, 1280, 768, 390, 375 and 320 px: the search and scanner remained on one row. The upload-to-worker-to-results flow identified D-Best 40 (92/100), used its correct set URL, rejected unrelated artwork/invalid files, restored trigger focus, and disabled border animation for reduced motion. The browser test disabled the unconfigured local production authentication connection; it did not exercise a live backend or physical camera.
+Severe blur/glare, faded low-detail cards, partial occlusion, extreme perspective, incorrect frame alignment and identical artwork can still prevent unique identification. ORB on clean source references cannot restore missing physical print detail. The first mobile open downloads OpenCV; slow networks have a recoverable preparation timeout. Desktop webcams are intentionally unsupported.
 
-Reference generation uses the documented [Sharp resize API](https://sharp.pixelplumbing.com/api-resize/) and [raw output API](https://sharp.pixelplumbing.com/api-output/).
+Primary API references: [OpenCV.js package](https://github.com/TechStark/opencv-js), [feature matching and homography](https://docs.opencv.org/4.13.0/d1/de0/tutorial_py_feature_homography.html), [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia).

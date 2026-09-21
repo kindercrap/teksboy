@@ -35,10 +35,12 @@ export default function GlobalSetSearch({
   sets,
   categories,
   ready,
+  onExplore,
 }: {
   sets: TeksSet[];
   categories: Category[];
   ready: boolean;
+  onExplore: () => void;
 }) {
   const [open, setOpen] = useState(false),
     [query, setQuery] = useState(''),
@@ -124,7 +126,13 @@ export default function GlobalSetSearch({
           <Search size={18} />
           <span>Search Teks Sets...</span>
         </button>
-        <BackprintScanner sets={sets} categories={categories} ready={ready} />
+        <BackprintScanner
+          sets={sets}
+          categories={categories}
+          ready={ready}
+          onExplore={onExplore}
+          onSearch={() => setOpen(true)}
+        />
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
