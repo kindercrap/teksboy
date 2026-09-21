@@ -17,6 +17,7 @@ import {
   recentSearchKey,
 } from '@/lib/set-search';
 import './global-set-search.css';
+import BackprintScanner from './backprint-scanner';
 
 function Highlight({ title, query }: { title: string; query: string }) {
   const start = title.toLowerCase().indexOf(query.trim().toLowerCase());
@@ -112,16 +113,19 @@ export default function GlobalSetSearch({
   }
   return (
     <>
-      <button
-        ref={trigger}
-        className="global-search-trigger"
-        aria-label="Open Search Teks Sets"
-        aria-haspopup="dialog"
-        onClick={() => setOpen(true)}
-      >
-        <Search size={18} />
-        <span>Search Teks Sets...</span>
-      </button>
+      <div className="header-search-tools">
+        <button
+          ref={trigger}
+          className="global-search-trigger"
+          aria-label="Open Search Teks Sets"
+          aria-haspopup="dialog"
+          onClick={() => setOpen(true)}
+        >
+          <Search size={18} />
+          <span>Search Teks Sets...</span>
+        </button>
+        <BackprintScanner sets={sets} categories={categories} ready={ready} />
+      </div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           placement="side"
