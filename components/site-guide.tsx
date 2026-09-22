@@ -29,12 +29,12 @@ const guides: Record<Feature, { title: string; steps: Step[] }> = {
       {
         selector: '.live-scanner-frame',
         title: 'Align',
-        text: 'Keep the entire backprint inside the frame and hold steady.',
+        text: 'Keep the entire backprint inside the frame.',
       },
       {
         selector: '.live-scanner-frame',
         title: 'That’s it!',
-        text: 'Teksboy scans automatically. No button needed!',
+        text: 'Teksboy scans automatically until it finds a match.',
       },
     ],
   },
@@ -443,7 +443,8 @@ export default function SiteGuide({
               <li>Point your phone at the back of the Teks.</li>
               <li>Fit the entire backprint inside the scanner frame.</li>
               <li>
-                Hold still for a moment — Teksboy will scan automatically.
+                Hold it reasonably steady. Teksboy continuously scans
+                automatically until it finds a match.
               </li>
             </ol>
             <p>

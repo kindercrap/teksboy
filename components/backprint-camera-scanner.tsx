@@ -29,13 +29,15 @@ import {
 } from '@/lib/backprint-camera';
 import type { BackprintIndex, ScanResult } from '@/lib/backprint-matcher';
 import type { Rect } from '@/lib/backprint-cv';
+import { BackprintSession, frameDifference } from '@/lib/backprint-session';
 import './backprint-camera-scanner.css';
 type State =
   | 'preparing'
   | 'ready'
   | 'holding'
   | 'scanning'
-  | 'retrying'
+  | 'monitoring'
+  | 'reposition'
   | 'result'
   | 'timeout'
   | 'error'
@@ -43,7 +45,10 @@ type State =
 const instructions = {
   ready: 'Fit the entire backprint inside the frame.',
   holding: 'Teksboy will scan automatically.',
-  scanning: 'Checking the captured backprint. This may take a moment.',
+  scanning: 'Keep the backprint inside the frame.',
+  monitoring:
+    'Hold it reasonably steady. Teksboy keeps scanning automatically.',
+  reposition: 'Keep the entire backprint inside the frame to continue.',
 };
 export default function BackprintCameraScanner({
   sets,
@@ -60,7 +65,8 @@ export default function BackprintCameraScanner({
     );
   const [capture, setCapture] = useState(''),
     [guideReady, setGuideReady] = useState(false),
-    [attempt, setAttempt] = useState(0);
+    [attempt, setAttempt] = useState(0),
+    [progress, setProgress] = useState<number | null>(null);
   const video = useRef<HTMLVideoElement>(null),
     preview = useRef<HTMLDivElement>(null),
     frame = useRef<HTMLDivElement>(null),
@@ -90,6 +96,7 @@ export default function BackprintCameraScanner({
   function again() {
     stop();
     setCapture('');
+    setProgress(null);
     setResult(null);
     setFailure(null);
     setState('preparing');
@@ -117,14 +124,15 @@ export default function BackprintCameraScanner({
     if (!guideReady) return;
     let active = true;
     const session = ++generation.current;
-    let previousFrame: Uint8Array | undefined,
-      stableSince = 0;
-    let failures = 0,
-      failedFrame: Uint8Array | undefined;
+    let previousFrame: Uint8Array | undefined;
+    const scanning = new BackprintSession<
+      NonNullable<ReturnType<typeof getFrame>>
+    >();
     let started = 0,
       permissionTimer: ReturnType<typeof setTimeout> | undefined;
     const valid = () => active && generation.current === session;
     function release() {
+      scanning.stop();
       clearTimeout(timer.current);
       clearTimeout(permissionTimer);
       stopCamera(stream.current);
@@ -187,22 +195,20 @@ export default function BackprintCameraScanner({
       region.height = Math.min(region.height, canvas.height - region.y);
       return { canvas, context, region };
     }
-    async function recognize() {
+    function timeout() {
+      release();
+      setState('timeout');
+      setResult(null);
+    }
+    async function recognize(
+      captured: NonNullable<ReturnType<typeof getFrame>>,
+    ) {
       if (!valid() || busy.current || !index.current || !props.current.ready)
         return;
       busy.current = true;
-      clearTimeout(timer.current);
       try {
-        const captured = getFrame();
-        if (!captured) {
-          busy.current = false;
-          schedule();
-          return;
-        }
         const { canvas, context, region } = captured;
-        setCapture(canvas.toDataURL('image/jpeg', 0.85));
         setState('scanning');
-        const attemptedFrame = previousFrame?.slice();
         const visible = new Set(
           props.current.sets
             .filter(
@@ -236,36 +242,27 @@ export default function BackprintCameraScanner({
         );
         if (!valid()) return;
         if (found.matches.length) {
+          setCapture(canvas.toDataURL('image/jpeg', 0.85));
           release();
           setResult(found);
           setState('result');
-        } else if (++failures >= 3 || Date.now() - started >= 30000) {
-          release();
-          setResult(found);
-          setState('timeout');
+        } else if (scanning.expired) {
+          timeout();
         } else {
-          failedFrame = attemptedFrame;
-          stableSince = 0;
-          setState('retrying');
-          timer.current = setTimeout(() => {
-            if (!valid()) return;
-            setCapture('');
-            previousFrame = undefined;
-            setState('ready');
-            schedule();
-          }, 1500);
+          setState(scanning.paused ? 'reposition' : 'monitoring');
         }
       } catch (error) {
         fail(error);
       } finally {
+        scanning.complete(performance.now());
         if (valid()) busy.current = false;
       }
     }
     function schedule() {
-      if (valid()) timer.current = setTimeout(check, 250);
+      if (valid()) timer.current = setTimeout(check, scanning.interval);
     }
     function check() {
-      if (!valid() || busy.current) return;
+      if (!valid()) return;
       const player = video.current,
         area = preview.current,
         guide = frame.current;
@@ -285,13 +282,6 @@ export default function BackprintCameraScanner({
           return;
         }
         schedule();
-        return;
-      }
-      const elapsed = Date.now() - started;
-      if (elapsed > 30000) {
-        release();
-        setState('timeout');
-        setResult(null);
         return;
       }
       try {
@@ -328,31 +318,29 @@ export default function BackprintCameraScanner({
               0.114 * rgba[4 * i + 2],
           );
         const quality = cameraReadiness(gray, 96, 144, previousFrame);
+        const motion = frameDifference(gray, previousFrame);
         previousFrame = gray;
-        // Require a changed view after a miss, rather than repeatedly matching
-        // the same stable image. This remains a cheap grayscale comparison.
-        if (failedFrame) {
-          let difference = 0;
-          for (let i = 0; i < gray.length; i++)
-            difference += Math.abs(gray[i] - failedFrame[i]);
-          if (difference / gray.length < 8) {
-            stableSince = 0;
-            setState('retrying');
-            schedule();
-            return;
-          }
-          failedFrame = undefined;
+        const now = performance.now();
+        scanning.observe(now, quality, gray, motion, getFrame);
+        if (scanning.started) setProgress(scanning.progress);
+        if (scanning.expired) {
+          if (!busy.current) timeout();
+          // A running final job owns its completion; do not cancel it.
+          return;
         }
-        if (quality.usable && quality.stable) {
-          if (!stableSince) stableSince = Date.now();
-          setState('holding');
-          if (Date.now() - stableSince >= 750 && props.current.ready) {
-            void recognize();
-            return;
-          }
-        } else {
-          stableSince = 0;
-          setState('ready');
+        if (!busy.current) {
+          const candidate = props.current.ready ? scanning.take(now) : null;
+          if (candidate) void recognize(candidate);
+          else
+            setState(
+              scanning.paused
+                ? 'reposition'
+                : scanning.started
+                  ? 'monitoring'
+                  : quality.usable
+                    ? 'holding'
+                    : 'ready',
+            );
         }
         schedule();
       } catch (error) {
@@ -462,21 +450,25 @@ export default function BackprintCameraScanner({
         ? 'Hold steady...'
         : state === 'scanning'
           ? 'Scanning Backprint...'
-          : state === 'retrying'
-            ? 'No match yet — reposition the backprint'
-            : state === 'result'
-              ? result?.matches[0]?.high
-                ? 'Backprint recognized'
-                : 'Possible matches found'
-              : state === 'timeout'
-                ? result?.matches.length === 0
-                  ? 'No reliable match'
-                  : 'Scan timed out'
-                : state === 'paused'
-                  ? 'Camera paused'
-                  : state === 'error'
-                    ? 'Camera / scanner unavailable'
-                    : 'Point at a Teks backprint';
+          : state === 'reposition'
+            ? 'Reposition the backprint'
+            : state === 'monitoring'
+              ? progress !== null && progress > 0.6
+                ? 'Still looking for a match...'
+                : 'Keep the backprint inside the frame'
+              : state === 'result'
+                ? result?.matches[0]?.high
+                  ? 'Backprint recognized'
+                  : 'Possible matches found'
+                : state === 'timeout'
+                  ? result?.matches.length === 0
+                    ? 'No reliable match'
+                    : 'Scan timed out'
+                  : state === 'paused'
+                    ? 'Camera paused'
+                    : state === 'error'
+                      ? 'Camera / scanner unavailable'
+                      : 'Point at a Teks backprint';
   return (
     <>
       <div className="global-search-bar">
@@ -544,10 +536,21 @@ export default function BackprintCameraScanner({
               )}
               {label}
             </output>
+            {progress !== null &&
+              ['scanning', 'monitoring', 'reposition'].includes(state) && (
+                <progress
+                  className="live-scan-progress"
+                  aria-label="Backprint scanning progress"
+                  max={1}
+                  value={progress}
+                />
+              )}
           </div>
           {(state === 'ready' ||
             state === 'holding' ||
             state === 'scanning' ||
+            state === 'monitoring' ||
+            state === 'reposition' ||
             state === 'preparing') && (
             <p className="live-scanner-instruction">
               {state === 'preparing'

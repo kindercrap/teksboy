@@ -16,7 +16,7 @@
     "scanner:index": "node --experimental-strip-types scripts/build-backprint-index.mjs",
     "prebuild": "npm run scanner:index",
     "predev": "npm run scanner:index",
-    "test:scanner": "node --experimental-strip-types --test scripts/backprint-scanner.test.mjs"
+    "test:scanner": "node --experimental-strip-types --test scripts/backprint-scanner.test.mjs scripts/backprint-session.test.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
