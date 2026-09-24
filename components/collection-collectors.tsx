@@ -20,7 +20,13 @@ type Person = {
   role: string;
   user_verified: boolean;
 };
-export default function CollectionCollectors({ setId }: { setId: string }) {
+export default function CollectionCollectors({
+  setId,
+  compact = false,
+}: {
+  setId: string;
+  compact?: boolean;
+}) {
   const [open, setOpen] = useState(false),
     [rows, setRows] = useState<Person[]>([]),
     [loading, setLoading] = useState(false),
@@ -46,9 +52,14 @@ export default function CollectionCollectors({ setId }: { setId: string }) {
   }
   return (
     <>
-      <button className="button" onClick={() => void show()}>
-        <Users size={14} />
-        On Their Checklist
+      <button
+        className="button"
+        aria-label={compact ? 'View collectors with this set on their checklist' : undefined}
+        title={compact ? 'On Their Checklist' : undefined}
+        onClick={() => void show()}
+      >
+        <Users size={18} />
+        {!compact && 'On Their Checklist'}
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="modal collection-collectors-modal">

@@ -56,6 +56,7 @@ export type CmsRow = {
   market_price_min?: number | null;
   market_price_max?: number | null;
   cover?: string;
+  photo_credit_name?: string;
   url?: string;
   email?: string;
   role?: string;
@@ -1247,6 +1248,18 @@ export default function LocalCms() {
                     />
                   )}
                 </>
+              )}
+              {editing.kind === 'collections' && (
+                <label className="form-label">
+                  Photo Credit
+                  <input
+                    className="field"
+                    maxLength={120}
+                    placeholder="Name to credit under the set image"
+                    value={editing.row.photo_credit_name || ''}
+                    onChange={(e) => update('photo_credit_name', e.target.value)}
+                  />
+                </label>
               )}
               {editing.kind === 'collections' && (
                 <section className="cms-card-editor">

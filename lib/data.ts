@@ -12,6 +12,7 @@ export type TeksSet = {
   market_price_min?: number | null;
   market_price_max?: number | null;
   cover: string;
+  photo_credit_name?: string;
   status: string;
   cards: Card[];
 };

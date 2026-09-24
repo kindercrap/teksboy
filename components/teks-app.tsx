@@ -31,6 +31,7 @@ import {
   Pause,
   SkipForward,
   Shield,
+  Camera,
   Trophy,
   Undo2,
   X,
@@ -1155,8 +1156,16 @@ export default function TeksApp({
         )}
         {view === 'database' && ready && !overviewGroup && selected && (
           <>
-            <section className="set-hero">
-              <Backprint src={selected.cover} />
+            <section className="set-hero set-detail-hero">
+              <div className="set-detail-cover">
+                <Backprint src={selected.cover} />
+                {selected.photo_credit_name?.trim() && (
+                  <small className="set-photo-credit">
+                    <Camera size={11} aria-hidden="true" />
+                    Photo Credit: {selected.photo_credit_name.trim()}
+                  </small>
+                )}
+              </div>
               <div className="hero-info">
                 <span className="collection-group-label">
                   {groupName(selected)}
@@ -1165,7 +1174,7 @@ export default function TeksApp({
                   className="collection-back-link"
                   href={'/?group=' + encodeURIComponent(selected.category_id)}
                 >
-                  ← Collections overview
+                  <LayoutGrid size={12} aria-hidden="true" /> View all sets
                 </a>
                 <h2>{selected.name}</h2>
                 {selected.market_price_min != null &&
@@ -1187,13 +1196,17 @@ export default function TeksApp({
                       </small>
                     </div>
                   )}
-                <p className="total-label">Total teks:</p>
-                <strong className="total-count">{selected.cards.length}</strong>
+                <div className="set-detail-total">
+                  <span className="total-label">Total Teks</span>
+                  <strong className="total-count">{selected.cards.length}</strong>
+                </div>
               </div>
               <div className="hero-action">
-                <CollectionCollectors key={selected.id} setId={selected.id} />
+                <CollectionCollectors key={selected.id} setId={selected.id} compact />
                 <button
                   className="button share-collection"
+                  aria-label="Share this set"
+                  title="Share this set"
                   onClick={() => {
                     const url = new URL('/', window.location.origin);
                     url.searchParams.set('set', selected.id);
@@ -1202,7 +1215,7 @@ export default function TeksApp({
                     setShareOpen(true);
                   }}
                 >
-                  <Share2 size={15} /> Share
+                  <Share2 size={18} />
                 </button>
                 <button
                   className="button outline-primary"

@@ -276,6 +276,11 @@ export function createModel(records) {
     )
       throw Error('Choose a collection group.');
     if (kind === 'collections') {
+      if (row.photo_credit_name != null && typeof row.photo_credit_name !== 'string')
+        throw Error('Enter a valid photo credit name.');
+      row.photo_credit_name = (row.photo_credit_name || '').trim();
+      if (row.photo_credit_name.length > 120)
+        throw Error('Photo credit name must be 120 characters or fewer.');
       const min = row.market_price_min,
         max = row.market_price_max;
       if (min == null && max == null) {
